@@ -1,0 +1,6 @@
+Entities
+dragon: 100hp
+ghost: 100mp
+
+Fight without entering combat
+The dragon attacks the ghost.

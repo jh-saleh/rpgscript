@@ -1,0 +1,14 @@
+Entities
+dragon: 100hp
+wolf: 50hp
+human: 100hp
+ghost: 100mp
+
+Fight of the century
+The dragon, wolf and human enter combat!
+The dragon attacks the wolf.
+The dragon critically hits the wolf.
+The dragon dodges the wolf.
+The wolf activates a counter attack!
+The ghost enters combat!
+The ghost activates a counter attack!
