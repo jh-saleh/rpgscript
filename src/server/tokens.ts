@@ -27,7 +27,7 @@ export const isNumber: RegExp = /^[1-9][0-9]*$/i;
 export const variable: RegExp = /^[a-z][a-z]*: [1-9][0-9]*(hp|mp)$/i;
 
 // instruction set
-export const enter: RPGRegExp = new RPGRegExp(/^The ([a-z][a-z]*|[a-z][a-z]* and [a-z][a-z]*|([a-z]*, ){1,}[a-z][a-z]* and [a-z][a-z]*) ente(r|rs) combat!$/i, -1);
+export const enter: RPGRegExp = new RPGRegExp(/^The ([a-z][a-z]*|[a-z][a-z]* and the [a-z][a-z]*|[a-z][a-z]*, (the [a-z][a-z]*, ){0,}the [a-z][a-z]* and the [a-z][a-z]*) ente(r|rs) combat!$/i, -1);
 export const attack: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* attac(k|ks) the [a-z][a-z]*.$/i, 2);
 export const lose: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* los(e|es) [1-9][0-9]* points.$/i, 2);
 export const heal: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* hea(l|ls) the [a-z][a-z]*.$/i, 2);

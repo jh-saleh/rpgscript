@@ -68,3 +68,33 @@ test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruct
     const { entities } = interprete("src/server/test/data/losePoints.rpg");
     expect(entities["dragon"].value).toBe(90);
 });
+
+test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] b."_exists', () => {
+    const { entities } = interprete("src/server/test/data/heals.rpg");
+    expect(entities["dragon"].value).toBe(100);
+    expect(entities["wolf"].value).toBe(150);
+});
+
+test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] for c points."_exists', () => {
+    const { entities } = interprete("src/server/test/data/healsFor.rpg");
+    expect(entities["dragon"].value).toBe(150);
+});
+
+test('interprete_should_allow_a_variable_to_divide_its_value_when_the_instruction_"a critically hit[s] b."_exists', () => {
+    const { entities } = interprete("src/server/test/data/criticalHits.rpg");
+    expect(entities["wolf"].value).toBe(50);
+    expect(entities["dragon"].value).toBe(2);
+});
+
+test('interprete_should_allow_a_variable_to_multiply_its_value_when_the_instruction_"a dodge[s] b."_exists', () => {
+    const { entities } = interprete("src/server/test/data/dodge.rpg");
+    expect(entities["wolf"].value).toBe(50);
+    expect(entities["dragon"].value).toBe(5000);
+});
+
+test('interprete_should_print_the_variable_s_value_when_the_instruction_"a activate[s] a counter!"_exists', () => {
+    const { consoleLogs, entities } = interprete("src/server/test/data/counter.rpg");
+    expect(entities["dragon"].value).toBe(65);
+    expect(entities["ghost"].value).toBe(103);
+    expect(consoleLogs).toEqual([65, "g"]);
+});

@@ -67,7 +67,7 @@ const fight = (entries: Record<string, Variable>, instructions: string[], consol
                 } else if (heal.regExp.test(instr)) {
                     entries[variables[1]].value += entries[variables[0]].value;
                 } else if (healFor.regExp.test(instr)) {
-
+                    entries[variables[0]].value += Number(variables[1]);
                 } else if (criticalHit.regExp.test(instr)) {
                     entries[variables[1]].value /= entries[variables[0]].value;
                 } else if (dodge.regExp.test(instr)) {
