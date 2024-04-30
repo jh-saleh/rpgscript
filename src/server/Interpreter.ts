@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { Entities, Variable, almostFightSection, attack, counter, criticalHit, dodge, enter, fightSection, heal, healFor, isNumber, lose, special, variable } from './tokens';
+import { Entities, Variable, almostFightSection, attack, counter, criticalHit, dodge, enter, fightSection, heal, healFor, instructionSet, isNumber, lose, special, variable } from './tokens';
 import { EntitiesError, FightError, FormatEnum } from './Errors';
 
 interface InterpreterOutput {
@@ -114,25 +114,12 @@ export class Interpreter {
     }
 
     findNbArgumentsForInstruction(instr: string): number {
-        if (enter.regExp.test(instr)) {
-            return enter.nbArguments;
-        } else if (attack.regExp.test(instr)) {
-            return attack.nbArguments;
-        } else if (lose.regExp.test(instr)) {
-            return lose.nbArguments;
-        } else if (heal.regExp.test(instr)) {
-            return heal.nbArguments;
-        } else if (healFor.regExp.test(instr)) {
-            return healFor.nbArguments;
-        } else if (criticalHit.regExp.test(instr)) {
-            return criticalHit.nbArguments;
-        } else if (dodge.regExp.test(instr)) {
-            return dodge.nbArguments;
-        } else if (counter.regExp.test(instr)) {
-            return counter.nbArguments;
-        } else {
-            throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
+        for (let instrRegExp of instructionSet) {
+            if (instrRegExp.regExp.test(instr)) {
+                return instrRegExp.nbArguments;
+            }
         }
+        throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
     }
 
     extractVariableFromInstruction(instr: string): string[] {

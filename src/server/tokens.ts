@@ -35,6 +35,5 @@ export const healFor: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* hea(l|ls) for 
 export const criticalHit: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* critically hi(t|ts) the [a-z][a-z]*.$/i, 2);
 export const dodge: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* dodg(e|es) the [a-z][a-z]*.$/i, 2);
 export const counter: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* activat(e|es) a counter attack!$/i, 1);
-export const flee: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* (fle(e|es)|is defeated|dissapea(r|rs))!$/i, 1);
 
-export const instructionSet = [enter, attack, lose, heal, healFor, criticalHit, dodge, counter, flee];
+export const instructionSet = [enter, attack, lose, heal, healFor, criticalHit, dodge, counter];
