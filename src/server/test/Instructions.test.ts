@@ -1,29 +1,49 @@
 import { expect, test } from '@jest/globals';
-import { EntitiesError, FightError, FormatEnum } from '../Errors';
+import { VariablesError, FightError, FormatEnum } from '../Errors';
 import { Interpreter } from '../Interpreter';
 
 test('interprete_should_not_allow_wrong_syntax_for_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/entitiesSectionMissing.rpg");
-    }).toThrow(EntitiesError.EntitiesSectionMissing);
+    }).toThrow(VariablesError.VariablesSectionMissing);
 });
 
-test('interprete_should_not_allow_wrong_syntax_for_variables', () => {
+test('interprete_should_not_allow_wrong_syntax_for_entity_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
-        interpreter.execute("src/server/test/data/wrongVariableSyntax.rpg");
-    }).toThrow(FormatEnum(EntitiesError.WrongVaribleSyntax, "1"));
+        interpreter.execute("src/server/test/data/wrongEntityVariableSyntax.rpg");
+    }).toThrow(FormatEnum(VariablesError.WrongEntityVariableSyntax, "1"));
+});
+
+test('interprete_should_not_allow_wrong_syntax_for_environment_variables', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/wrongEnvironmentVariableSyntax.rpg");
+    }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "1"));
+});
+
+test('interprete_should_allow_both_environment_and_entity_variables', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/environmentAndEntityVariables.rpg");
+    expect(entries["rain"].type).toBe("boolean");
+    expect(entries["rain"].value).toBe(1);
+    expect(entries["sun"].type).toBe("boolean");
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["dragon"].type).toBe("number");
+    expect(entries["dragon"].value).toBe(100);
+    expect(entries["wolf"].type).toBe("string");
+    expect(entries["wolf"].value).toBe(50);
 });
 
 test('interprete_should_not_allow_duplicated_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/duplicatedVariables.rpg");
-    }).toThrow(FormatEnum(EntitiesError.DuplicatedVariable, "2", "dragon: 100hp"));
+    }).toThrow(FormatEnum(VariablesError.DuplicatedVariable, "2", "dragon: 100hp"));
 });
 
-test('interprete_should_not_be_able_to_use_a_variable_that_was_not_declared', () => {
+test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_declared', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/unknownVariable.rpg");

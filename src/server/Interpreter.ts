@@ -1,11 +1,16 @@
 import * as fs from 'fs';
-import { Entities, Variable, almostFightSection, attack, counter, criticalHit, dodge, enter, fightSection, heal, healFor, instructionSet, isNumber, lose, special, variable } from './tokens';
-import { EntitiesError, FightError, FormatEnum } from './Errors';
+import { Entities, almostFightSection, attack, counter, criticalHit, dodge, enter, fightSection, heal, healFor, instructionSet, isNumber, lose, special, entity, environment, Section, Variable } from './tokens';
+import { VariablesError, FightError, FormatEnum } from './Errors';
 
 interface InterpreterOutput {
     logs: (string | number)[];
     instructions: string[];
     entries: Record<string, Variable>;
+}
+
+interface CheckSection {
+    entities: boolean;
+    environment: boolean;
 }
 
 export class Interpreter {
@@ -14,6 +19,7 @@ export class Interpreter {
     instructions: string[] = [];
     entries: Record<string, Variable> = {};
     logs: (string | number)[] = [];
+    doesSectionExist: CheckSection;
 
     constructor() {
         this.pc = 0;
@@ -21,6 +27,10 @@ export class Interpreter {
         this.instructions = [];
         this.entries = {};
         this.logs = [];
+        this.doesSectionExist = {
+            entities: false,
+            environment: false
+        }
     }
 
     reset() {
@@ -29,39 +39,76 @@ export class Interpreter {
         this.instructions = [];
         this.entries = {};
         this.logs = [];
+        this.doesSectionExist = {
+            entities: false,
+            environment: false
+        }
     }
 
     extractVariables(): void {
-        if (this.instructions[this.pc] !== "Entities") {
-            throw Error(EntitiesError.EntitiesSectionMissing);
-        }
         let entries: Record<string, Variable> = {};
         let analyzing = true;
+        let currentVariablesSection: Section | undefined;
         while (analyzing) {
-            this.pc++;
-            const instr: string = this.instructions[this.pc];
-            if (fightSection.test(instr)) {
+            if (this.pc >= this.instructions.length) {
+                analyzing = false;
+                break;
+            }
+            if (this.instructions[this.pc] !== Section.Entities && this.instructions[this.pc] !== Section.Environments) {
+                if (!this.doesSectionExist.entities && !this.doesSectionExist.environment) {
+                    throw Error(VariablesError.VariablesSectionMissing);
+                }
+            } else {
+                if (this.instructions[this.pc] === Section.Entities) {
+                    currentVariablesSection = Section.Entities;
+                    this.doesSectionExist.entities = true;
+                    this.pc++;
+                }
+                if (this.instructions[this.pc] === Section.Environments) {
+                    currentVariablesSection = Section.Environments;
+                    this.doesSectionExist.environment = true;
+                    this.pc++;
+                }
+            }
+            if (fightSection.test(this.instructions[this.pc])) {
                 this.entries = entries;
                 analyzing = false;
                 break;
             } else {
-                if (almostFightSection.test(instr)) {
-                    throw Error(FormatEnum(FightError.FightSectionSyntax, this.pc.toString(), instr));
+                if (almostFightSection.test(this.instructions[this.pc])) {
+                    throw Error(FormatEnum(FightError.FightSectionSyntax, this.pc.toString(), this.instructions[this.pc]));
                 }
             }
-            if (!variable.test(instr)) {
-                throw Error(FormatEnum(EntitiesError.WrongVaribleSyntax, this.pc.toString()));
+            if (currentVariablesSection !== undefined && currentVariablesSection === Section.Entities) {
+                if (!entity.test(this.instructions[this.pc])) {
+                    throw Error(FormatEnum(VariablesError.WrongEntityVariableSyntax, this.pc.toString()));
+                }
+                const entitySection: string[] = this.instructions[this.pc].split(":");
+                const entityData: string = entitySection[1].split(" ")[1];
+                if (entries.hasOwnProperty(entitySection[0])) {
+                    throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                }
+                entries[entitySection[0]] = {
+                    type: entityData.slice(entityData.length - 2, entityData.length) === Entities.hp ? "number" : "string",
+                    value: Number(entityData.slice(0, entityData.length - 2)),
+                    enteredCombat: false
+                };
             }
-            const entitySection: string[] = instr.split(":");
-            const entityData: string = entitySection[1].split(" ")[1];
-            if (entries.hasOwnProperty(entitySection[0])) {
-                throw Error(FormatEnum(EntitiesError.DuplicatedVariable, this.pc.toString(), instr));
+            if (currentVariablesSection !== undefined && currentVariablesSection === Section.Environments) {
+                if (!environment.test(this.instructions[this.pc])) {
+                    throw Error(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, this.pc.toString()));
+                }
+                const environmentSection: string[] = this.instructions[this.pc].split(": ");
+                if (entries.hasOwnProperty(environmentSection[0])) {
+                    throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                }
+                entries[environmentSection[0]] = {
+                    type: "boolean",
+                    value: environmentSection[1] === "strong" ? 1 : 0,
+                    enteredCombat: false
+                };
             }
-            entries[entitySection[0]] = {
-                type: entityData.slice(entityData.length - 2, entityData.length) === Entities.hp ? "number" : "string",
-                value: Number(entityData.slice(0, entityData.length - 2)),
-                enteredCombat: false
-            };
+            this.pc++;
         }
         this.entries = entries;
     }

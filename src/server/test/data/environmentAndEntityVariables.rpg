@@ -1,0 +1,7 @@
+Environments
+rain: strong
+sun: weak
+
+Entities
+dragon: 100hp
+wolf: 50mp

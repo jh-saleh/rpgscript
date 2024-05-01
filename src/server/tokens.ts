@@ -3,12 +3,16 @@ export enum Entities {
     mp = 'mp'
 }
 
+export enum Section {
+    Entities = "Entities",
+    Environments = "Environments"
+}
+
 export interface Variable {
-    type: "string" | "number";
+    type: "string" | "number" | "boolean";
     value: number;
     enteredCombat: boolean;
 }
-
 
 class RPGRegExp {
     regExp: RegExp;
@@ -24,7 +28,8 @@ export const special = ["", " ", "\n", "\t"];
 export const fightSection = /^Fight [a-z][a-z]*([a-z][a-z]*)*/i;
 export const almostFightSection = /^Fight /i;
 export const isNumber: RegExp = /^[1-9][0-9]*$/i;
-export const variable: RegExp = /^[a-z][a-z]*: [1-9][0-9]*(hp|mp)$/i;
+export const entity: RegExp = /^[a-z][a-z]*: [1-9][0-9]*(hp|mp)$/i;
+export const environment: RegExp = /^[a-z][a-z]*: (weak|strong)$/i;
 
 // instruction set
 export const enter: RPGRegExp = new RPGRegExp(/^The ([a-z][a-z]*|[a-z][a-z]* and the [a-z][a-z]*|[a-z][a-z]*, (the [a-z][a-z]*, ){0,}the [a-z][a-z]* and the [a-z][a-z]*) ente(r|rs) combat!$/i, -1);
@@ -35,5 +40,6 @@ export const healFor: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* hea(l|ls) for 
 export const criticalHit: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* critically hi(t|ts) the [a-z][a-z]*.$/i, 2);
 export const dodge: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* dodg(e|es) the [a-z][a-z]*.$/i, 2);
 export const counter: RPGRegExp = new RPGRegExp(/^The [a-z][a-z]* activat(e|es) a counter attack!$/i, 1);
+
 
 export const instructionSet = [enter, attack, lose, heal, healFor, criticalHit, dodge, counter];

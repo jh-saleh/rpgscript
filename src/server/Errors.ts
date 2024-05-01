@@ -1,5 +1,5 @@
 //https://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
-export const FormatEnum = (error: EntitiesError | FightError, ...args: string[]): string => {
+export const FormatEnum = (error: VariablesError | FightError, ...args: string[]): string => {
     return error.replace(/{(\d+)}/g, function (match, number) {
         return typeof args[number] !== 'undefined'
             ? args[number]
@@ -8,9 +8,10 @@ export const FormatEnum = (error: EntitiesError | FightError, ...args: string[])
     });
 }
 
-export enum EntitiesError {
-    EntitiesSectionMissing = "Entities section missing.",
-    WrongVaribleSyntax = "Wrong variable syntax at line {0}.",
+export enum VariablesError {
+    VariablesSectionMissing = "Entities or Environment section missing.",
+    WrongEntityVariableSyntax = "Wrong entity variable syntax at line {0}.",
+    WrongEnvironmentVariableSyntax = "Wrong environment variable syntax at line {0}.",
     DuplicatedVariable = "Duplicated token at line {0}:\n{1}",
 }
 
