@@ -50,20 +50,36 @@ test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_decla
     }).toThrow(FormatEnum(FightError.UnknownVariable, "3", "ghost"));
 });
 
-test('interprete_should_allow_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_exists', () => {
+test('interprete_should_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_exists', () => {
     const interpreter = new Interpreter();
     const { logs, entries, instructions } = interpreter.execute("src/server/test/data/enterCombat.rpg");
-    expect(entries["dragon"].enteredCombat).toBe(true);
-    expect(entries["ghost"].enteredCombat).toBe(true);
+    expect(entries["dragon"].protected).toBe(false);
+    expect(entries["ghost"].protected).toBe(false);
     expect(logs.length).toBe(0);
     expect(instructions.length).toBe(5);
 });
 
-test('interprete_should_not_allow_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_is_missing', () => {
+test('interprete_should_not_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_is_missing', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/emptyFight.rpg");
     }).toThrow(FightError.ProtectedEntity);
+});
+
+test('interprete_should_allow_environment_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN (are|is) making up the scene!"_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/makingUpTheScene.rpg");
+    expect(entries["sun"].protected).toBe(false);
+    expect(entries["rain"].protected).toBe(false);
+    expect(entries["sun"].value).toBe(1);
+    expect(entries["rain"].value).toBe(0);
+});
+
+test('interprete_should_not_allow_environment_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN (are|is) making up the scene!"_is_missing', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/notMakingUpTheScene.rpg");
+    }).toThrow(FightError.ProtectedEnvironment);
 });
 
 test('interprete_should_require_a_fight_section_with_a_proper_name', () => {
@@ -134,4 +150,13 @@ test('interprete_should_print_the_variable_s_value_when_the_instruction_"a activ
     expect(entries["dragon"].value).toBe(65);
     expect(entries["ghost"].value).toBe(103);
     expect(logs).toEqual([65, "g"]);
+});
+
+test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The e is getting (weak or strong)."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/changingEnvironment.rpg");
+    expect(entries["sun"].protected).toBe(false);
+    expect(entries["rain"].protected).toBe(false);
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["rain"].value).toBe(1);
 });

@@ -12,6 +12,7 @@ export enum VariablesError {
     VariablesSectionMissing = "Entities or Environment section missing.",
     WrongEntityVariableSyntax = "Wrong entity variable syntax at line {0}.",
     WrongEnvironmentVariableSyntax = "Wrong environment variable syntax at line {0}.",
+    WrongEnvironmentVariableValue = "Unknown environment value at line {0}",
     DuplicatedVariable = "Duplicated token at line {0}:\n{1}",
 }
 
@@ -20,4 +21,5 @@ export enum FightError {
     FightSectionSyntax = "Wrong fight section syntax at line {0}:\n{1}",
     Syntax = "Wrong instruction syntax at line {0}:\n{1}",
     ProtectedEntity = "Cannot use the value of an entity that hasn't entered combat !",
+    ProtectedEnvironment = "Cannot use the value of a environment that hasn't made up the scene !",
 }

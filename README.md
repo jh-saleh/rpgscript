@@ -40,7 +40,8 @@ The human heals the wolf for 60 points.
 | a critically hit[s] b.                                                 | b = b / a                                                 | art       |
 | a dodge[s] b.                                                          | b = b * a                                                 | art       |
 | a activate[s] a counter attack!                                        | prints a                                                  | console   |
-| The e is getting (weak or strong)                                      | e = false OR true                                         | art       |
+| The token1, ... and tokenN (are|is) making up the scene!                    | token1, ..., tokenN can be modified                       | art       |
+| The e is getting (weak or strong).                                     | e = false OR true                                         | art       |
 | The e (surrounds or withdraws from) the scene when (bool or bool_leaf) | e = (leaf_bool OR bool)                                   | art       |
 | a is boosting b's attack                                               | a > b                                                     | leaf_bool |
 | a is boosting b's defense                                              | a >= b                                                    | leaf_bool |

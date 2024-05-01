@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { Entities, almostFightSection, attack, counter, criticalHit, dodge, enter, fightSection, heal, healFor, instructionSet, isNumber, lose, special, entity, environment, Section, Variable } from './tokens';
+import { Entities, almostFightSection, attack, counter, criticalHit, dodge, enter, fightSection, heal, healFor, instructionSet, isNumber, lose, special, entity, environment, Section, Variable, environmentChanging, getBoolean, makingUpTheScene, isBoolean } from './tokens';
 import { VariablesError, FightError, FormatEnum } from './Errors';
 
 interface InterpreterOutput {
@@ -91,7 +91,7 @@ export class Interpreter {
                 entries[entitySection[0]] = {
                     type: entityData.slice(entityData.length - 2, entityData.length) === Entities.hp ? "number" : "string",
                     value: Number(entityData.slice(0, entityData.length - 2)),
-                    enteredCombat: false
+                    protected: true
                 };
             }
             if (currentVariablesSection !== undefined && currentVariablesSection === Section.Environments) {
@@ -104,8 +104,8 @@ export class Interpreter {
                 }
                 entries[environmentSection[0]] = {
                     type: "boolean",
-                    value: environmentSection[1] === "strong" ? 1 : 0,
-                    enteredCombat: false
+                    value: getBoolean(environmentSection[1], this.pc),
+                    protected: true
                 };
             }
             this.pc++;
@@ -122,40 +122,53 @@ export class Interpreter {
                 break;
             }
             const variables = this.extractVariableFromInstruction(instr);
-            let didVariablesEnterCombat = false;
+            let analyzeNextInstruction = true;
             if (enter.regExp.test(instr)) {
                 for (let variable of variables) {
-                    this.entries[variable].enteredCombat = true;
+                    this.entries[variable].protected = false;
                 }
-                didVariablesEnterCombat = true;
+                analyzeNextInstruction = false;
             }
-            if (!didVariablesEnterCombat) {
-                const areTheVariablesNotProtected = variables
-                    .filter((value) => !isNumber.test(value))
-                    .map((value) => this.entries[value].enteredCombat)
-                    .reduce((previousValue, currentValue) => currentValue && previousValue);
-                if (areTheVariablesNotProtected) {
-                    if (attack.regExp.test(instr)) {
-                        this.entries[variables[1]].value -= this.entries[variables[0]].value;
-                    } else if (lose.regExp.test(instr)) {
-                        this.entries[variables[0]].value -= Number(variables[1]);
-                    } else if (heal.regExp.test(instr)) {
-                        this.entries[variables[1]].value += this.entries[variables[0]].value;
-                    } else if (healFor.regExp.test(instr)) {
-                        this.entries[variables[0]].value += Number(variables[1]);
-                    } else if (criticalHit.regExp.test(instr)) {
-                        this.entries[variables[1]].value /= this.entries[variables[0]].value;
-                    } else if (dodge.regExp.test(instr)) {
-                        this.entries[variables[1]].value *= this.entries[variables[0]].value;
-                    } else if (counter.regExp.test(instr)) {
-                        const entity = variables[0];
-                        this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
-                    } else {
-                        throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
-                    }
-                } else {
-                    throw Error(FightError.ProtectedEntity);
+            if (makingUpTheScene.regExp.test(instr)) {
+                for (let variable of variables) {
+                    this.entries[variable].protected = false;
                 }
+                analyzeNextInstruction = false;
+            }
+            if (analyzeNextInstruction) {
+                variables
+                    .filter((value) => !isNumber.test(value) && !isBoolean.test(value))
+                    .forEach((value) => {
+                        if (this.entries[value].protected) {
+                            if (this.entries[value].type === "number" || this.entries[value].type === "string") {
+                                throw Error(FightError.ProtectedEntity);
+                            }
+                            if (this.entries[value].type === "boolean") {
+                                throw Error(FightError.ProtectedEnvironment);
+                            }
+                        }
+                    });
+                if (attack.regExp.test(instr)) {
+                    this.entries[variables[1]].value -= this.entries[variables[0]].value;
+                } else if (lose.regExp.test(instr)) {
+                    this.entries[variables[0]].value -= Number(variables[1]);
+                } else if (heal.regExp.test(instr)) {
+                    this.entries[variables[1]].value += this.entries[variables[0]].value;
+                } else if (healFor.regExp.test(instr)) {
+                    this.entries[variables[0]].value += Number(variables[1]);
+                } else if (criticalHit.regExp.test(instr)) {
+                    this.entries[variables[1]].value /= this.entries[variables[0]].value;
+                } else if (dodge.regExp.test(instr)) {
+                    this.entries[variables[1]].value *= this.entries[variables[0]].value;
+                } else if (counter.regExp.test(instr)) {
+                    const entity = variables[0];
+                    this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
+                } else if (environmentChanging.regExp.test(instr)) {
+                    this.entries[variables[0]].value = getBoolean(variables[1], this.pc);
+                } else {
+                    throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
+                }
+
             }
         }
     }
@@ -170,7 +183,7 @@ export class Interpreter {
     }
 
     extractVariableFromInstruction(instr: string): string[] {
-        const reg = new RegExp("(" + Object.keys(this.entries).reduce((previousValue, currentValue) => previousValue + "|" + currentValue) + "|[1-9][0-9]*)", "g");
+        const reg = new RegExp("(" + Object.keys(this.entries).reduce((previousValue, currentValue) => previousValue + "|" + currentValue) + "|[1-9][0-9]*|strong|weak)", "g");
         const nbArguments = this.findNbArgumentsForInstruction(instr);
         const variablesExtracted = instr.match(reg)?.map((value) => value) ?? [];
         if (variablesExtracted.length < nbArguments || (nbArguments === -1 && variablesExtracted.length < 1)) {
