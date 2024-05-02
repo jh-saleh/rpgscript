@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { VariablesError, FightError, FormatEnum } from '../Errors';
+import { FightError, FormatEnum, VariablesError } from '../Errors';
 import { Interpreter } from '../Interpreter';
 
 test('interprete_should_not_allow_wrong_syntax_for_variables', () => {
@@ -159,4 +159,20 @@ test('interprete_should_allow_a_environment_variable_to_change_its_value_when_th
     expect(entries["rain"].protected).toBe(false);
     expect(entries["sun"].value).toBe(0);
     expect(entries["rain"].value).toBe(1);
+});
+
+test('interprete_should_allow_a_loop_when_the_instruction_"The a prepare(s) an attack / until the a is charged up."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/entityLoop.rpg");
+    expect(entries["wolf"].value).toBe(0);
+    expect(entries["dragon"].value).toBe(5);
+});
+
+test('interprete_should_allow_multiple_loops_when_the_instruction_"The a prepare(s) an attack / until the a is charged up."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/entityMultipleLoops.rpg");
+    expect(entries["i"].value).toBe(0);
+    expect(entries["j"].value).toBe(3);
+    expect(entries["k"].value).toBe(3);
+    expect(entries["dragon"].value).toBe(27);
 });

@@ -40,22 +40,24 @@ export const getBoolean = (bool: string, line: number): number => {
 export const special = ["", " ", "\n", "\t"];
 export const fightSection = /^Fight [a-z]+([a-z]+)*/i;
 export const almostFightSection = /^Fight /i;
-export const isNumber: RegExp = /^[1-9][0-9]*$/i;
+export const isNumber: RegExp = /^([1-9][0-9]*|0)$/i;
 export const isBoolean: RegExp = /^(weak|strong)*$/i;
-export const entity: RegExp = /^[a-z]+: [1-9][0-9]*(hp|mp)$/i;
+export const entity: RegExp = /^[a-z]+: ([1-9][0-9]*|0)(hp|mp)$/i;
 export const environment: RegExp = /^\b(?!strong\b|weak\b)[a-z]+\b: (weak|strong)$/i;
 
 // instruction set
 export const enter: RPGRegExp = new RPGRegExp(/^The ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+) ente(r|rs) combat!$/i, -1);
 export const attack: RPGRegExp = new RPGRegExp(/^The [a-z]+ attac(k|ks) the [a-z]+.$/i, 2);
-export const lose: RPGRegExp = new RPGRegExp(/^The [a-z]+ los(e|es) [1-9][0-9]* points.$/i, 2);
+export const lose: RPGRegExp = new RPGRegExp(/^The [a-z]+ los(e|es) [1-9][0-9]* poin(t|ts).$/i, 2);
 export const heal: RPGRegExp = new RPGRegExp(/^The [a-z]+ hea(l|ls) the [a-z]+.$/i, 2);
-export const healFor: RPGRegExp = new RPGRegExp(/^The [a-z]+ hea(l|ls) for [1-9][0-9]* points.$/i, 2);
+export const healFor: RPGRegExp = new RPGRegExp(/^The [a-z]+ hea(l|ls) for [1-9][0-9]* poin(t|ts).$/i, 2);
 export const criticalHit: RPGRegExp = new RPGRegExp(/^The [a-z]+ critically hi(t|ts) the [a-z]+.$/i, 2);
 export const dodge: RPGRegExp = new RPGRegExp(/^The [a-z]+ dodg(e|es) the [a-z]+.$/i, 2);
 export const counter: RPGRegExp = new RPGRegExp(/^The [a-z]+ activat(e|es) a counter attack!$/i, 1);
 export const makingUpTheScene: RPGRegExp = new RPGRegExp(/^The ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+) (are|is) making up the scene!$/i, 2);
 export const environmentChanging: RPGRegExp = new RPGRegExp(/^The [a-z]+ is getting (weak|strong).$/i, 2);
+export const loopLabel: RPGRegExp = new RPGRegExp(/^The [a-z]+ prepar(e|es) an attack$/i, 1);
+export const loopCondition: RPGRegExp = new RPGRegExp(/^until the [a-z]+ is charged up.$/i, 1);
 
 export const instructionSet = [enter, attack, lose, heal, healFor, criticalHit, dodge, counter,
-    makingUpTheScene, environmentChanging];
+    makingUpTheScene, environmentChanging, loopLabel, loopCondition];

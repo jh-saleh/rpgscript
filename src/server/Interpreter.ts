@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import { Entities, almostFightSection, attack, counter, criticalHit, dodge, enter, fightSection, heal, healFor, instructionSet, isNumber, lose, special, entity, environment, Section, Variable, environmentChanging, getBoolean, makingUpTheScene, isBoolean } from './tokens';
-import { VariablesError, FightError, FormatEnum } from './Errors';
+import { FightError, FormatEnum, VariablesError } from './Errors';
+import { Entities, Section, Variable, almostFightSection, attack, counter, criticalHit, dodge, enter, entity, environment, environmentChanging, fightSection, getBoolean, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, special } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -15,7 +15,7 @@ interface CheckSection {
 
 export class Interpreter {
     pc: number = 0;
-    rc: number = 0;
+    rc: number[] = [];
     instructions: string[] = [];
     entries: Record<string, Variable> = {};
     logs: (string | number)[] = [];
@@ -23,7 +23,7 @@ export class Interpreter {
 
     constructor() {
         this.pc = 0;
-        this.rc = 0;
+        this.rc = [];
         this.instructions = [];
         this.entries = {};
         this.logs = [];
@@ -35,7 +35,7 @@ export class Interpreter {
 
     reset() {
         this.pc = 0;
-        this.rc = 0;
+        this.rc = [];
         this.instructions = [];
         this.entries = {};
         this.logs = [];
@@ -165,6 +165,14 @@ export class Interpreter {
                     this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
                 } else if (environmentChanging.regExp.test(instr)) {
                     this.entries[variables[0]].value = getBoolean(variables[1], this.pc);
+                } else if (loopLabel.regExp.test(instr)) {
+                    this.rc.push(this.pc);
+                } else if (loopCondition.regExp.test(instr)) {
+                    if (this.entries[variables[0]].value > 0) {
+                        this.pc = this.rc[this.rc.length - 1];
+                    } else {
+                        this.rc.pop();
+                    }
                 } else {
                     throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
                 }
@@ -183,10 +191,10 @@ export class Interpreter {
     }
 
     extractVariableFromInstruction(instr: string): string[] {
-        const reg = new RegExp("(" + Object.keys(this.entries).reduce((previousValue, currentValue) => previousValue + "|" + currentValue) + "|[1-9][0-9]*|strong|weak)", "g");
+        const reg = new RegExp("\\b(" + Object.keys(this.entries).reduce((previousValue, currentValue) => previousValue + "|" + currentValue) + "|[1-9][0-9]*|strong|weak)\\b", "g");
         const nbArguments = this.findNbArgumentsForInstruction(instr);
         const variablesExtracted = instr.match(reg)?.map((value) => value) ?? [];
-        if (variablesExtracted.length < nbArguments || (nbArguments === -1 && variablesExtracted.length < 1)) {
+        if ((nbArguments !== -1 && variablesExtracted.length !== nbArguments) || (nbArguments === -1 && variablesExtracted.length < 1)) {
             throw Error(FormatEnum(FightError.UnknownVariable, this.pc.toString()));
         }
         return variablesExtracted;

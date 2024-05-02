@@ -1,0 +1,20 @@
+Entities
+dragon: 0hp
+i: 3hp
+j: 3hp
+k: 3hp
+
+Fight of the multiple loops
+The dragon, the i, the k and the j enter combat!
+The i prepares an attack
+The j prepares an attack
+The k prepares an attack
+The dragon heals for 1 point.
+The k loses 1 point.
+until the k is charged up.
+The j loses 1 point.
+The k heals for 3 points.
+until the j is charged up.
+The i loses 1 point.
+The j heals for 3 points.
+until the i is charged up.

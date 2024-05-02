@@ -33,13 +33,13 @@ The human heals the wolf for 60 points.
 | instruction                                                            | meaning                                                   | type      |
 |------------------------------------------------------------------------|-----------------------------------------------------------|-----------|
 | The token1, ... and tokenN enter combat!                               | token1, ..., tokenN can be modified                       | starter   |
-| a attack[s] b.                                                         | b = b - a                                                 | art       |
-| a lose[s] c points.                                                    | a = a - c                                                 | art       |
-| a heal[s] b.                                                           | b = b + a                                                 | art       |
-| a heal[s] for c points.                                                | a = a + c                                                 | art       |
-| a critically hit[s] b.                                                 | b = b / a                                                 | art       |
-| a dodge[s] b.                                                          | b = b * a                                                 | art       |
-| a activate[s] a counter attack!                                        | prints a                                                  | console   |
+| The a attack[s] the b.                                                 | b = b - a                                                 | art       |
+| The a lose[s] c points.                                                | a = a - c                                                 | art       |
+| The a heal[s] the b.                                                   | b = b + a                                                 | art       |
+| The a heal[s] for c points.                                            | a = a + c                                                 | art       |
+| The a critically hit[s] the b.                                         | b = b / a                                                 | art       |
+| The a dodge[s] the b.                                                  | b = b * a                                                 | art       |
+| The a activate[s] a counter attack!                                    | prints a                                                  | console   |
 | The token1, ... and tokenN (are|is) making up the scene!               | token1, ..., tokenN can be modified                       | art       |
 | The e is getting (weak or strong).                                     | e = false OR true                                         | art       |
 | The e (surrounds or withdraws from) the scene when (bool or bool_leaf) | e = (leaf_bool OR bool)                                   | art       |
@@ -55,10 +55,10 @@ The human heals the wolf for 60 points.
 | a is pondering the effects of the e                                    | if (e) then pc+=1 else pc+=2                              | example   |
 | a absorbs the experience of the fight                                  | a = fight()                                               | example   |
 | e is infused with the experience of the fight                          | e = fight()                                               | example   |
-| a prepares an attack                                                   | rc = loop start                                           | example   |
-| until a is charged up                                                  | if (a === 0) pc = line(loopToken) else pc+=1              | example   |
-| e is vibrating                                                         | rc = loop start                                           | example   |
-| until e is vibrating                                                   | if (e === false) pc = line(loopToken) else pc+=1          | example   |
+| The a prepare(s) an attack                                             | rc = loop start                                           | example   |
+| until the a is charged up.                                             | if (a === 0) pc = line(loopToken) else pc+=1              | example   |
+| The e is starting to change                                            | rc = loop start                                           | example   |
+| until e is done changing.                                              | if (e === false) pc = line(loopToken) else pc+=1          | example   |
 | a [flees OR is defeated OR dissapears]!                                | N/A                                                       | example   |
 | It's[(super OR not OR very) effective].                                | N/A                                                       | example   |
 | a protect[s] b.                                                        | N/A                                                       | example   |
