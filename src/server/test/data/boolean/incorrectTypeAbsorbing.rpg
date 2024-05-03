@@ -1,0 +1,13 @@
+Entities
+dragon: 20hp
+ghost: 20hp
+
+Environments
+sun: strong
+rain: weak
+
+Fight of the century
+The sun and the rain are making up the scene!
+The dragon and the ghost enter combat!
+The dragon is absorbing the sun.
+The rain is absorbing the ghost.

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FightError, FormatEnum, VariablesError } from './Errors';
-import { Entities, Section, Variable, almostFightSection, attack, counter, criticalHit, dodge, enter, entity, environment, environmentChanging, fightSection, getBoolean, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, pondering, special, wondering } from './tokens';
+import { Entities, Section, Variable, absorbing, almostFightSection, attack, combining, counter, criticalHit, dodge, enter, entity, environment, environmentChanging, fightSection, getBoolean, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, pondering, special, wondering } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -174,14 +174,22 @@ export class Interpreter {
                     this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
                 } else if (environmentChanging.regExp.test(instr)) {
                     this.entries[variables[0]].value = getBoolean(variables[1], this.pc);
-                } else if (loopLabel.regExp.test(instr)) {
-                    this.rc.push(this.pc);
-                } else if (loopCondition.regExp.test(instr)) {
-                    if (this.entries[variables[0]].value > 0) {
-                        this.pc = this.rc[this.rc.length - 1];
-                    } else {
-                        this.rc.pop();
+                } else if (combining.regExp.test(instr)) {
+                    if (this.entries[variables[0]].type !== "boolean") {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
                     }
+                    if (this.entries[variables[1]].type !== "boolean") {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                    }
+                    this.entries[variables[0]].value = this.entries[variables[0]].value * this.entries[variables[1]].value;
+                } else if (absorbing.regExp.test(instr)) {
+                    if (this.entries[variables[0]].type !== "boolean") {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
+                    }
+                    if (this.entries[variables[1]].type !== "boolean") {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                    }
+                    this.entries[variables[0]].value = Math.min(1, this.entries[variables[0]].value + this.entries[variables[1]].value);
                 } else if (wondering.regExp.test(instr)) {
                     if (this.entries[variables[0]].type === "boolean") {
                         throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
@@ -205,6 +213,14 @@ export class Interpreter {
                         }
                     } else {
                         throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                    }
+                } else if (loopLabel.regExp.test(instr)) {
+                    this.rc.push(this.pc);
+                } else if (loopCondition.regExp.test(instr)) {
+                    if (this.entries[variables[0]].value > 0) {
+                        this.pc = this.rc[this.rc.length - 1];
+                    } else {
+                        this.rc.pop();
                     }
                 } else {
                     throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));

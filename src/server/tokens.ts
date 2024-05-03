@@ -56,15 +56,18 @@ export const dodge: RPGRegExp = new RPGRegExp(/^The [a-z]+ dodg(e|es) the [a-z]+
 export const counter: RPGRegExp = new RPGRegExp(/^The [a-z]+ activat(e|es) a counter attack!$/i, 1);
 export const makingUpTheScene: RPGRegExp = new RPGRegExp(/^The ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+) (are|is) making up the scene!$/i, -1);
 export const environmentChanging: RPGRegExp = new RPGRegExp(/^The [a-z]+ is getting (weak|strong).$/i, 2);
-export const loopLabel: RPGRegExp = new RPGRegExp(/^The [a-z]+ prepar(e|es) an attack$/i, 1);
-export const loopCondition: RPGRegExp = new RPGRegExp(/^until the [a-z]+ is charged up.$/i, 1);
+export const combining: RPGRegExp = new RPGRegExp(/^The [a-z]+ is combining with the [a-z]+.$/i, 2);
+export const absorbing: RPGRegExp = new RPGRegExp(/^The [a-z]+ is absorbing the [a-z]+.$/i, 2);
 export const wondering: RPGRegExp = new RPGRegExp(/^The [a-z]+ is wondering the effects of the [a-z]+.$/i, 2);
 export const pondering: RPGRegExp = new RPGRegExp(/^The [a-z]+ is pondering the effects of the [a-z]+.$/i, 2);
+export const loopLabel: RPGRegExp = new RPGRegExp(/^The [a-z]+ prepar(e|es) an attack$/i, 1);
+export const loopCondition: RPGRegExp = new RPGRegExp(/^until the [a-z]+ is charged up.$/i, 1);
 
 export const instructionSet = [
     enter, attack, lose, heal, healFor, criticalHit, dodge,
     counter,
     makingUpTheScene, environmentChanging,
+    combining, absorbing,
+    wondering, pondering,
     loopLabel, loopCondition,
-    wondering, pondering
 ];

@@ -210,3 +210,43 @@ test('interprete_should_compare_entity_values_when_the_instruction_"a is ponderi
     expect(entries["elf"].value).toBe(10);
     expect(entries["rain"].value).toBe(0);
 });
+
+test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is combining with the e2.', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/combining.rpg");
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["rain"].value).toBe(0);
+    expect(entries["dust"].value).toBe(0);
+    expect(entries["wind"].value).toBe(1);
+    expect(entries["desert"].value).toBe(0);
+    expect(entries["ocean"].value).toBe(0);
+    expect(entries["tundra"].value).toBe(1);
+    expect(entries["jungle"].value).toBe(1);
+});
+
+test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_the_instruction_"The e1 is combining with the e2.', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/boolean/incorrectTypeCombining.rpg");
+    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "9", "The dragon is combining with the sun."));
+});
+
+test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is absorbing the e2.', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/absorbing.rpg");
+    expect(entries["sun"].value).toBe(1);
+    expect(entries["rain"].value).toBe(0);
+    expect(entries["dust"].value).toBe(1);
+    expect(entries["wind"].value).toBe(1);
+    expect(entries["desert"].value).toBe(0);
+    expect(entries["ocean"].value).toBe(0);
+    expect(entries["tundra"].value).toBe(1);
+    expect(entries["jungle"].value).toBe(1);
+});
+
+test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_the_instruction_"The e1 is absorbing the e2.', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/boolean/incorrectTypeAbsorbing.rpg");
+    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "9", "The dragon is absorbing the sun."));
+});

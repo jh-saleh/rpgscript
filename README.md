@@ -46,8 +46,8 @@ The human heals the wolf for 60 points.
 | The e (surround(s) or withdraw(s) from) the scene when a is boosting b's defense.   | e = a >= b                                         | bool      |       |
 | The e (surround(s) or withdraw(s) from) the scene when a is debuffing b's attack.   | e = a < b                                          | bool      |       |
 | The e (surround(s) or withdraw(s) from) the scene when a is debuffing b's defense.  | e = a <= b                                         | bool      |       |
-| The e1 is combining with the e2                                                     | e1 = e1 and e2                                     | bool      |       |
-| The e1 is absorbing the e2                                                          | e1 = e1 or e2                                      | bool      |       |
+| The e1 is combining with the e2.                                                    | e1 = e1 and e2                                     | bool      |       |
+| The e1 is absorbing the e2.                                                         | e1 = e1 or e2                                      | bool      |       |
 | The a is wondering the effects of the e.                                            | if (e) then pc+=1                                  | bool      |   ✓+T |
 | The a is pondering the effects of the e.                                            | if (e) then pc+=1 else pc+=2                       | bool      |   ✓+T |
 | The a prepare(s) an attack                                                          | rc = loop start                                    | loop      |   ✓   |
