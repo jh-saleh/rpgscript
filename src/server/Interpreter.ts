@@ -183,6 +183,9 @@ export class Interpreter {
                         this.rc.pop();
                     }
                 } else if (wondering.regExp.test(instr)) {
+                    if (this.entries[variables[0]].type === "boolean") {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
+                    }
                     if (this.entries[variables[1]].type === "boolean") {
                         if (this.entries[variables[1]].value === 0) {
                             this.pc++;
@@ -191,6 +194,9 @@ export class Interpreter {
                         throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
                     }
                 } else if (pondering.regExp.test(instr)) {
+                    if (this.entries[variables[0]].type === "boolean") {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
+                    }
                     if (this.entries[variables[1]].type === "boolean") {
                         if (this.entries[variables[1]].value === 0) {
                             this.pc++;

@@ -179,6 +179,16 @@ test('interprete_should_allow_multiple_loops_when_the_instruction_"The a prepare
 
 test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
     const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/if/incorrectTypeForWondering.rpg");
+    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "sun", "8", "The sun is wondering the effects of the sun."));
+});
+
+test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/if/incorrectTypeForPondering.rpg");
+    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "sun", "8", "The sun is pondering the effects of the sun."));
 });
 
 test('interprete_should_compare_entity_values_when_the_instruction_"a is wondering the effects of the e.', () => {
