@@ -176,3 +176,27 @@ test('interprete_should_allow_multiple_loops_when_the_instruction_"The a prepare
     expect(entries["k"].value).toBe(3);
     expect(entries["dragon"].value).toBe(27);
 });
+
+test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
+    const interpreter = new Interpreter();
+});
+
+test('interprete_should_compare_entity_values_when_the_instruction_"a is wondering the effects of the e.', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/if/wondering.rpg");
+    expect(entries["dragon"].value).toBe(60);
+    expect(entries["ghost"].value).toBe(32);
+    expect(entries["sun"].value).toBe(1);
+    expect(entries["rain"].value).toBe(0);
+});
+
+test('interprete_should_compare_entity_values_when_the_instruction_"a is pondering the effects of the e.', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/if/pondering.rpg");
+    expect(entries["dragon"].value).toBe(50);
+    expect(entries["ghost"].value).toBe(182);
+    expect(entries["sun"].value).toBe(1);
+    expect(entries["human"].value).toBe(10);
+    expect(entries["elf"].value).toBe(10);
+    expect(entries["rain"].value).toBe(0);
+});

@@ -30,33 +30,33 @@ The human heals the wolf for 60 points.
 ```
 ### Instruction Set
 
-| instruction                                                                         | meaning                                                   | domain    |
-|-------------------------------------------------------------------------------------|-----------------------------------------------------------|-----------|
-| The token1, ... and tokenN enter combat!                                            | token1, ..., tokenN can be modified                       | starter   |
-| The a attack[s] the b.                                                              | b = b - a                                                 | art       |
-| The a lose[s] c points.                                                             | a = a - c                                                 | art       |
-| The a heal[s] the b.                                                                | b = b + a                                                 | art       |
-| The a heal[s] for c points.                                                         | a = a + c                                                 | art       |
-| The a critically hit[s] the b.                                                      | b = b / a                                                 | art       |
-| The a dodge[s] the b.                                                               | b = b * a                                                 | art       |
-| The a activate[s] a counter attack!                                                 | prints a                                                  | console   |
-| The token1, ... and tokenN (are|is) making up the scene!                            | token1, ..., tokenN can be modified                       | art       |
-| The e is getting (weak or strong).                                                  | e = false OR true                                         | bool      |
-| The e (surround(s) or withdraw(s) from) the scene when a is boosting b's attack.    | e = a > b                                                 | bool      |
-| The e (surround(s) or withdraw(s) from) the scene when a is boosting b's defense.   | e = a >= b                                                | bool      |
-| The e (surround(s) or withdraw(s) from) the scene when a is debuffing b's attack.   | e = a < b                                                 | bool      |
-| The e (surround(s) or withdraw(s) from) the scene when a is debuffing b's defense.  | e = a <= b                                                | bool      |
-| The e1 is combining with the e2                                                     | e1 = e1 and e2                                            | bool      |
-| The e1 is absorbing the e2                                                          | e1 = e1 or e2                                             | bool      |
-| a is wondering the effects of the e                                                 | if (e) then pc+=1                                         | bool      |
-| a is pondering the effects of the e                                                 | if (e) then pc+=1 else pc+=2                              | bool      |
-| The a prepare(s) an attack                                                          | rc = loop start                                           | loop      |
-| until the a is charged up.                                                          | if (a === 0) pc = line(loopToken) else pc+=1              | loop      |
-| The e is starting to change                                                         | rc = loop start                                           | loop      |
-| until e is done changing.                                                           | if (e === false) pc = line(loopToken) else pc+=1          | loop      |
-| a absorbs the experience of the fight                                               | a = fight()                                               | function  |
-| e is infused with the experience of the fight                                       | e = fight()                                               | function  |
-| a [flees OR is defeated OR dissapears]!                                             | N/A                                                       | example   |
-| It's[(super OR not OR very) effective].                                             | N/A                                                       | example   |
-| a protect[s] b.                                                                     | N/A                                                       | example   |
-| a activate[s] a special skills.                                                     | N/A                                                       | example   |
+| instruction                                                                         | meaning                                                   | domain    | done  |
+|-------------------------------------------------------------------------------------|-----------------------------------------------------------|-----------|-------|
+| The token1, ... and tokenN enter combat!                                            | token1, ..., tokenN can be modified                       | starter   |   ✓   |
+| The a attack[s] the b.                                                              | b = b - a                                                 | art       |   ✓   |
+| The a lose[s] c points.                                                             | a = a - c                                                 | art       |   ✓   |
+| The a heal[s] the b.                                                                | b = b + a                                                 | art       |   ✓   |
+| The a heal[s] for c points.                                                         | a = a + c                                                 | art       |   ✓   |
+| The a critically hit[s] the b.                                                      | b = b / a                                                 | art       |   ✓   |
+| The a dodge[s] the b.                                                               | b = b * a                                                 | art       |   ✓   |
+| The a activate[s] a counter attack!                                                 | prints a                                                  | console   |   ✓   |
+| The token1, ... and tokenN (are|is) making up the scene!                            | token1, ..., tokenN can be modified                       | art       |   ✓   |
+| The e is getting (weak or strong).                                                  | e = false OR true                                         | bool      |   ✓   |
+| The e (surround(s) or withdraw(s) from) the scene when a is boosting b's attack.    | e = a > b                                                 | bool      |       |
+| The e (surround(s) or withdraw(s) from) the scene when a is boosting b's defense.   | e = a >= b                                                | bool      |       |
+| The e (surround(s) or withdraw(s) from) the scene when a is debuffing b's attack.   | e = a < b                                                 | bool      |       |
+| The e (surround(s) or withdraw(s) from) the scene when a is debuffing b's defense.  | e = a <= b                                                | bool      |       |
+| The e1 is combining with the e2                                                     | e1 = e1 and e2                                            | bool      |       |
+| The e1 is absorbing the e2                                                          | e1 = e1 or e2                                             | bool      |       |
+| The a is wondering the effects of the e.                                            | if (e) then pc+=1                                         | bool      |   ✓   |
+| The a is pondering the effects of the e.                                            | if (e) then pc+=1 else pc+=2                              | bool      |   ✓   |
+| The a prepare(s) an attack                                                          | rc = loop start                                           | loop      |   ✓   |
+| until the a is charged up.                                                          | if (a === 0) pc = line(loopToken) else pc+=1              | loop      |   ✓   |
+| The e is starting to change                                                         | rc = loop start                                           | loop      |       |
+| until e is done changing.                                                           | if (e === false) pc = line(loopToken) else pc+=1          | loop      |       |
+| a absorbs the experience of the fight                                               | a = fight()                                               | function  |       |
+| e is infused with the experience of the fight                                       | e = fight()                                               | function  |       |
+| a [flees OR is defeated OR dissapears]!                                             | N/A                                                       | example   |       |
+| It's[(super OR not OR very) effective].                                             | N/A                                                       | example   |       |
+| a protect[s] b.                                                                     | N/A                                                       | example   |       |
+| a activate[s] a special skills.                                                     | N/A                                                       | example   |       |

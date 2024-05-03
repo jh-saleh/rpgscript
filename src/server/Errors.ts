@@ -22,4 +22,5 @@ export enum FightError {
     Syntax = "Wrong instruction syntax at line {0}:\n{1}",
     ProtectedEntity = "Cannot use the value of an entity that hasn't entered combat !",
     ProtectedEnvironment = "Cannot use the value of a environment that hasn't made up the scene !",
+    IncorrectVariableType = "Incorrect variable type {0} used at line {1}:\n{2}",
 }

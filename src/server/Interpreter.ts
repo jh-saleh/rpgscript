@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FightError, FormatEnum, VariablesError } from './Errors';
-import { Entities, Section, Variable, almostFightSection, attack, counter, criticalHit, dodge, enter, entity, environment, environmentChanging, fightSection, getBoolean, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, special } from './tokens';
+import { Entities, Section, Variable, almostFightSection, attack, counter, criticalHit, dodge, enter, entity, environment, environmentChanging, fightSection, getBoolean, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, pondering, special, wondering } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -115,8 +115,17 @@ export class Interpreter {
 
     analyze() {
         let interpreting = true;
+        let specialIncrementIfElse: number = 0;
         while (interpreting) {
-            this.pc++;
+            if (specialIncrementIfElse === 2) {
+                this.pc += 2;
+                specialIncrementIfElse = 0;
+            } else {
+                this.pc++;
+                if (specialIncrementIfElse === 1) {
+                    specialIncrementIfElse++;
+                }
+            }
             const instr: string | undefined = this.instructions[this.pc];
             if (instr === undefined) {
                 break;
@@ -173,10 +182,27 @@ export class Interpreter {
                     } else {
                         this.rc.pop();
                     }
+                } else if (wondering.regExp.test(instr)) {
+                    if (this.entries[variables[1]].type === "boolean") {
+                        if (this.entries[variables[1]].value === 0) {
+                            this.pc++;
+                        }
+                    } else {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                    }
+                } else if (pondering.regExp.test(instr)) {
+                    if (this.entries[variables[1]].type === "boolean") {
+                        if (this.entries[variables[1]].value === 0) {
+                            this.pc++;
+                        } else {
+                            specialIncrementIfElse = 1;
+                        }
+                    } else {
+                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                    }
                 } else {
                     throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
                 }
-
             }
         }
     }
