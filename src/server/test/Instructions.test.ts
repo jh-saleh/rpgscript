@@ -5,7 +5,7 @@ import { Interpreter } from '../Interpreter';
 test('interprete_should_not_allow_wrong_syntax_for_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
-        interpreter.execute("src/server/test/data/entitiesSectionMissing.rpg");
+        interpreter.execute("src/server/test/data/arithmetic/entitiesSectionMissing.rpg");
     }).toThrow(VariablesError.VariablesSectionMissing);
 });
 
@@ -19,7 +19,7 @@ test('interprete_should_not_allow_wrong_syntax_for_entity_variables', () => {
 test('interprete_should_not_allow_wrong_syntax_for_environment_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
-        interpreter.execute("src/server/test/data/wrongEnvironmentVariableSyntax.rpg");
+        interpreter.execute("src/server/test/data/boolean/wrongEnvironmentVariableSyntax.rpg");
     }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "1"));
 });
 
@@ -52,7 +52,7 @@ test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_decla
 
 test('interprete_should_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_exists', () => {
     const interpreter = new Interpreter();
-    const { logs, entries, instructions } = interpreter.execute("src/server/test/data/enterCombat.rpg");
+    const { logs, entries, instructions } = interpreter.execute("src/server/test/data/arithmetic/enterCombat.rpg");
     expect(entries["dragon"].protected).toBe(false);
     expect(entries["ghost"].protected).toBe(false);
     expect(logs.length).toBe(0);
@@ -68,7 +68,7 @@ test('interprete_should_not_allow_entity_variables_to_change_their_value_when_th
 
 test('interprete_should_allow_environment_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN (are|is) making up the scene!"_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/makingUpTheScene.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/boolean/makingUpTheScene.rpg");
     expect(entries["sun"].protected).toBe(false);
     expect(entries["rain"].protected).toBe(false);
     expect(entries["sun"].value).toBe(1);
@@ -78,7 +78,7 @@ test('interprete_should_allow_environment_variables_to_change_their_value_when_t
 test('interprete_should_not_allow_environment_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN (are|is) making up the scene!"_is_missing', () => {
     const interpreter = new Interpreter();
     expect(() => {
-        interpreter.execute("src/server/test/data/notMakingUpTheScene.rpg");
+        interpreter.execute("src/server/test/data/boolean/notMakingUpTheScene.rpg");
     }).toThrow(FightError.ProtectedEnvironment);
 });
 
@@ -105,20 +105,20 @@ test('interprete_should_not_allow_unknown_syntax', () => {
 
 test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a attack[s] b."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/attack.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/attack.rpg");
     expect(entries["dragon"].value).toBe(100);
     expect(entries["ghost"].value).toBe(0);
 });
 
 test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a lose[s] c points."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/losePoints.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/losePoints.rpg");
     expect(entries["dragon"].value).toBe(90);
 });
 
 test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] b."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/heals.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/heals.rpg");
     expect(entries["dragon"].value).toBe(100);
     expect(entries["wolf"].value).toBe(150);
 });
@@ -126,20 +126,20 @@ test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruct
 test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] for c points."_exists', () => {
     const interpreter = new Interpreter();
 
-    const { entries } = interpreter.execute("src/server/test/data/healsFor.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/healsFor.rpg");
     expect(entries["dragon"].value).toBe(150);
 });
 
 test('interprete_should_allow_a_variable_to_divide_its_value_when_the_instruction_"a critically hit[s] b."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/criticalHits.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/criticalHits.rpg");
     expect(entries["wolf"].value).toBe(50);
     expect(entries["dragon"].value).toBe(2);
 });
 
 test('interprete_should_allow_a_variable_to_multiply_its_value_when_the_instruction_"a dodge[s] b."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/dodge.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/dodge.rpg");
     expect(entries["wolf"].value).toBe(50);
     expect(entries["dragon"].value).toBe(5000);
 });
@@ -154,7 +154,7 @@ test('interprete_should_print_the_variable_s_value_when_the_instruction_"a activ
 
 test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The e is getting (weak or strong)."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/changingEnvironment.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/boolean/changingEnvironment.rpg");
     expect(entries["sun"].protected).toBe(false);
     expect(entries["rain"].protected).toBe(false);
     expect(entries["sun"].value).toBe(0);
@@ -163,14 +163,14 @@ test('interprete_should_allow_a_environment_variable_to_change_its_value_when_th
 
 test('interprete_should_allow_a_loop_when_the_instruction_"The a prepare(s) an attack / until the a is charged up."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/entityLoop.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/loop/entityLoop.rpg");
     expect(entries["wolf"].value).toBe(0);
     expect(entries["dragon"].value).toBe(5);
 });
 
 test('interprete_should_allow_multiple_loops_when_the_instruction_"The a prepare(s) an attack / until the a is charged up."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/entityMultipleLoops.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/loop/entityMultipleLoops.rpg");
     expect(entries["i"].value).toBe(0);
     expect(entries["j"].value).toBe(3);
     expect(entries["k"].value).toBe(3);
