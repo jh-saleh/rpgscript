@@ -161,6 +161,56 @@ test('interprete_should_allow_a_environment_variable_to_change_its_value_when_th
     expect(entries["rain"].value).toBe(1);
 });
 
+test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is boosting the bs attack(under OR inside OR within OR on) the e."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/boostingAttack.rpg");
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["ghost"].value).toBe(10);
+    expect(entries["dragon"].value).toBe(30);
+    expect(entries["rain"].value).toBe(1);
+    expect(entries["human"].value).toBe(50);
+    expect(entries["elf"].value).toBe(10);
+});
+
+test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is boosting the bs defense(under OR inside OR within OR on) the e."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/boostingDefense.rpg");
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["ghost"].value).toBe(10);
+    expect(entries["dragon"].value).toBe(30);
+    expect(entries["rain"].value).toBe(1);
+    expect(entries["human"].value).toBe(50);
+    expect(entries["elf"].value).toBe(10);
+    expect(entries["mist"].value).toBe(1);
+    expect(entries["argonian"].value).toBe(50);
+    expect(entries["hobbit"].value).toBe(50);
+});
+
+test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is debuffing the bs attack(under OR inside OR within OR on) the e."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/debuffingAttack.rpg");
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["ghost"].value).toBe(30);
+    expect(entries["dragon"].value).toBe(10);
+    expect(entries["rain"].value).toBe(1);
+    expect(entries["human"].value).toBe(10);
+    expect(entries["elf"].value).toBe(50);
+});
+
+test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is debuffing the bs defense(under OR inside OR within OR on) the e."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/debuffingDefense.rpg");
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["ghost"].value).toBe(30);
+    expect(entries["dragon"].value).toBe(10);
+    expect(entries["rain"].value).toBe(1);
+    expect(entries["human"].value).toBe(10);
+    expect(entries["elf"].value).toBe(50);
+    expect(entries["mist"].value).toBe(1);
+    expect(entries["argonian"].value).toBe(50);
+    expect(entries["hobbit"].value).toBe(50);
+});
+
 test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is combining with the e2.', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/combining.rpg");

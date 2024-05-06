@@ -26,7 +26,7 @@ class RPGRegExp {
     }
 }
 
-export const getBoolean = (bool: string, line: number): number => {
+export const fromStringToBooleanNumber = (bool: string, line: number): number => {
     switch (bool) {
         case "strong":
             return 1;
@@ -35,6 +35,10 @@ export const getBoolean = (bool: string, line: number): number => {
         default:
             throw Error(FormatEnum(VariablesError.WrongEnvironmentVariableValue, line.toString()));
     }
+}
+
+export const fromBooleanToBooleanNumber = (bool: boolean): number => {
+    return bool ? 1 : 0;
 }
 
 export const special = ["", " ", "\n", "\t"];

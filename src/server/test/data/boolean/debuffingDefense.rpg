@@ -1,0 +1,19 @@
+Entities
+ghost: 30hp
+dragon: 10hp
+human: 10hp
+elf: 50hp
+argonian: 50hp
+hobbit: 50hp
+
+Environments
+sun: weak
+rain: weak
+mist: weak
+
+Fight of the debuffing defense
+The sun, the rain and the mist are making up the scene!
+The ghost, the dragon, the human, the elf, the argonian and the hobbit enter combat!
+The ghost is debuffing the dragon's defense under the sun.
+The human is debuffing the elf's defense under the rain.
+The argonian is debuffing the hobbit's defense inside the mist.

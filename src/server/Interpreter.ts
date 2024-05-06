@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FightError, FormatEnum, VariablesError } from './Errors';
-import { Entities, Section, Variable, absorbing, almostFightSection, attack, combining, counter, criticalHit, dodge, enter, entity, environment, environmentChanging, fightSection, getBoolean, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, pondering, special, wondering } from './tokens';
+import { Entities, Section, Variable, absorbing, almostFightSection, attack, boostingAttack, boostingDefense, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dodge, enter, entity, environment, environmentChanging, fightSection, fromBooleanToBooleanNumber, fromStringToBooleanNumber, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, pondering, special, wondering } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -104,7 +104,7 @@ export class Interpreter {
                 }
                 entries[environmentSection[0]] = {
                     type: "boolean",
-                    value: getBoolean(environmentSection[1], this.pc),
+                    value: fromStringToBooleanNumber(environmentSection[1], this.pc),
                     protected: true
                 };
             }
@@ -173,7 +173,15 @@ export class Interpreter {
                     const entity = variables[0];
                     this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
                 } else if (environmentChanging.regExp.test(instr)) {
-                    this.entries[variables[0]].value = getBoolean(variables[1], this.pc);
+                    this.entries[variables[0]].value = fromStringToBooleanNumber(variables[1], this.pc);
+                } else if (boostingAttack.regExp.test(instr)) {
+                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value > this.entries[variables[1]].value);
+                } else if (boostingDefense.regExp.test(instr)) {
+                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value >= this.entries[variables[1]].value);
+                } else if (debuffingAttack.regExp.test(instr)) {
+                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value < this.entries[variables[1]].value);
+                } else if (debuffingDefense.regExp.test(instr)) {
+                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value <= this.entries[variables[1]].value);
                 } else if (combining.regExp.test(instr)) {
                     if (this.entries[variables[0]].type !== "boolean") {
                         throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));

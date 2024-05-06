@@ -42,10 +42,10 @@ The human heals the wolf for 60 points.
 | The a activate[s] a counter attack!                                           | prints a                                           | console   |   ✓   |
 | The token1, ... and tokenN (are|is) making up the scene!                      | token1, ..., tokenN can be modified                | art       |   ✓   |
 | The e is getting (weak or strong).                                            | e = false OR true                                  | bool      |   ✓   |
-| The a is boosting the b's attack (under OR inside OR within OR on) the e.     | e = a > b                                          | bool      |       |
-| The a is boosting the b's defense (under OR inside OR within OR on) the e.    | e = a >= b                                         | bool      |       |
-| The a is debuffing the b's attack (under OR inside OR within OR on) the e.    | e = a < b                                          | bool      |       |
-| The a is debuffing the b's defense (under OR inside OR within OR on) the e.   | e = a <= b                                         | bool      |       |
+| The a is boosting the b's attack (under OR inside OR within OR on) the e.     | e = a > b                                          | bool      |   ✓   |
+| The a is boosting the b's defense (under OR inside OR within OR on) the e.    | e = a >= b                                         | bool      |   ✓   |
+| The a is debuffing the b's attack (under OR inside OR within OR on) the e.    | e = a < b                                          | bool      |   ✓   |
+| The a is debuffing the b's defense (under OR inside OR within OR on) the e.   | e = a <= b                                         | bool      |   ✓   |
 | The e1 is combining with the e2.                                              | e1 = e1 and e2                                     | bool      |   ✓+T |
 | The e1 is absorbing the e2.                                                   | e1 = e1 or e2                                      | bool      |   ✓+T |
 | The a is wondering the effects of the e.                                      | if (e) then pc+=1                                  | bool      |   ✓+T |
