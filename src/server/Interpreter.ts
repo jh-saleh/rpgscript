@@ -54,59 +54,61 @@ export class Interpreter {
                 analyzing = false;
                 break;
             }
-            if (this.instructions[this.pc] !== Section.Entities && this.instructions[this.pc] !== Section.Environments) {
-                if (!this.doesSectionExist.entities && !this.doesSectionExist.environment) {
-                    throw Error(VariablesError.VariablesSectionMissing);
+            if (!special.includes(this.instructions[this.pc])) {
+                if (this.instructions[this.pc] !== Section.Entities && this.instructions[this.pc] !== Section.Environments) {
+                    if (!this.doesSectionExist.entities && !this.doesSectionExist.environment) {
+                        throw Error(VariablesError.VariablesSectionMissing);
+                    }
+                } else {
+                    if (this.instructions[this.pc] === Section.Entities) {
+                        currentVariablesSection = Section.Entities;
+                        this.doesSectionExist.entities = true;
+                        this.pc++;
+                    }
+                    if (this.instructions[this.pc] === Section.Environments) {
+                        currentVariablesSection = Section.Environments;
+                        this.doesSectionExist.environment = true;
+                        this.pc++;
+                    }
                 }
-            } else {
-                if (this.instructions[this.pc] === Section.Entities) {
-                    currentVariablesSection = Section.Entities;
-                    this.doesSectionExist.entities = true;
-                    this.pc++;
+                if (fightSection.test(this.instructions[this.pc])) {
+                    this.entries = entries;
+                    analyzing = false;
+                    break;
+                } else {
+                    if (almostFightSection.test(this.instructions[this.pc])) {
+                        throw Error(FormatEnum(FightError.FightSectionSyntax, this.pc.toString(), this.instructions[this.pc]));
+                    }
                 }
-                if (this.instructions[this.pc] === Section.Environments) {
-                    currentVariablesSection = Section.Environments;
-                    this.doesSectionExist.environment = true;
-                    this.pc++;
+                if (currentVariablesSection !== undefined && currentVariablesSection === Section.Entities) {
+                    if (!entity.test(this.instructions[this.pc])) {
+                        throw Error(FormatEnum(VariablesError.WrongEntityVariableSyntax, this.pc.toString()));
+                    }
+                    const entitySection: string[] = this.instructions[this.pc].split(":");
+                    const entityData: string = entitySection[1].split(" ")[1];
+                    if (entries.hasOwnProperty(entitySection[0])) {
+                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                    }
+                    entries[entitySection[0]] = {
+                        type: entityData.slice(entityData.length - 2, entityData.length) === Entities.hp ? "number" : "string",
+                        value: Number(entityData.slice(0, entityData.length - 2)),
+                        protected: true
+                    };
                 }
-            }
-            if (fightSection.test(this.instructions[this.pc])) {
-                this.entries = entries;
-                analyzing = false;
-                break;
-            } else {
-                if (almostFightSection.test(this.instructions[this.pc])) {
-                    throw Error(FormatEnum(FightError.FightSectionSyntax, this.pc.toString(), this.instructions[this.pc]));
+                if (currentVariablesSection !== undefined && currentVariablesSection === Section.Environments) {
+                    if (!environment.test(this.instructions[this.pc])) {
+                        throw Error(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, this.pc.toString()));
+                    }
+                    const environmentSection: string[] = this.instructions[this.pc].split(": ");
+                    if (entries.hasOwnProperty(environmentSection[0])) {
+                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                    }
+                    entries[environmentSection[0]] = {
+                        type: "boolean",
+                        value: fromStringToBooleanNumber(environmentSection[1], this.pc),
+                        protected: true
+                    };
                 }
-            }
-            if (currentVariablesSection !== undefined && currentVariablesSection === Section.Entities) {
-                if (!entity.test(this.instructions[this.pc])) {
-                    throw Error(FormatEnum(VariablesError.WrongEntityVariableSyntax, this.pc.toString()));
-                }
-                const entitySection: string[] = this.instructions[this.pc].split(":");
-                const entityData: string = entitySection[1].split(" ")[1];
-                if (entries.hasOwnProperty(entitySection[0])) {
-                    throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
-                }
-                entries[entitySection[0]] = {
-                    type: entityData.slice(entityData.length - 2, entityData.length) === Entities.hp ? "number" : "string",
-                    value: Number(entityData.slice(0, entityData.length - 2)),
-                    protected: true
-                };
-            }
-            if (currentVariablesSection !== undefined && currentVariablesSection === Section.Environments) {
-                if (!environment.test(this.instructions[this.pc])) {
-                    throw Error(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, this.pc.toString()));
-                }
-                const environmentSection: string[] = this.instructions[this.pc].split(": ");
-                if (entries.hasOwnProperty(environmentSection[0])) {
-                    throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
-                }
-                entries[environmentSection[0]] = {
-                    type: "boolean",
-                    value: fromStringToBooleanNumber(environmentSection[1], this.pc),
-                    protected: true
-                };
             }
             this.pc++;
         }
@@ -130,120 +132,122 @@ export class Interpreter {
             if (instr === undefined) {
                 break;
             }
-            const variables = this.extractVariableFromInstruction(instr);
-            let analyzeNextInstruction = true;
-            if (enter.regExp.test(instr)) {
-                for (let variable of variables) {
-                    this.entries[variable].protected = false;
+            if (!special.includes(this.instructions[this.pc])) {
+                const variables = this.extractVariableFromInstruction(instr);
+                let analyzeNextInstruction = true;
+                if (enter.regExp.test(instr)) {
+                    for (let variable of variables) {
+                        this.entries[variable].protected = false;
+                    }
+                    analyzeNextInstruction = false;
                 }
-                analyzeNextInstruction = false;
-            }
-            if (makingUpTheScene.regExp.test(instr)) {
-                for (let variable of variables) {
-                    this.entries[variable].protected = false;
+                if (makingUpTheScene.regExp.test(instr)) {
+                    for (let variable of variables) {
+                        this.entries[variable].protected = false;
+                    }
+                    analyzeNextInstruction = false;
                 }
-                analyzeNextInstruction = false;
-            }
-            if (analyzeNextInstruction) {
-                variables
-                    .filter((value) => !isNumber.test(value) && !isBoolean.test(value))
-                    .forEach((value) => {
-                        if (this.entries[value].protected) {
-                            if (this.entries[value].type === "number" || this.entries[value].type === "string") {
-                                throw Error(FightError.ProtectedEntity);
+                if (analyzeNextInstruction) {
+                    variables
+                        .filter((value) => !isNumber.test(value) && !isBoolean.test(value))
+                        .forEach((value) => {
+                            if (this.entries[value].protected) {
+                                if (this.entries[value].type === "number" || this.entries[value].type === "string") {
+                                    throw Error(FightError.ProtectedEntity);
+                                }
+                                if (this.entries[value].type === "boolean") {
+                                    throw Error(FightError.ProtectedEnvironment);
+                                }
                             }
-                            if (this.entries[value].type === "boolean") {
-                                throw Error(FightError.ProtectedEnvironment);
+                        });
+                    if (attack.regExp.test(instr)) {
+                        this.entries[variables[1]].value -= this.entries[variables[0]].value;
+                    } else if (lose.regExp.test(instr)) {
+                        this.entries[variables[0]].value -= Number(variables[1]);
+                    } else if (heal.regExp.test(instr)) {
+                        this.entries[variables[1]].value += this.entries[variables[0]].value;
+                    } else if (healFor.regExp.test(instr)) {
+                        this.entries[variables[0]].value += Number(variables[1]);
+                    } else if (criticalHit.regExp.test(instr)) {
+                        this.entries[variables[1]].value /= this.entries[variables[0]].value;
+                    } else if (dodge.regExp.test(instr)) {
+                        this.entries[variables[1]].value *= this.entries[variables[0]].value;
+                    } else if (counter.regExp.test(instr)) {
+                        const entity = variables[0];
+                        this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
+                    } else if (environmentChanging.regExp.test(instr)) {
+                        this.entries[variables[0]].value = fromStringToBooleanNumber(variables[1], this.pc);
+                    } else if (vibrating.regExp.test(instr)) {
+                        this.entries[variables[0]].value = (this.entries[variables[0]].value + 1) % 2;
+                    } else if (challenging.regExp.test(instr)) {
+                        this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value === this.entries[variables[1]].value);
+                    } else if (boostingAttack.regExp.test(instr)) {
+                        this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value > this.entries[variables[1]].value);
+                    } else if (boostingDefense.regExp.test(instr)) {
+                        this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value >= this.entries[variables[1]].value);
+                    } else if (debuffingAttack.regExp.test(instr)) {
+                        this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value < this.entries[variables[1]].value);
+                    } else if (debuffingDefense.regExp.test(instr)) {
+                        this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value <= this.entries[variables[1]].value);
+                    } else if (combining.regExp.test(instr)) {
+                        if (this.entries[variables[0]].type !== "boolean") {
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
+                        }
+                        if (this.entries[variables[1]].type !== "boolean") {
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                        }
+                        this.entries[variables[0]].value = this.entries[variables[0]].value * this.entries[variables[1]].value;
+                    } else if (absorbing.regExp.test(instr)) {
+                        if (this.entries[variables[0]].type !== "boolean") {
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
+                        }
+                        if (this.entries[variables[1]].type !== "boolean") {
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                        }
+                        this.entries[variables[0]].value = Math.min(1, this.entries[variables[0]].value + this.entries[variables[1]].value);
+                    } else if (wondering.regExp.test(instr)) {
+                        if (this.entries[variables[0]].type === "boolean") {
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
+                        }
+                        if (this.entries[variables[1]].type === "boolean") {
+                            if (this.entries[variables[1]].value === 0) {
+                                this.pc++;
                             }
-                        }
-                    });
-                if (attack.regExp.test(instr)) {
-                    this.entries[variables[1]].value -= this.entries[variables[0]].value;
-                } else if (lose.regExp.test(instr)) {
-                    this.entries[variables[0]].value -= Number(variables[1]);
-                } else if (heal.regExp.test(instr)) {
-                    this.entries[variables[1]].value += this.entries[variables[0]].value;
-                } else if (healFor.regExp.test(instr)) {
-                    this.entries[variables[0]].value += Number(variables[1]);
-                } else if (criticalHit.regExp.test(instr)) {
-                    this.entries[variables[1]].value /= this.entries[variables[0]].value;
-                } else if (dodge.regExp.test(instr)) {
-                    this.entries[variables[1]].value *= this.entries[variables[0]].value;
-                } else if (counter.regExp.test(instr)) {
-                    const entity = variables[0];
-                    this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
-                } else if (environmentChanging.regExp.test(instr)) {
-                    this.entries[variables[0]].value = fromStringToBooleanNumber(variables[1], this.pc);
-                } else if (vibrating.regExp.test(instr)) {
-                    this.entries[variables[0]].value = (this.entries[variables[0]].value + 1) % 2;
-                } else if (challenging.regExp.test(instr)) {
-                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value === this.entries[variables[1]].value);
-                } else if (boostingAttack.regExp.test(instr)) {
-                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value > this.entries[variables[1]].value);
-                } else if (boostingDefense.regExp.test(instr)) {
-                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value >= this.entries[variables[1]].value);
-                } else if (debuffingAttack.regExp.test(instr)) {
-                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value < this.entries[variables[1]].value);
-                } else if (debuffingDefense.regExp.test(instr)) {
-                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value <= this.entries[variables[1]].value);
-                } else if (combining.regExp.test(instr)) {
-                    if (this.entries[variables[0]].type !== "boolean") {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                    }
-                    if (this.entries[variables[1]].type !== "boolean") {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                    }
-                    this.entries[variables[0]].value = this.entries[variables[0]].value * this.entries[variables[1]].value;
-                } else if (absorbing.regExp.test(instr)) {
-                    if (this.entries[variables[0]].type !== "boolean") {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                    }
-                    if (this.entries[variables[1]].type !== "boolean") {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                    }
-                    this.entries[variables[0]].value = Math.min(1, this.entries[variables[0]].value + this.entries[variables[1]].value);
-                } else if (wondering.regExp.test(instr)) {
-                    if (this.entries[variables[0]].type === "boolean") {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                    }
-                    if (this.entries[variables[1]].type === "boolean") {
-                        if (this.entries[variables[1]].value === 0) {
-                            this.pc++;
-                        }
-                    } else {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                    }
-                } else if (pondering.regExp.test(instr)) {
-                    if (this.entries[variables[0]].type === "boolean") {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                    }
-                    if (this.entries[variables[1]].type === "boolean") {
-                        if (this.entries[variables[1]].value === 0) {
-                            this.pc++;
                         } else {
-                            specialIncrementIfElse = 1;
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                        }
+                    } else if (pondering.regExp.test(instr)) {
+                        if (this.entries[variables[0]].type === "boolean") {
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
+                        }
+                        if (this.entries[variables[1]].type === "boolean") {
+                            if (this.entries[variables[1]].value === 0) {
+                                this.pc++;
+                            } else {
+                                specialIncrementIfElse = 1;
+                            }
+                        } else {
+                            throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                        }
+                    } else if (loopEntityLabel.regExp.test(instr)) {
+                        this.rc.push(this.pc);
+                    } else if (loopEntityCondition.regExp.test(instr)) {
+                        if (this.entries[variables[0]].value > 0) {
+                            this.pc = this.rc[this.rc.length - 1];
+                        } else {
+                            this.rc.pop();
+                        }
+                    } else if (loopEnvironmentLabel.regExp.test(instr)) {
+                        this.rc.push(this.pc);
+                    } else if (loopEnvironmentCondition.regExp.test(instr)) {
+                        if (this.entries[variables[0]].value > 0) {
+                            this.pc = this.rc[this.rc.length - 1];
+                        } else {
+                            this.rc.pop();
                         }
                     } else {
-                        throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
+                        throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
                     }
-                } else if (loopEntityLabel.regExp.test(instr)) {
-                    this.rc.push(this.pc);
-                } else if (loopEntityCondition.regExp.test(instr)) {
-                    if (this.entries[variables[0]].value > 0) {
-                        this.pc = this.rc[this.rc.length - 1];
-                    } else {
-                        this.rc.pop();
-                    }
-                } else if (loopEnvironmentLabel.regExp.test(instr)) {
-                    this.rc.push(this.pc);
-                } else if (loopEnvironmentCondition.regExp.test(instr)) {
-                    if (this.entries[variables[0]].value > 0) {
-                        this.pc = this.rc[this.rc.length - 1];
-                    } else {
-                        this.rc.pop();
-                    }
-                } else {
-                    throw Error(FormatEnum(FightError.Syntax, this.pc.toString(), instr));
                 }
             }
         }
@@ -277,7 +281,7 @@ export class Interpreter {
                 throw Error("Wrong extension file.");
             }
             file = fs.readFileSync(path).toString();
-            this.instructions = file.split('\n').filter(instr => !special.includes(instr));
+            this.instructions = file.split('\n');
         } else if (data !== undefined) {
             this.instructions = data;
         } else {

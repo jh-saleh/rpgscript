@@ -47,7 +47,7 @@ test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_decla
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/unknownVariable.rpg");
-    }).toThrow(FormatEnum(FightError.UnknownVariable, "3", "ghost"));
+    }).toThrow(FormatEnum(FightError.UnknownVariable, "4", "ghost"));
 });
 
 test('interprete_should_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_exists', () => {
@@ -56,7 +56,7 @@ test('interprete_should_allow_entity_variables_to_change_their_value_when_the_in
     expect(entries["dragon"].protected).toBe(false);
     expect(entries["ghost"].protected).toBe(false);
     expect(logs.length).toBe(0);
-    expect(instructions.length).toBe(5);
+    expect(instructions.length).toBe(6);
 });
 
 test('interprete_should_not_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_is_missing', () => {
@@ -77,14 +77,14 @@ test('interprete_should_throw_an_error_when_the_fight_section_has_an_improper_na
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/incorrectFightSection.rpg");
-    }).toThrow(FormatEnum(FightError.FightSectionSyntax, "3", "Fight &+-\"*"));
+    }).toThrow(FormatEnum(FightError.FightSectionSyntax, "4", "Fight &+-\"*"));
 });
 
 test('interprete_should_not_allow_unknown_syntax', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/unknownSyntax.rpg");
-    }).toThrow(FormatEnum(FightError.Syntax, "5", "The dragon bleepbloop."));
+    }).toThrow(FormatEnum(FightError.Syntax, "6", "The dragon bleepbloop."));
 });
 
 test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a attack[s] b."_exists', () => {
@@ -246,7 +246,7 @@ test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_th
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/boolean/incorrectTypeCombining.rpg");
-    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "9", "The dragon is combining with the sun."));
+    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "11", "The dragon is combining with the sun."));
 });
 
 test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is absorbing the e2.', () => {
@@ -266,7 +266,7 @@ test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_th
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/boolean/incorrectTypeAbsorbing.rpg");
-    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "9", "The dragon is absorbing the sun."));
+    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "11", "The dragon is absorbing the sun."));
 });
 
 test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
