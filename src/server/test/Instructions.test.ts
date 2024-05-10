@@ -161,6 +161,24 @@ test('interprete_should_allow_a_environment_variable_to_change_its_value_when_th
     expect(entries["rain"].value).toBe(1);
 });
 
+test('interprete_should_inverse_the_environment_value_when_the_instruction_"The e is vibrating."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/vibrating.rpg");
+    expect(entries["sun"].value).toBe(0);
+    expect(entries["rain"].value).toBe(1);
+});
+
+test('interprete_should_compare_entity_values_when_the_instruction_"The a is challenging the b (under OR inside OR within OR on) the e."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/challenging.rpg");
+    expect(entries["sun"].value).toBe(1);
+    expect(entries["dragon"].value).toBe(5);
+    expect(entries["wolf"].value).toBe(5);
+    expect(entries["rain"].value).toBe(0);
+    expect(entries["human"].value).toBe(2);
+    expect(entries["elf"].value).toBe(15);
+});
+
 test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is boosting the bs attack(under OR inside OR within OR on) the e."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/boostingAttack.rpg");
@@ -299,4 +317,11 @@ test('interprete_should_allow_multiple_loops_when_the_instruction_"The a prepare
     expect(entries["j"].value).toBe(3);
     expect(entries["k"].value).toBe(3);
     expect(entries["dragon"].value).toBe(27);
+});
+
+test('interprete_should_allow_a_loop_when_the_instruction_"The e is starting to change / until e is done changing."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/loop/environmentLoop.rpg");
+    expect(entries["wolf"].value).toBe(5);
+    expect(entries["dragon"].value).toBe(5);
 });

@@ -1,0 +1,17 @@
+Entities
+dragon: 0hp
+wolf: 5hp
+
+Environments
+sun: strong
+rain: weak
+
+Fight of the loop
+The dragon and the wolf enter combat!
+The sun and the rain are making up the scene!
+The sun is starting to change
+The dragon heals for 1 point.
+The wolf is challenging the dragon under the rain.
+The wolf is wondering the effects of the rain.
+The sun is vibrating.
+until the sun is done changing.

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FightError, FormatEnum, VariablesError } from './Errors';
-import { Entities, Section, Variable, absorbing, almostFightSection, attack, boostingAttack, boostingDefense, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dodge, enter, entity, environment, environmentChanging, fightSection, fromBooleanToBooleanNumber, fromStringToBooleanNumber, heal, healFor, instructionSet, isBoolean, isNumber, loopCondition, loopLabel, lose, makingUpTheScene, pondering, special, wondering } from './tokens';
+import { Entities, Section, Variable, absorbing, almostFightSection, attack, boostingAttack, boostingDefense, challenging, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dodge, enter, entity, environment, environmentChanging, fightSection, fromBooleanToBooleanNumber, fromStringToBooleanNumber, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, pondering, special, vibrating, wondering } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -174,6 +174,10 @@ export class Interpreter {
                     this.logs.push(this.entries[entity].type === "string" ? String.fromCharCode(this.entries[entity].value) : this.entries[entity].value);
                 } else if (environmentChanging.regExp.test(instr)) {
                     this.entries[variables[0]].value = fromStringToBooleanNumber(variables[1], this.pc);
+                } else if (vibrating.regExp.test(instr)) {
+                    this.entries[variables[0]].value = (this.entries[variables[0]].value + 1) % 2;
+                } else if (challenging.regExp.test(instr)) {
+                    this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value === this.entries[variables[1]].value);
                 } else if (boostingAttack.regExp.test(instr)) {
                     this.entries[variables[2]].value = fromBooleanToBooleanNumber(this.entries[variables[0]].value > this.entries[variables[1]].value);
                 } else if (boostingDefense.regExp.test(instr)) {
@@ -222,9 +226,17 @@ export class Interpreter {
                     } else {
                         throw Error(FormatEnum(FightError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
                     }
-                } else if (loopLabel.regExp.test(instr)) {
+                } else if (loopEntityLabel.regExp.test(instr)) {
                     this.rc.push(this.pc);
-                } else if (loopCondition.regExp.test(instr)) {
+                } else if (loopEntityCondition.regExp.test(instr)) {
+                    if (this.entries[variables[0]].value > 0) {
+                        this.pc = this.rc[this.rc.length - 1];
+                    } else {
+                        this.rc.pop();
+                    }
+                } else if (loopEnvironmentLabel.regExp.test(instr)) {
+                    this.rc.push(this.pc);
+                } else if (loopEnvironmentCondition.regExp.test(instr)) {
                     if (this.entries[variables[0]].value > 0) {
                         this.pc = this.rc[this.rc.length - 1];
                     } else {

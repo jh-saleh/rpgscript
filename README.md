@@ -42,6 +42,8 @@ The human heals the wolf for 60 points.
 | The a activate[s] a counter attack!                                           | prints a                                           | console   |   ✓   |
 | The token1, ... and tokenN (are|is) making up the scene!                      | token1, ..., tokenN can be modified                | art       |   ✓   |
 | The e is getting (weak or strong).                                            | e = false OR true                                  | bool      |   ✓   |
+| The e is vibrating.                                                           | e = !e                                             | bool      |   ✓   |
+| The a is challenging the b (under OR inside OR within OR on) the e.           | e = a === b                                        | bool      |   ✓   |
 | The a is boosting the b's attack (under OR inside OR within OR on) the e.     | e = a > b                                          | bool      |   ✓   |
 | The a is boosting the b's defense (under OR inside OR within OR on) the e.    | e = a >= b                                         | bool      |   ✓   |
 | The a is debuffing the b's attack (under OR inside OR within OR on) the e.    | e = a < b                                          | bool      |   ✓   |
@@ -52,10 +54,10 @@ The human heals the wolf for 60 points.
 | The a is pondering the effects of the e.                                      | if (e) then pc+=1 else pc+=2                       | bool      |   ✓+T |
 | The a prepare(s) an attack                                                    | rc = loop start                                    | loop      |   ✓   |
 | until the a is charged up.                                                    | if (a === 0) pc = line(loopToken) else pc+=1       | loop      |   ✓   |
-| The e is starting to change                                                   | rc = loop start                                    | loop      |       |
-| until e is done changing.                                                     | if (e === false) pc = line(loopToken) else pc+=1   | loop      |       |
-| a absorbs the experience of the fight                                         | a = fight()                                        | function  |       |
-| e is infused with the experience of the fight                                 | e = fight()                                        | function  |       |
+| The e is starting to change                                                   | rc = loop start                                    | loop      |   ✓   |
+| until the e is done changing.                                                 | if (e === false) pc = line(loopToken) else pc+=1   | loop      |   ✓   |
+| The a absorbs the experience of the fightX.                                   | a = fightX()                                       | function  |       |
+| The e is infused with the experience of the fightX.                           | e = fightX()                                       | function  |       |
 | a [flees OR is defeated OR dissapears]!                                       | N/A                                                | example   |       |
 | It's[(super OR not OR very) effective].                                       | N/A                                                | example   |       |
 | a protect[s] b.                                                               | N/A                                                | example   |       |
