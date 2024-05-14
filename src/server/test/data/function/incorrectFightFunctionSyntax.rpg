@@ -1,0 +1,8 @@
+Fight incorrect syntAx
+Entities
+dragon: 5hp
+human: 2hp
+
+Events
+The dragon and the human enter combat!
+End of the fight incorrect syntAx.

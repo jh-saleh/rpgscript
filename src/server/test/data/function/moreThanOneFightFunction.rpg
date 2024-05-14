@@ -1,0 +1,17 @@
+Fight one
+Entities
+dragon: 5hp
+human: 2hp
+
+Events
+The dragon and the human enter combat!
+End of the fight one.
+
+Fight two
+Entities
+dragon: 5hp
+human: 2hp
+
+Events
+The dragon and the human enter combat!
+End of the fight two.

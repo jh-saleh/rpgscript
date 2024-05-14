@@ -1,0 +1,17 @@
+Fight correct syntax
+Entities
+dragon: 5hp
+human: 2hp
+
+Events
+The dragon and the human enter combat!
+End of the fight correct syntax.
+
+Flashback incorrect syntAx
+Entities
+unicorn: 155hp
+
+Events
+The unicorn enters combat!
+The unicorn flees!
+End of the flashback incorrect syntAx.

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, attack, boostingAttack, boostingDefense, challenging, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromStringToBooleanNumber, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, pondering, remember, special, vibrating, wondering } from './tokens';
+import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, challenging, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromStringToBooleanNumber, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, pondering, remember, special, vibrating, wondering } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -76,7 +76,7 @@ export class Interpreter {
             }
             let instr = this.instructions[pc].trim();
             if (almostFightSection.test(instr)) {
-                if (fightSection.test(this.instructions[this.pc])) {
+                if (fightSection.test(instr)) {
                     const name = "f" + instr.slice(1, instr.length);
                     functions[name] = {
                         type: "main",
@@ -87,23 +87,35 @@ export class Interpreter {
                     };
                     nbFightFunctions++;
                 } else {
-                    throw Error(FormatEnum(InstructionsError.FightSectionSyntax, this.pc.toString(), this.instructions[this.pc]));
+                    throw Error(FormatEnum(FunctionsError.FightSectionSyntax, this.pc.toString(), instr));
                 }
-            } else if (flashbackSection.test(instr)) {
-                const name = "f" + instr.slice(1, instr.length);
-                functions[name] = {
-                    type: "other",
-                    position: {
-                        start: pc,
-                        end: -1
-                    },
-                };
+            } else if (almostFlashbackSection.test(instr)) {
+                if (flashbackSection.test(instr)) {
+                    const name = "f" + instr.slice(1, instr.length);
+                    functions[name] = {
+                        type: "other",
+                        position: {
+                            start: pc,
+                            end: -1
+                        }
+                    }
+                } else {
+                    throw Error(FormatEnum(FunctionsError.FlashbackSectionSyntax, this.pc.toString(), instr));
+                }
             } else if (endOfFightSection.test(instr)) {
                 const name = instr.match(extractFightSection)?.at(0) ?? "";
-                functions[name].position.end = pc;
+                if (functions[name] !== undefined) {
+                    functions[name].position.end = pc;
+                } else {
+                    throw Error(FormatEnum(FunctionsError.InversedFunctionsTags, this.pc.toString(), name));
+                }
             } else if (endOfFlashbackSection.regExp.test(instr)) {
                 const name = instr.match(extractFlashbackSection)?.at(0) ?? "";
-                functions[name].position.end = pc;
+                if (functions[name] !== undefined) {
+                    functions[name].position.end = pc;
+                } else {
+                    throw Error(FormatEnum(FunctionsError.InversedFunctionsTags, this.pc.toString(), name));
+                }
             }
         }
         let functionsPositions: { label: string, position: Position }[] = [];
@@ -112,14 +124,11 @@ export class Interpreter {
             if (end === -1) {
                 throw Error(FormatEnum(FunctionsError.FunctionNotClosed, func, start.toString()));
             }
-            if (start > end) {
-                throw Error(FunctionsError.InversedFunctionsTags);
+            if (nbFightFunctions === 0) {
+                throw Error(FunctionsError.AtLeastOneFightFunction);
             }
             if (nbFightFunctions > 1) {
-                throw Error(FormatEnum(FunctionsError.OnlyOneFightFunction));
-            }
-            if (nbFightFunctions === 0) {
-                throw Error(FormatEnum(FunctionsError.AtLeastOneFightFunction));
+                throw Error(FunctionsError.OnlyOneFightFunction);
             }
             functionsPositions.push({
                 label: func,

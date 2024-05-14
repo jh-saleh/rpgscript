@@ -54,11 +54,11 @@ export const fromBooleanToBooleanNumber = (bool: boolean): number => {
 
 export const special = ["", " ", "\n", "\t"];
 export const eventSection = /^Events$/;
-export const fightSection = /^Fight \b[a-z]+\b(\b [a-z]+\b)*/;
+export const fightSection = /^Fight \b[a-z]+\b(\b [a-z]+\b)*$/;
 export const almostFightSection = /^Fight /;
 export const extractFightSection = /fight [a-z]+( [a-z]+)*/g;
 export const endOfFightSection = /^End of the fight [a-z]+( [a-z]+)*.$/g;
-export const flashbackSection = /^Flashback [a-z]+( [a-z]+)*/g;
+export const flashbackSection = /^Flashback \b[a-z]+\b(\b [a-z]+\b)*$/;
 export const almostFlashbackSection = /^Flashback /g;
 export const extractFlashbackSection = /flashback [a-z]+( [a-z]+)*/g;
 export const isNumber: RegExp = /^([1-9][0-9]*|0)$/;
@@ -93,7 +93,7 @@ export const loopEnvironmentLabel: RPGRegExp = new RPGRegExp(/^The [a-z]+ is sta
 export const loopEnvironmentCondition: RPGRegExp = new RPGRegExp(/^until the [a-z]+ is done changing.$/, 1);
 export const remember: RPGRegExp = new RPGRegExp(/^The [a-z]+ remembe(r|rs) the flashback [a-z]+( [a-z]+)*.$/, 2);
 export const flees: RPGRegExp = new RPGRegExp(/^The [a-z]+ (fle(e|es)|is defeated|dissapea(r|rs))!$/, 1);
-export const endOfFlashbackSection: RPGRegExp = new RPGRegExp(/^End of the flashback [a-z]+( [a-z]+)*/, 1);
+export const endOfFlashbackSection: RPGRegExp = new RPGRegExp(/^End of the flashback [a-z]+( [a-z]+)*.$/, 1);
 
 
 export const instructionSet = [

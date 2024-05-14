@@ -1,0 +1,16 @@
+Fight closed
+Entities
+dragon: 5hp
+human: 2hp
+
+Events
+The dragon and the human enter combat!
+End of the fight closed.
+
+Flashback not closed
+Entities
+unicorn: 155hp
+
+Events
+The unicorn enters combat!
+The unicorn flees!

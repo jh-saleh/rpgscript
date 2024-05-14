@@ -19,7 +19,6 @@ export enum VariablesError {
 export enum InstructionsError {
     UnknownVariable = "Unknown variable used at line {0}.",
     MissingEventsSection = "The events section is missing.",
-    FightSectionSyntax = "Wrong fight section syntax at line {0}:\n{1}",
     Syntax = "Wrong instruction syntax at line {0}:\n{1}",
     ProtectedEntity = "Cannot use the value of an entity that hasn't entered combat !",
     ProtectedEnvironment = "Cannot use the value of a environment that hasn't made up the scene !",
@@ -27,10 +26,12 @@ export enum InstructionsError {
 }
 
 export enum FunctionsError {
+    FightSectionSyntax = "Wrong fight section syntax at line {0}:\n{1}",
+    FlashbackSectionSyntax = "Wrong flashback section syntax at line {0}:\n{1}",
     FunctionNotClosed = "The function {0} at line {1} is not closed.",
     AtLeastOneFightFunction = "One entry point / one fight function is needed.",
     OnlyOneFightFunction = "There can only be one entry point / one fight function.",
-    InversedFunctionsTags = "The closing function tag is after the function definition.",
+    InversedFunctionsTags = "The closing function tag at line {0} is before the function definition of '{1}'.",
     IncorrectlyClosedFunction = "The function '{0}' is incorrectly closed.",
     UnknownFunctionContext = "Unknown function context.",
     MoreThanOneReturnPerFunction = "There are more than one return inside the function {0} at line {1}.",

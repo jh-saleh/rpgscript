@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { FormatEnum, InstructionsError, VariablesError } from '../Errors';
+import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from '../Errors';
 import { Interpreter } from '../Interpreter';
 
 test('interprete_should_not_allow_functions_with_missing_variables_section', () => {
@@ -312,7 +312,63 @@ test('interprete_should_allow_a_loop_when_the_instruction_"The e is starting to 
     expect(entries["fight environment loop"]["dragon"].value).toBe(5);
 });
 
-test('interprete_should_allow_a_subfuction_when_the_instruction_"Flashback X"_exists', () => {
+test('interprete_should_throw_an_error_when_the_fight_function_name_syntax_is_incorrect', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/incorrectFightFunctionSyntax.rpg");
+    }).toThrow(FormatEnum(FunctionsError.FightSectionSyntax, "0", "Fight incorrect syntAx"));
+});
+
+test('interprete_should_throw_an_error_when_the_flashback_function_name_syntax_is_incorrect', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/incorrectFlashbackFunctionSyntax.rpg");
+    }).toThrow(FormatEnum(FunctionsError.FlashbackSectionSyntax, "0", "Flashback incorrect syntAx"));
+});
+
+test('interprete_should_throw_an_error_when_the_fight_function_is_not_closed', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/fightFunctionNotClosed.rpg");
+    }).toThrow(FormatEnum(FunctionsError.FunctionNotClosed, "fight not closed", "0"));
+});
+
+test('interprete_should_throw_an_error_when_the_flashback_function_is_not_closed', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/flashbackFunctionNotClosed.rpg");
+    }).toThrow(FormatEnum(FunctionsError.FunctionNotClosed, "flashback not closed", "9"));
+});
+
+test('interprete_should_throw_an_error_when_the_fight_function_tags_are_inversed', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/fightFunctionTagsInversed.rpg");
+    }).toThrow(FormatEnum(FunctionsError.InversedFunctionsTags, "0", "fight of the entity"));
+});
+
+test('interprete_should_throw_an_error_when_the_flashback_function_tags_are_inversed', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/flashbackFunctionTagsInversed.rpg");
+    }).toThrow(FormatEnum(FunctionsError.InversedFunctionsTags, "0", "flashback of the past"));
+});
+
+test('interprete_should_throw_an_error_when_the_there_is_no_fight_function', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/noFightFunction.rpg");
+    }).toThrow(FunctionsError.AtLeastOneFightFunction);
+});
+
+test('interprete_should_throw_an_error_when_the_there_are_more_than_one_fight_function', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/moreThanOneFightFunction.rpg");
+    }).toThrow(FunctionsError.OnlyOneFightFunction);
+});
+
+test('interprete_should_call_a_subfuction_when_the_instruction_"The a remembers the flashbackX."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/function/entityFunction.rpg");
     expect(entries["fight of the entity"]["dragon"].value).toBe(155);
