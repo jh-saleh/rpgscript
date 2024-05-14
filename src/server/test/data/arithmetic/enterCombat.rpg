@@ -1,6 +1,8 @@
+Fight of the entities entering combat
 Entities
 dragon: 100hp
 ghost: 100mp
 
-Fight by entering combat first
+Events
 The dragon and the ghost enter combat!
+End of the fight of the entities entering combat.

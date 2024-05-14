@@ -1,11 +1,11 @@
 import { expect, test } from '@jest/globals';
-import { FightError, FormatEnum, VariablesError } from '../Errors';
+import { FormatEnum, InstructionsError, VariablesError } from '../Errors';
 import { Interpreter } from '../Interpreter';
 
-test('interprete_should_not_allow_wrong_syntax_for_variables', () => {
+test('interprete_should_not_allow_functions_with_missing_variables_section', () => {
     const interpreter = new Interpreter();
     expect(() => {
-        interpreter.execute("src/server/test/data/arithmetic/entitiesSectionMissing.rpg");
+        interpreter.execute("src/server/test/data/arithmetic/variablesSectionMissing.rpg");
     }).toThrow(VariablesError.VariablesSectionMissing);
 });
 
@@ -13,315 +13,308 @@ test('interprete_should_not_allow_wrong_syntax_for_entity_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/wrongEntityVariableSyntax.rpg");
-    }).toThrow(FormatEnum(VariablesError.WrongEntityVariableSyntax, "1"));
+    }).toThrow(FormatEnum(VariablesError.WrongEntityVariableSyntax, "2"));
 });
 
 test('interprete_should_not_allow_wrong_syntax_for_environment_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/boolean/wrongEnvironmentVariableSyntax.rpg");
-    }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "1"));
+    }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "2"));
 });
 
 test('interprete_should_allow_both_environment_and_entity_variables', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/environmentAndEntityVariables.rpg");
-    expect(entries["rain"].type).toBe("boolean");
-    expect(entries["rain"].value).toBe(1);
-    expect(entries["sun"].type).toBe("boolean");
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["dragon"].type).toBe("number");
-    expect(entries["dragon"].value).toBe(100);
-    expect(entries["wolf"].type).toBe("string");
-    expect(entries["wolf"].value).toBe(50);
+    expect(entries["fight of the environment and entity variables"]["rain"].type).toBe("boolean");
+    expect(entries["fight of the environment and entity variables"]["rain"].value).toBe(1);
+    expect(entries["fight of the environment and entity variables"]["sun"].type).toBe("boolean");
+    expect(entries["fight of the environment and entity variables"]["sun"].value).toBe(0);
+    expect(entries["fight of the environment and entity variables"]["dragon"].type).toBe("number");
+    expect(entries["fight of the environment and entity variables"]["dragon"].value).toBe(100);
+    expect(entries["fight of the environment and entity variables"]["wolf"].type).toBe("string");
+    expect(entries["fight of the environment and entity variables"]["wolf"].value).toBe(50);
 });
 
 test('interprete_should_not_allow_duplicated_variables', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/duplicatedVariables.rpg");
-    }).toThrow(FormatEnum(VariablesError.DuplicatedVariable, "2", "dragon: 100hp"));
+    }).toThrow(FormatEnum(VariablesError.DuplicatedVariable, "3", "dragon: 100hp"));
 });
 
 test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_declared', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/unknownVariable.rpg");
-    }).toThrow(FormatEnum(FightError.UnknownVariable, "4", "ghost"));
+    }).toThrow(FormatEnum(InstructionsError.UnknownVariable, "5", "ghost"));
 });
 
 test('interprete_should_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_exists', () => {
     const interpreter = new Interpreter();
     const { logs, entries, instructions } = interpreter.execute("src/server/test/data/arithmetic/enterCombat.rpg");
-    expect(entries["dragon"].protected).toBe(false);
-    expect(entries["ghost"].protected).toBe(false);
+    expect(entries["fight of the entities entering combat"]["dragon"].protected).toBe(false);
+    expect(entries["fight of the entities entering combat"]["ghost"].protected).toBe(false);
     expect(logs.length).toBe(0);
-    expect(instructions.length).toBe(6);
+    expect(instructions.length).toBe(8);
 });
 
 test('interprete_should_not_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_is_missing', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/emptyFight.rpg");
-    }).toThrow(FightError.ProtectedEntity);
-});
-
-test('interprete_should_require_a_fight_section_with_a_proper_name', () => {
-    const interpreter = new Interpreter();
-    expect(() => {
-        interpreter.execute("src/server/test/data/correctFightSection.rpg");
-    }).not.toThrow(FormatEnum(FightError.FightSectionSyntax));
-});
-
-test('interprete_should_throw_an_error_when_the_fight_section_has_an_improper_name', () => {
-    const interpreter = new Interpreter();
-    expect(() => {
-        interpreter.execute("src/server/test/data/incorrectFightSection.rpg");
-    }).toThrow(FormatEnum(FightError.FightSectionSyntax, "4", "Fight &+-\"*"));
+    }).toThrow(InstructionsError.ProtectedEntity);
 });
 
 test('interprete_should_not_allow_unknown_syntax', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/unknownSyntax.rpg");
-    }).toThrow(FormatEnum(FightError.Syntax, "6", "The dragon bleepbloop."));
+    }).toThrow(FormatEnum(InstructionsError.Syntax, "7", "The dragon bleepbloop."));
 });
 
 test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a attack[s] b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/attack.rpg");
-    expect(entries["dragon"].value).toBe(100);
-    expect(entries["ghost"].value).toBe(0);
+    expect(entries["fight attack"]["dragon"].value).toBe(100);
+    expect(entries["fight attack"]["ghost"].value).toBe(0);
 });
 
 test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a lose[s] c points."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/losePoints.rpg");
-    expect(entries["dragon"].value).toBe(90);
+    expect(entries["fight lose points"]["dragon"].value).toBe(90);
 });
 
 test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/heals.rpg");
-    expect(entries["dragon"].value).toBe(100);
-    expect(entries["wolf"].value).toBe(150);
+    expect(entries["fight of the healing"]["dragon"].value).toBe(100);
+    expect(entries["fight of the healing"]["wolf"].value).toBe(150);
 });
 
 test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] for c points."_exists', () => {
     const interpreter = new Interpreter();
 
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/healsFor.rpg");
-    expect(entries["dragon"].value).toBe(150);
+    expect(entries["fight of the self healing"]["dragon"].value).toBe(150);
 });
 
 test('interprete_should_allow_a_variable_to_divide_its_value_when_the_instruction_"a critically hit[s] b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/criticalHits.rpg");
-    expect(entries["wolf"].value).toBe(50);
-    expect(entries["dragon"].value).toBe(2);
+    expect(entries["fight of the critical hits"]["wolf"].value).toBe(50);
+    expect(entries["fight of the critical hits"]["dragon"].value).toBe(2);
 });
 
 test('interprete_should_allow_a_variable_to_multiply_its_value_when_the_instruction_"a dodge[s] b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/dodge.rpg");
-    expect(entries["wolf"].value).toBe(50);
-    expect(entries["dragon"].value).toBe(5000);
+    expect(entries["fight dodge"]["wolf"].value).toBe(50);
+    expect(entries["fight dodge"]["dragon"].value).toBe(5000);
 });
 
 test('interprete_should_print_the_variable_s_value_when_the_instruction_"a activate[s] a counter!"_exists', () => {
     const interpreter = new Interpreter();
     const { logs, entries } = interpreter.execute("src/server/test/data/counter.rpg");
-    expect(entries["dragon"].value).toBe(65);
-    expect(entries["ghost"].value).toBe(103);
+    expect(entries["fight counter"]["dragon"].value).toBe(65);
+    expect(entries["fight counter"]["ghost"].value).toBe(103);
     expect(logs).toEqual([65, "g"]);
 });
 
 test('interprete_should_allow_environment_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN (are|is) making up the scene!"_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/makingUpTheScene.rpg");
-    expect(entries["sun"].protected).toBe(false);
-    expect(entries["rain"].protected).toBe(false);
-    expect(entries["sun"].value).toBe(1);
-    expect(entries["rain"].value).toBe(0);
+    expect(entries["fight making up the scene"]["sun"].protected).toBe(false);
+    expect(entries["fight making up the scene"]["rain"].protected).toBe(false);
+    expect(entries["fight making up the scene"]["sun"].value).toBe(1);
+    expect(entries["fight making up the scene"]["rain"].value).toBe(0);
 });
 
 test('interprete_should_not_allow_environment_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN (are|is) making up the scene!"_is_missing', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/boolean/notMakingUpTheScene.rpg");
-    }).toThrow(FightError.ProtectedEnvironment);
+    }).toThrow(InstructionsError.ProtectedEnvironment);
 });
 
 test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The e is getting (weak or strong)."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/changingEnvironment.rpg");
-    expect(entries["sun"].protected).toBe(false);
-    expect(entries["rain"].protected).toBe(false);
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["rain"].value).toBe(1);
+    expect(entries["fight changing environment"]["sun"].protected).toBe(false);
+    expect(entries["fight changing environment"]["rain"].protected).toBe(false);
+    expect(entries["fight changing environment"]["sun"].value).toBe(0);
+    expect(entries["fight changing environment"]["rain"].value).toBe(1);
 });
 
 test('interprete_should_inverse_the_environment_value_when_the_instruction_"The e is vibrating."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/vibrating.rpg");
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["rain"].value).toBe(1);
+    expect(entries["fight vibrating"]["sun"].value).toBe(0);
+    expect(entries["fight vibrating"]["rain"].value).toBe(1);
 });
 
 test('interprete_should_compare_entity_values_when_the_instruction_"The a is challenging the b (under OR inside OR within OR on) the e."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/challenging.rpg");
-    expect(entries["sun"].value).toBe(1);
-    expect(entries["dragon"].value).toBe(5);
-    expect(entries["wolf"].value).toBe(5);
-    expect(entries["rain"].value).toBe(0);
-    expect(entries["human"].value).toBe(2);
-    expect(entries["elf"].value).toBe(15);
+    expect(entries["fight challenging"]["sun"].value).toBe(1);
+    expect(entries["fight challenging"]["dragon"].value).toBe(5);
+    expect(entries["fight challenging"]["wolf"].value).toBe(5);
+    expect(entries["fight challenging"]["rain"].value).toBe(0);
+    expect(entries["fight challenging"]["human"].value).toBe(2);
+    expect(entries["fight challenging"]["elf"].value).toBe(15);
 });
 
 test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is boosting the bs attack(under OR inside OR within OR on) the e."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/boostingAttack.rpg");
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["ghost"].value).toBe(10);
-    expect(entries["dragon"].value).toBe(30);
-    expect(entries["rain"].value).toBe(1);
-    expect(entries["human"].value).toBe(50);
-    expect(entries["elf"].value).toBe(10);
+    expect(entries["fight of the boosting attack"]["sun"].value).toBe(0);
+    expect(entries["fight of the boosting attack"]["ghost"].value).toBe(10);
+    expect(entries["fight of the boosting attack"]["dragon"].value).toBe(30);
+    expect(entries["fight of the boosting attack"]["rain"].value).toBe(1);
+    expect(entries["fight of the boosting attack"]["human"].value).toBe(50);
+    expect(entries["fight of the boosting attack"]["elf"].value).toBe(10);
 });
 
 test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is boosting the bs defense(under OR inside OR within OR on) the e."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/boostingDefense.rpg");
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["ghost"].value).toBe(10);
-    expect(entries["dragon"].value).toBe(30);
-    expect(entries["rain"].value).toBe(1);
-    expect(entries["human"].value).toBe(50);
-    expect(entries["elf"].value).toBe(10);
-    expect(entries["mist"].value).toBe(1);
-    expect(entries["argonian"].value).toBe(50);
-    expect(entries["hobbit"].value).toBe(50);
+    expect(entries["fight of the boosting defense"]["sun"].value).toBe(0);
+    expect(entries["fight of the boosting defense"]["ghost"].value).toBe(10);
+    expect(entries["fight of the boosting defense"]["dragon"].value).toBe(30);
+    expect(entries["fight of the boosting defense"]["rain"].value).toBe(1);
+    expect(entries["fight of the boosting defense"]["human"].value).toBe(50);
+    expect(entries["fight of the boosting defense"]["elf"].value).toBe(10);
+    expect(entries["fight of the boosting defense"]["mist"].value).toBe(1);
+    expect(entries["fight of the boosting defense"]["argonian"].value).toBe(50);
+    expect(entries["fight of the boosting defense"]["hobbit"].value).toBe(50);
 });
 
 test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is debuffing the bs attack(under OR inside OR within OR on) the e."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/debuffingAttack.rpg");
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["ghost"].value).toBe(30);
-    expect(entries["dragon"].value).toBe(10);
-    expect(entries["rain"].value).toBe(1);
-    expect(entries["human"].value).toBe(10);
-    expect(entries["elf"].value).toBe(50);
+    expect(entries["fight of the debuffing attack"]["sun"].value).toBe(0);
+    expect(entries["fight of the debuffing attack"]["ghost"].value).toBe(30);
+    expect(entries["fight of the debuffing attack"]["dragon"].value).toBe(10);
+    expect(entries["fight of the debuffing attack"]["rain"].value).toBe(1);
+    expect(entries["fight of the debuffing attack"]["human"].value).toBe(10);
+    expect(entries["fight of the debuffing attack"]["elf"].value).toBe(50);
 });
 
 test('interprete_should_allow_a_environment_variable_to_change_its_value_when_the_instruction_"The a is debuffing the bs defense(under OR inside OR within OR on) the e."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/debuffingDefense.rpg");
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["ghost"].value).toBe(30);
-    expect(entries["dragon"].value).toBe(10);
-    expect(entries["rain"].value).toBe(1);
-    expect(entries["human"].value).toBe(10);
-    expect(entries["elf"].value).toBe(50);
-    expect(entries["mist"].value).toBe(1);
-    expect(entries["argonian"].value).toBe(50);
-    expect(entries["hobbit"].value).toBe(50);
+    expect(entries["fight of the debuffing defense"]["sun"].value).toBe(0);
+    expect(entries["fight of the debuffing defense"]["ghost"].value).toBe(30);
+    expect(entries["fight of the debuffing defense"]["dragon"].value).toBe(10);
+    expect(entries["fight of the debuffing defense"]["rain"].value).toBe(1);
+    expect(entries["fight of the debuffing defense"]["human"].value).toBe(10);
+    expect(entries["fight of the debuffing defense"]["elf"].value).toBe(50);
+    expect(entries["fight of the debuffing defense"]["mist"].value).toBe(1);
+    expect(entries["fight of the debuffing defense"]["argonian"].value).toBe(50);
+    expect(entries["fight of the debuffing defense"]["hobbit"].value).toBe(50);
 });
 
 test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is combining with the e2.', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/combining.rpg");
-    expect(entries["sun"].value).toBe(0);
-    expect(entries["rain"].value).toBe(0);
-    expect(entries["dust"].value).toBe(0);
-    expect(entries["wind"].value).toBe(1);
-    expect(entries["desert"].value).toBe(0);
-    expect(entries["ocean"].value).toBe(0);
-    expect(entries["tundra"].value).toBe(1);
-    expect(entries["jungle"].value).toBe(1);
+    expect(entries["fight of the century"]["sun"].value).toBe(0);
+    expect(entries["fight of the century"]["rain"].value).toBe(0);
+    expect(entries["fight of the century"]["dust"].value).toBe(0);
+    expect(entries["fight of the century"]["wind"].value).toBe(1);
+    expect(entries["fight of the century"]["desert"].value).toBe(0);
+    expect(entries["fight of the century"]["ocean"].value).toBe(0);
+    expect(entries["fight of the century"]["tundra"].value).toBe(1);
+    expect(entries["fight of the century"]["jungle"].value).toBe(1);
 });
 
 test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_the_instruction_"The e1 is combining with the e2.', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/boolean/incorrectTypeCombining.rpg");
-    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "11", "The dragon is combining with the sun."));
+    }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "12", "The dragon is combining with the sun."));
 });
 
 test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is absorbing the e2.', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/boolean/absorbing.rpg");
-    expect(entries["sun"].value).toBe(1);
-    expect(entries["rain"].value).toBe(0);
-    expect(entries["dust"].value).toBe(1);
-    expect(entries["wind"].value).toBe(1);
-    expect(entries["desert"].value).toBe(0);
-    expect(entries["ocean"].value).toBe(0);
-    expect(entries["tundra"].value).toBe(1);
-    expect(entries["jungle"].value).toBe(1);
+    expect(entries["fight absorbing"]["sun"].value).toBe(1);
+    expect(entries["fight absorbing"]["rain"].value).toBe(0);
+    expect(entries["fight absorbing"]["dust"].value).toBe(1);
+    expect(entries["fight absorbing"]["wind"].value).toBe(1);
+    expect(entries["fight absorbing"]["desert"].value).toBe(0);
+    expect(entries["fight absorbing"]["ocean"].value).toBe(0);
+    expect(entries["fight absorbing"]["tundra"].value).toBe(1);
+    expect(entries["fight absorbing"]["jungle"].value).toBe(1);
 });
 
 test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_the_instruction_"The e1 is absorbing the e2.', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/boolean/incorrectTypeAbsorbing.rpg");
-    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "dragon", "11", "The dragon is absorbing the sun."));
+    }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "12", "The dragon is absorbing the sun."));
 });
 
 test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/if/incorrectTypeForWondering.rpg");
-    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "sun", "8", "The sun is wondering the effects of the sun."));
+    }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "sun", "10", "The sun is wondering the effects of the sun."));
 });
 
 test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/if/incorrectTypeForPondering.rpg");
-    }).toThrow(FormatEnum(FightError.IncorrectVariableType, "sun", "8", "The sun is pondering the effects of the sun."));
+    }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "sun", "10", "The sun is pondering the effects of the sun."));
 });
 
 test('interprete_should_compare_entity_values_when_the_instruction_"a is wondering the effects of the e.', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/if/wondering.rpg");
-    expect(entries["dragon"].value).toBe(60);
-    expect(entries["ghost"].value).toBe(32);
-    expect(entries["sun"].value).toBe(1);
-    expect(entries["rain"].value).toBe(0);
+    expect(entries["fight wondering"]["dragon"].value).toBe(60);
+    expect(entries["fight wondering"]["ghost"].value).toBe(32);
+    expect(entries["fight wondering"]["sun"].value).toBe(1);
+    expect(entries["fight wondering"]["rain"].value).toBe(0);
 });
 
 test('interprete_should_compare_entity_values_when_the_instruction_"a is pondering the effects of the e.', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/if/pondering.rpg");
-    expect(entries["dragon"].value).toBe(50);
-    expect(entries["ghost"].value).toBe(182);
-    expect(entries["sun"].value).toBe(1);
-    expect(entries["human"].value).toBe(10);
-    expect(entries["elf"].value).toBe(10);
-    expect(entries["rain"].value).toBe(0);
+    expect(entries["fight pondering"]["dragon"].value).toBe(50);
+    expect(entries["fight pondering"]["ghost"].value).toBe(182);
+    expect(entries["fight pondering"]["sun"].value).toBe(1);
+    expect(entries["fight pondering"]["human"].value).toBe(10);
+    expect(entries["fight pondering"]["elf"].value).toBe(10);
+    expect(entries["fight pondering"]["rain"].value).toBe(0);
 });
 
 test('interprete_should_allow_a_loop_when_the_instruction_"The a prepare(s) an attack / until the a is charged up."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/loop/entityLoop.rpg");
-    expect(entries["wolf"].value).toBe(0);
-    expect(entries["dragon"].value).toBe(5);
+    expect(entries["fight entity loop"]["wolf"].value).toBe(0);
+    expect(entries["fight entity loop"]["dragon"].value).toBe(5);
 });
 
 test('interprete_should_allow_multiple_loops_when_the_instruction_"The a prepare(s) an attack / until the a is charged up."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/loop/entityMultipleLoops.rpg");
-    expect(entries["i"].value).toBe(0);
-    expect(entries["j"].value).toBe(3);
-    expect(entries["k"].value).toBe(3);
-    expect(entries["dragon"].value).toBe(27);
+    expect(entries["fight entity multiple loop"]["i"].value).toBe(0);
+    expect(entries["fight entity multiple loop"]["j"].value).toBe(3);
+    expect(entries["fight entity multiple loop"]["k"].value).toBe(3);
+    expect(entries["fight entity multiple loop"]["dragon"].value).toBe(27);
 });
 
 test('interprete_should_allow_a_loop_when_the_instruction_"The e is starting to change / until e is done changing."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/loop/environmentLoop.rpg");
-    expect(entries["wolf"].value).toBe(5);
-    expect(entries["dragon"].value).toBe(5);
+    expect(entries["fight environment loop"]["wolf"].value).toBe(5);
+    expect(entries["fight environment loop"]["dragon"].value).toBe(5);
+});
+
+test('interprete_should_allow_a_subfuction_when_the_instruction_"Flashback X"_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/function/entityFunction.rpg");
+    expect(entries["fight of the entity"]["dragon"].value).toBe(155);
+    expect(entries["flashback of the past"]["unicorn"].value).toBe(155);
 });

@@ -1,3 +1,4 @@
+Fight of the environment and entity variables 
 Environments
 rain: strong
 sun: weak
@@ -5,3 +6,6 @@ sun: weak
 Entities
 dragon: 100hp
 wolf: 50mp
+
+Events
+End of the fight of the environment and entity variables.

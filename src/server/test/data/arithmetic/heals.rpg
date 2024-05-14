@@ -1,7 +1,9 @@
+Fight of the healing
 Entities
 dragon: 100hp
 wolf: 50hp
 
-Fight of the healing
+Events
 The dragon and the wolf enter combat!
 The dragon heals the wolf.
+End of the fight of the healing.

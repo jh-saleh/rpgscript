@@ -1,10 +1,12 @@
+Fight entity loop
 Entities
 dragon: 0hp
 wolf: 5hp
 
-Fight of the loop
+Events
 The dragon and the wolf enter combat!
 The wolf prepares an attack
 The dragon heals for 1 point.
 The wolf loses 1 point.
 until the wolf is charged up.
+End of the fight entity loop.

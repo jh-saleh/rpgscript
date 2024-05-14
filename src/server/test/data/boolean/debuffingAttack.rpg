@@ -1,3 +1,4 @@
+Fight of the debuffing attack
 Entities
 ghost: 30hp
 dragon: 10hp
@@ -8,8 +9,9 @@ Environments
 sun: weak
 rain: weak
 
-Fight of the debuffing attack
+Events
 The sun and the rain are making up the scene!
 The ghost, the dragon, the human and the elf enter combat!
 The ghost is debuffing the dragon's attack under the sun.
 The human is debuffing the elf's attack under the rain.
+End of the fight of the debuffing attack.

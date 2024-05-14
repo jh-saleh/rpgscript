@@ -1,8 +1,10 @@
+Fight counter
 Entities
 dragon: 65hp
 ghost: 103mp
 
-Fight of the self healing
+Events
 The dragon and the ghost enter combat!
 The dragon activates a counter attack!
 The ghost activates a counter attack!
+End of the fight counter.

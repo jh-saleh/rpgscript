@@ -1,3 +1,4 @@
+Fight of the boosting attack
 Entities
 ghost: 10hp
 dragon: 30hp
@@ -8,8 +9,9 @@ Environments
 sun: weak
 rain: weak
 
-Fight of the boosting attack
+Events
 The sun and the rain are making up the scene!
 The ghost, the dragon, the human and the elf enter combat!
 The ghost is boosting the dragon's attack under the sun.
 The human is boosting the elf's attack under the rain.
+End of the fight of the boosting attack.

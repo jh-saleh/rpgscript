@@ -1,10 +1,11 @@
+Fight entity multiple loop
 Entities
 dragon: 0hp
 i: 3hp
 j: 3hp
 k: 3hp
 
-Fight of the multiple loops
+Events
 The dragon, the i, the k and the j enter combat!
 The i prepares an attack
 The j prepares an attack
@@ -21,3 +22,4 @@ The i loses 1 point.
 
 The j heals for 3 points.
 until the i is charged up.
+End of the fight entity multiple loop.

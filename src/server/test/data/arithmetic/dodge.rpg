@@ -1,7 +1,9 @@
+Fight dodge
 Entities
 dragon: 100hp
 wolf: 50hp
 
-Fight of the self healing
+Events
 The dragon and the wolf enter combat!
 The wolf dodges the dragon.
+End of the fight dodge.

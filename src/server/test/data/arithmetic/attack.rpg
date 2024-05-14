@@ -1,7 +1,9 @@
+Fight attack
 Entities
 dragon: 100hp
 ghost: 100mp
 
-Fight only attack
+Events
 The dragon and the ghost enter combat!
 The dragon attacks the ghost.
+End of the fight attack.

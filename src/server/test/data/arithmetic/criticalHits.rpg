@@ -1,7 +1,9 @@
+Fight of the critical hits
 Entities
 dragon: 100hp
 wolf: 50hp
 
-Fight of the self healing
+Events
 The dragon and the wolf enter combat!
 The wolf critically hits the dragon.
+End of the fight of the critical hits.

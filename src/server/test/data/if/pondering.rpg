@@ -1,3 +1,4 @@
+Fight pondering
 Environments
 sun: strong
 rain: weak
@@ -6,7 +7,8 @@ dragon: 50hp
 ghost: 32hp
 human: 10hp
 elf: 3hp
-Fight only attack
+
+Events
 The dragon, the ghost, the human and the elf enter combat!
 The sun and the rain are making up the scene!
 The dragon is pondering the effects of the sun.
@@ -15,3 +17,4 @@ The dragon heals for 10 points.
 The human is pondering the effects of the rain.
 The human heals for 5 points.
 The elf heals for 7 points.
+End of the fight pondering.

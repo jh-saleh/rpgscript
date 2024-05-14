@@ -1,6 +1,8 @@
+Fight of the empty fight
 Entities
 dragon: 100hp
 ghost: 100mp
 
-Fight without entering combat
+Events
 The dragon attacks the ghost.
+End of the fight of the empty fight.
