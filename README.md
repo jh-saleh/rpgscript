@@ -56,13 +56,13 @@ The human heals the wolf for 60 points.
 | until the a is charged up.                                                    | if (a === 0) pc = line(loopToken) else pc+=1       | loop      |   ✓   |
 | The e is starting to change                                                   | rc = loop start                                    | loop      |   ✓   |
 | until the e is done changing.                                                 | if (e === false) pc = line(loopToken) else pc+=1   | loop      |   ✓   |
-| Fight X                                                                       | create fightX function / entry point               | function  |       |
-| End of the fight X.                                                           | end label for fightX                               | function  |       |
-| Flashback X                                                                   | create flashbackX function                         | function  |       |
-| End of the flashback X.                                                       | end label for flashbackX                           | function  |       |
-| The a remembers the flashbackX.                                               | a = flashbackX()                                   | function  |       |
+| Fight X                                                                       | create fightX function / entry point               | function  |   ✓   |
+| End of the fight X.                                                           | end label for fightX                               | function  |   ✓   |
+| Flashback X                                                                   | create flashbackX function                         | function  |   ✓   |
+| End of the flashback X.                                                       | end label for flashbackX                           | function  |   ✓   |
+| The a remembers the flashbackX.                                               | a = flashbackX()                                   | function  |   ✓   |
 | The flashback X happened (under OR inside OR within OR on) the e.             | e = flashbackX()                                   | function  |       |
-| The a (flee(s) OR is defeated OR dissapear(s))!                               | return a                                           | function  |       |
+| The a (flee(s) OR is defeated OR dissapear(s))!                               | return a                                           | function  |   ✓   |
 | The e (dissapear(s) OR stop(s) OR vanish(es))!                                | return e                                           | function  |       |
 | It's[(super OR not OR very) effective].                                       | N/A                                                | example   |       |
 | a protect[s] b.                                                               | N/A                                                | example   |       |

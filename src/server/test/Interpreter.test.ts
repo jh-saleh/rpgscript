@@ -354,14 +354,14 @@ test('interprete_should_throw_an_error_when_the_flashback_function_tags_are_inve
     }).toThrow(FormatEnum(FunctionsError.InversedFunctionsTags, "0", "flashback of the past"));
 });
 
-test('interprete_should_throw_an_error_when_the_there_is_no_fight_function', () => {
+test('interprete_should_throw_an_error_when_there_is_no_fight_function', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/function/noFightFunction.rpg");
     }).toThrow(FunctionsError.AtLeastOneFightFunction);
 });
 
-test('interprete_should_throw_an_error_when_the_there_are_more_than_one_fight_function', () => {
+test('interprete_should_throw_an_error_when_there_are_more_than_one_fight_function', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/function/moreThanOneFightFunction.rpg");
