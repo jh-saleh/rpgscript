@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, challenging, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, merging, pondering, protect, remember, special, vibrating, wondering } from './tokens';
+import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, vibrating, wondering } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -154,7 +154,7 @@ export class Interpreter {
             if (this.pc >= this.instructions.length) {
                 break;
             }
-            if (!special.includes(this.instructions[this.pc])) {
+            if (!special.includes(this.instructions[this.pc]) && !comment.test(this.instructions[this.pc])) {
                 if (this.instructions[this.pc] !== Section.Entities && this.instructions[this.pc] !== Section.Environments) {
                     if (!this.doesSectionExist.entities && !this.doesSectionExist.environment) {
                         throw Error(VariablesError.VariablesSectionMissing);
@@ -233,7 +233,7 @@ export class Interpreter {
             if (instr === undefined || endOfFightSection.test(instr)) {
                 break;
             }
-            if (!special.includes(instr)) {
+            if (!special.includes(instr) && !comment.test(this.instructions[this.pc])) {
                 const variables = this.extractVariableFromInstruction(instr);
                 if (enter.regExp.test(instr)) {
                     for (let variable of variables) {
@@ -273,6 +273,10 @@ export class Interpreter {
                         this.entries[this.function][variables[1]].value /= this.entries[this.function][variables[0]].value;
                     } else if (dodge.regExp.test(instr)) {
                         this.entries[this.function][variables[1]].value *= this.entries[this.function][variables[0]].value;
+                    } else if (slowedDown.regExp.test(instr)) {
+                        this.entries[this.function][variables[0]].value = this.entries[this.function][variables[0]].value % this.entries[this.function][variables[1]].value;
+                    } else if (slowedDownFor.regExp.test(instr)) {
+                        this.entries[this.function][variables[0]].value = this.entries[this.function][variables[0]].value % Number(variables[1]);
                     } else if (counter.regExp.test(instr)) {
                         const entity = variables[0];
                         this.logs.push(this.entries[this.function][entity].type === "string" ? String.fromCharCode(this.entries[this.function][entity].value) : this.entries[this.function][entity].value);

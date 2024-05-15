@@ -65,16 +65,19 @@ export const isNumber: RegExp = /^([1-9][0-9]*|0)$/;
 export const isBoolean: RegExp = /^(weak|strong)*$/;
 export const entity: RegExp = /^[a-z]+: ([1-9][0-9]*|0)(hp|mp)$/i;
 export const environment: RegExp = /^\b(?!strong\b|weak\b)[a-z]+\b: (weak|strong)$/i;
+export const comment: RegExp = /^#\w+( \w+)*$/;
 
 // instruction set
 export const enter: RPGRegExp = new RPGRegExp(/^The ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+) ente(r|rs) combat!$/, -1);
 export const protect: RPGRegExp = new RPGRegExp(/^The [a-z]+ protec(t|ts) the [a-z]+.$/, 2);
 export const attack: RPGRegExp = new RPGRegExp(/^The [a-z]+ attac(k|ks) the [a-z]+.$/, 2);
-export const lose: RPGRegExp = new RPGRegExp(/^The [a-z]+ los(e|es) [1-9][0-9]* poin(t|ts).$/, 2);
+export const lose: RPGRegExp = new RPGRegExp(/^The [a-z]+ los(e|es) ([1-9][0-9]*|0) poin(t|ts).$/, 2);
 export const heal: RPGRegExp = new RPGRegExp(/^The [a-z]+ hea(l|ls) the [a-z]+.$/, 2);
-export const healFor: RPGRegExp = new RPGRegExp(/^The [a-z]+ hea(l|ls) for [1-9][0-9]* poin(t|ts).$/, 2);
+export const healFor: RPGRegExp = new RPGRegExp(/^The [a-z]+ hea(l|ls) for ([1-9][0-9]*|0) poin(t|ts).$/, 2);
 export const criticalHit: RPGRegExp = new RPGRegExp(/^The [a-z]+ critically hi(t|ts) the [a-z]+.$/, 2);
 export const dodge: RPGRegExp = new RPGRegExp(/^The [a-z]+ dodg(e|es) the [a-z]+.$/, 2);
+export const slowedDown: RPGRegExp = new RPGRegExp(/^The [a-z]+ is slowed down by the [a-z]+.$/, 2);
+export const slowedDownFor: RPGRegExp = new RPGRegExp(/^The [a-z]+ is slowed down for ([1-9][0-9]*|0) tur(n|ns).$/, 2);
 export const counter: RPGRegExp = new RPGRegExp(/^The [a-z]+ activat(e|es) a counter attack!$/, 1);
 export const makingUpTheScene: RPGRegExp = new RPGRegExp(/^The ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+) (are|is) making up the scene!$/, -1);
 export const environmentChanging: RPGRegExp = new RPGRegExp(/^The [a-z]+ is getting (weak|strong).$/, 2);
@@ -105,6 +108,7 @@ export const instructionSet = [
     attack, lose,
     heal, healFor,
     criticalHit, dodge,
+    slowedDown, slowedDownFor,
     counter,
     makingUpTheScene, environmentChanging,
     absorbing, vibrating, challenging,

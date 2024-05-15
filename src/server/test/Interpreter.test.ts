@@ -123,6 +123,20 @@ test('interprete_should_allow_a_variable_to_multiply_its_value_when_the_instruct
     expect(entries["fight dodge"]["dragon"].value).toBe(5000);
 });
 
+test('interprete_should_allow_a_variable_to_modulo_its_value_when_the_instruction_"The a is slowed down by the b."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/slowedDown.rpg");
+    expect(entries["fight slowed down"]["ghost"].value).toBe(71);
+    expect(entries["fight slowed down"]["dragon"].value).toBe(145);
+});
+
+test('interprete_should_allow_a_variable_to_modulo_its_value_when_the_instruction_"The a is slowed down for c turn(s)."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/slowedDownFor.rpg");
+    expect(entries["fight slowed down for"]["ghost"].value).toBe(71);
+    expect(entries["fight slowed down for"]["dragon"].value).toBe(145);
+});
+
 test('interprete_should_print_the_variable_s_value_when_the_instruction_"a activate[s] a counter!"_exists', () => {
     const interpreter = new Interpreter();
     const { logs, entries } = interpreter.execute("src/server/test/data/counter.rpg");
@@ -415,4 +429,13 @@ test('interprete_should_be_able_to_print_the_fibonacci_sequence', () => {
     const interpreter = new Interpreter();
     const { logs } = interpreter.execute("src/server/test/examples/fibonacci.rpg");
     expect(logs).toEqual([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181]);
+});
+
+test('interprete_should_be_able_to_print_the_fizz_buzz_sequence', () => {
+    const interpreter = new Interpreter();
+    const { logs } = interpreter.execute("src/server/test/examples/FizzBuzz.rpg");
+    expect(logs).toEqual(
+        [1, 2, 'f', 'i', 'z', 'z', 4, 'b', 'u', 'z', 'z', 'f', 'i', 'z', 'z', 7, 8,
+            'f', 'i', 'z', 'z', 'b', 'u', 'z', 'z', 11, 'f', 'i', 'z', 'z', 13, 14,
+            'f', 'i', 'z', 'z', 'b', 'u', 'z', 'z']);
 });
