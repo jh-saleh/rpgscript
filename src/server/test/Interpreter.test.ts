@@ -73,6 +73,15 @@ test('interprete_should_not_allow_unknown_syntax', () => {
     }).toThrow(FormatEnum(InstructionsError.Syntax, "7", "The dragon bleepbloop."));
 });
 
+test('interprete_should_allow_an_entity_variable_to_store_the_value_of_another_variable_when_the_instruction_"a protect[s] b."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/protect.rpg");
+    expect(entries["fight protect"]["dragon"].value).toBe(100);
+    expect(entries["fight protect"]["dragon"].type).toBe("number");
+    expect(entries["fight protect"]["ghost"].value).toBe(100);
+    expect(entries["fight protect"]["ghost"].type).toBe("number");
+});
+
 test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a attack[s] b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/attack.rpg");
@@ -145,6 +154,15 @@ test('interprete_should_allow_a_environment_variable_to_change_its_value_when_th
     expect(entries["fight changing environment"]["rain"].protected).toBe(false);
     expect(entries["fight changing environment"]["sun"].value).toBe(0);
     expect(entries["fight changing environment"]["rain"].value).toBe(1);
+});
+
+test('interprete_should_allow_an_environment_variable_to_store_the_value_of_another_variable_when_the_instruction_"The e1 is absorbing the e2."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/boolean/absorbing.rpg");
+    expect(entries["fight absorbing"]["sun"].value).toBe(1);
+    expect(entries["fight absorbing"]["sun"].type).toBe("boolean");
+    expect(entries["fight absorbing"]["rain"].value).toBe(1);
+    expect(entries["fight absorbing"]["rain"].type).toBe("boolean");
 });
 
 test('interprete_should_inverse_the_environment_value_when_the_instruction_"The e is vibrating."_exists', () => {
@@ -235,24 +253,24 @@ test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_th
     }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "12", "The dragon is combining with the sun."));
 });
 
-test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is absorbing the e2.', () => {
+test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is merging with the e2.', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/boolean/absorbing.rpg");
-    expect(entries["fight absorbing"]["sun"].value).toBe(1);
-    expect(entries["fight absorbing"]["rain"].value).toBe(0);
-    expect(entries["fight absorbing"]["dust"].value).toBe(1);
-    expect(entries["fight absorbing"]["wind"].value).toBe(1);
-    expect(entries["fight absorbing"]["desert"].value).toBe(0);
-    expect(entries["fight absorbing"]["ocean"].value).toBe(0);
-    expect(entries["fight absorbing"]["tundra"].value).toBe(1);
-    expect(entries["fight absorbing"]["jungle"].value).toBe(1);
+    const { entries } = interpreter.execute("src/server/test/data/boolean/merging.rpg");
+    expect(entries["fight merging"]["sun"].value).toBe(1);
+    expect(entries["fight merging"]["rain"].value).toBe(0);
+    expect(entries["fight merging"]["dust"].value).toBe(1);
+    expect(entries["fight merging"]["wind"].value).toBe(1);
+    expect(entries["fight merging"]["desert"].value).toBe(0);
+    expect(entries["fight merging"]["ocean"].value).toBe(0);
+    expect(entries["fight merging"]["tundra"].value).toBe(1);
+    expect(entries["fight merging"]["jungle"].value).toBe(1);
 });
 
-test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_the_instruction_"The e1 is absorbing the e2.', () => {
+test('interprete_should_throw_when_an_incorrect_type_of_variable_is_used_with_the_instruction_"The e1 is merging with the e2.', () => {
     const interpreter = new Interpreter();
     expect(() => {
-        interpreter.execute("src/server/test/data/boolean/incorrectTypeAbsorbing.rpg");
-    }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "12", "The dragon is absorbing the sun."));
+        interpreter.execute("src/server/test/data/boolean/incorrectTypeMerging.rpg");
+    }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "12", "The dragon is merging with the sun."));
 });
 
 test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
@@ -391,4 +409,10 @@ test('interprete_should_call_a_subfuction_when_the_instruction_"The flashback X 
     expect(entries["fight of the entity"]["rain"].type).toBe("boolean");
     expect(entries["flashback of the past"]["mist"].value).toBe(1);
     expect(entries["flashback of the past"]["mist"].type).toBe("boolean");
+});
+
+test('interprete_should_be_able_to_print_the_fibonacci_sequence', () => {
+    const interpreter = new Interpreter();
+    const { logs } = interpreter.execute("src/server/test/examples/fibonacci.rpg");
+    expect(logs).toEqual([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181]);
 });

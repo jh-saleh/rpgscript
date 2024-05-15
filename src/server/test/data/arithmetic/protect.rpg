@@ -1,0 +1,9 @@
+Fight protect
+Entities
+dragon: 100hp
+ghost: 0hp
+
+Events
+The dragon and the ghost enter combat!
+The ghost protects the dragon.
+End of the fight protect.

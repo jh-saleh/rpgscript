@@ -33,15 +33,17 @@ The human heals the wolf for 60 points.
 | instruction                                                                   | meaning                                            | domain    | done  |
 |-------------------------------------------------------------------------------|----------------------------------------------------|-----------|-------|
 | The token1, ... and tokenN enter combat!                                      | token1, ..., tokenN can be modified                | starter   |   ✓   |
-| The a attack[s] the b.                                                        | b = b - a                                          | art       |   ✓   |
-| The a lose[s] c points.                                                       | a = a - c                                          | art       |   ✓   |
-| The a heal[s] the b.                                                          | b = b + a                                          | art       |   ✓   |
-| The a heal[s] for c points.                                                   | a = a + c                                          | art       |   ✓   |
-| The a critically hit[s] the b.                                                | b = b / a                                          | art       |   ✓   |
-| The a dodge[s] the b.                                                         | b = b * a                                          | art       |   ✓   |
-| The a activate[s] a counter attack!                                           | prints a                                           | console   |   ✓   |
+| The a protect(s) the b.                                                       | a = b                                              | art       |       |
+| The a attack(s) the b.                                                        | b = b - a                                          | art       |   ✓   |
+| The a lose(s) c points.                                                       | a = a - c                                          | art       |   ✓   |
+| The a heal(s) the b.                                                          | b = b + a                                          | art       |   ✓   |
+| The a heal(s) for c points.                                                   | a = a + c                                          | art       |   ✓   |
+| The a critically hit(s) the b.                                                | b = b / a                                          | art       |   ✓   |
+| The a dodge(s) the b.                                                         | b = b * a                                          | art       |   ✓   |
+| The a activate(s) a counter attack!                                           | prints a                                           | console   |   ✓   |
 | The token1, ... and tokenN (are|is) making up the scene!                      | token1, ..., tokenN can be modified                | starter   |   ✓   |
 | The e is getting (weak or strong).                                            | e = false OR true                                  | bool      |   ✓   |
+| The e1 is absorbing the e2.                                                   | e1 = e2                                            | bool      |   ✓   |
 | The e is vibrating.                                                           | e = !e                                             | bool      |   ✓   |
 | The a is challenging the b (under OR inside OR within OR on) the e.           | e = a === b                                        | bool      |   ✓   |
 | The a is boosting the b's attack (under OR inside OR within OR on) the e.     | e = a > b                                          | bool      |   ✓   |
@@ -49,7 +51,7 @@ The human heals the wolf for 60 points.
 | The a is debuffing the b's attack (under OR inside OR within OR on) the e.    | e = a < b                                          | bool      |   ✓   |
 | The a is debuffing the b's defense (under OR inside OR within OR on) the e.   | e = a <= b                                         | bool      |   ✓   |
 | The e1 is combining with the e2.                                              | e1 = e1 and e2                                     | bool      |   ✓+T |
-| The e1 is absorbing the e2.                                                   | e1 = e1 or e2                                      | bool      |   ✓+T |
+| The e1 is merging the e2.                                                     | e1 = e1 or e2                                      | bool      |   ✓+T |
 | The a is wondering the effects of the e.                                      | if (e) then pc+=1                                  | bool      |   ✓+T |
 | The a is pondering the effects of the e.                                      | if (e) then pc+=1 else pc+=2                       | bool      |   ✓+T |
 | The a prepare(s) an attack                                                    | rc = loop start                                    | loop      |   ✓   |
@@ -64,6 +66,5 @@ The human heals the wolf for 60 points.
 | The flashback X happened (under OR inside OR within OR on) the e.             | e = flashbackX()                                   | function  |   ✓   |
 | The a (flee(s) OR is defeated OR dissapear(s))!                               | return a                                           | function  |   ✓   |
 | The e (dissapear(s) OR stop(s) OR vanish(es))!                                | return e                                           | function  |   ✓   |
-| It's[(super OR not OR very) effective].                                       | N/A                                                | example   |       |
-| a protect[s] b.                                                               | N/A                                                | example   |       |
-| a activate[s] a special skills.                                               | N/A                                                | example   |       |
+| It's (super OR not OR very) effective(. or !)                                 | N/A                                                | example   |       |
+| a activate(s) a special skills.                                               | N/A                                                | example   |       |

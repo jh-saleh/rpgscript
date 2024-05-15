@@ -1,0 +1,18 @@
+Fight merging
+Environments
+sun: strong
+rain: weak
+dust: weak
+wind: strong
+desert: weak
+ocean: weak
+tundra: strong
+jungle: strong
+
+Events
+The sun, the rain, the dust, the wind, the desert, the ocean, the tundra and the jungle are making up the scene!
+The sun is merging with the rain.
+The dust is merging with the wind.
+The desert is merging with the ocean.
+The tundra is merging with the jungle.
+End of the fight merging.

@@ -1,4 +1,4 @@
-Fight incorrect type absorbing
+Fight incorrect type merging
 Entities
 dragon: 20hp
 ghost: 20hp
@@ -10,6 +10,6 @@ rain: weak
 Events
 The sun and the rain are making up the scene!
 The dragon and the ghost enter combat!
-The dragon is absorbing the sun.
-The rain is absorbing the ghost.
-End of the fight incorrect type absorbing.
+The dragon is merging with the sun.
+The rain is merging with the ghost.
+End of the fight incorrect type merging.
