@@ -368,9 +368,27 @@ test('interprete_should_throw_an_error_when_there_are_more_than_one_fight_functi
     }).toThrow(FunctionsError.OnlyOneFightFunction);
 });
 
+test('interprete_should_throw_an_error_when_there_a_function_is_incorrectly_closed', () => {
+    const interpreter = new Interpreter();
+    expect(() => {
+        interpreter.execute("src/server/test/data/function/incorrectlyClosedFunction.rpg");
+    }).toThrow(FormatEnum(FunctionsError.IncorrectlyClosedFunction, "fight of the entity"));
+});
+
 test('interprete_should_call_a_subfuction_when_the_instruction_"The a remembers the flashbackX."_exists', () => {
     const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/function/entityFunction.rpg");
+    const { entries } = interpreter.execute("src/server/test/data/function/callFunctionFromEntity.rpg");
     expect(entries["fight of the entity"]["dragon"].value).toBe(155);
+    expect(entries["fight of the entity"]["dragon"].type).toBe("number");
     expect(entries["flashback of the past"]["unicorn"].value).toBe(155);
+    expect(entries["flashback of the past"]["unicorn"].type).toBe("number");
+});
+
+test('interprete_should_call_a_subfuction_when_the_instruction_"The flashback X happened (under OR inside OR within OR on) the e."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/function/callFunctionFromEnvironment.rpg");
+    expect(entries["fight of the entity"]["rain"].value).toBe(1);
+    expect(entries["fight of the entity"]["rain"].type).toBe("boolean");
+    expect(entries["flashback of the past"]["mist"].value).toBe(1);
+    expect(entries["flashback of the past"]["mist"].type).toBe("boolean");
 });

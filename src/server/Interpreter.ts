@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, challenging, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromStringToBooleanNumber, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, pondering, remember, special, vibrating, wondering } from './tokens';
+import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, challenging, combining, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, pondering, remember, special, vibrating, wondering } from './tokens';
 
 interface InterpreterOutput {
     logs: (string | number)[];
@@ -351,7 +351,21 @@ export class Interpreter {
                         this.function = variables[1];
                         this.entries[this.function] = {};
                         this.extractVariables();
+                    } else if (happened.regExp.test(instr)) {
+                        this.rc.push(this.pc);
+                        this.pc = this.functions[variables[0]].position.start;
+                        this.returns.push({ function: this.function, variable: variables[1] });
+                        this.function = variables[0];
+                        this.entries[this.function] = {};
+                        this.extractVariables();
                     } else if (flees.regExp.test(instr)) {
+                        const path = this.returns.pop();
+                        if (path !== undefined) {
+                            this.entries[path.function][path.variable] = this.entries[this.function][variables[0]];
+                            this.pc = this.rc.pop() ?? 0;
+                            this.function = this.getFutureFunctionContext();
+                        }
+                    } else if (dissapears.regExp.test(instr)) {
                         const path = this.returns.pop();
                         if (path !== undefined) {
                             this.entries[path.function][path.variable] = this.entries[this.function][variables[0]];

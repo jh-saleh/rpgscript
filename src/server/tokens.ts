@@ -92,7 +92,9 @@ export const loopEntityCondition: RPGRegExp = new RPGRegExp(/^until the [a-z]+ i
 export const loopEnvironmentLabel: RPGRegExp = new RPGRegExp(/^The [a-z]+ is starting to change$/, 1);
 export const loopEnvironmentCondition: RPGRegExp = new RPGRegExp(/^until the [a-z]+ is done changing.$/, 1);
 export const remember: RPGRegExp = new RPGRegExp(/^The [a-z]+ remembe(r|rs) the flashback [a-z]+( [a-z]+)*.$/, 2);
+export const happened: RPGRegExp = new RPGRegExp(/^The flashback [a-z]+( [a-z]+)* happened (under|inside|within|on) the [a-z]+.$/, 2);
 export const flees: RPGRegExp = new RPGRegExp(/^The [a-z]+ (fle(e|es)|is defeated|dissapea(r|rs))!$/, 1);
+export const dissapears: RPGRegExp = new RPGRegExp(/^The [a-z]+ (dissapea(r|rs)|sto(p|ps)|vanish(e|es))!$/, 1);
 export const endOfFlashbackSection: RPGRegExp = new RPGRegExp(/^End of the flashback [a-z]+( [a-z]+)*.$/, 1);
 
 
@@ -107,6 +109,7 @@ export const instructionSet = [
     wondering, pondering,
     loopEntityLabel, loopEntityCondition,
     loopEnvironmentLabel, loopEnvironmentCondition,
-    remember, flees,
+    remember, happened,
+    flees, dissapears,
     endOfFlashbackSection
 ];

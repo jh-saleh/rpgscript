@@ -1,0 +1,18 @@
+Fight of the entity
+Entities
+dragon: 5hp
+
+Events
+The dragon enters combat!
+The dragon remembers the flashback of the past.
+End of the fight of the entity.
+
+
+Flashback of the past
+Entities
+unicorn: 155hp
+
+Events
+The unicorn enters combat!
+The unicorn flees!
+End of the flashback of the past.
