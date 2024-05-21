@@ -11,8 +11,18 @@ interface EditorContextType {
     setCursorHorizontalPosition: Dispatch<SetStateAction<number>>;
     cursorHorizontalPositionDelta: number;
     setCursorHorizontalPositionDelta: Dispatch<SetStateAction<number>>;
-    goToNextLine: boolean;
-    setGoToNextLine: Dispatch<SetStateAction<boolean>>;
+    couldGoToPreviousLineWithLeftArrow: boolean;
+    setCouldGoToPreviousLineWithLeftArrow: Dispatch<SetStateAction<boolean>>;
+    goToPreviousLineWithLeftArrow: boolean;
+    setGoToPreviousLineWithLeftArrow: Dispatch<SetStateAction<boolean>>;
+    couldGoToNextLineWithRightArrow: boolean;
+    setCouldGoToNextLineWithRightArrow: Dispatch<SetStateAction<boolean>>;
+    goToNextLineWithRightArrow: boolean;
+    setGoToNextLineWithRightArrow: Dispatch<SetStateAction<boolean>>;
+    goToNextLineWithDownArrow: boolean;
+    setGoToNextLineWithDownArrow: Dispatch<SetStateAction<boolean>>;
+    goToPreviousLineWithUpArrow: boolean;
+    setGoToPreviousLineWithUpArrow: Dispatch<SetStateAction<boolean>>;
     setCurrentLine: (instruction: string, index: number) => void;
     updateCurrentLine: (instruction: string, index: number) => void;
     deleteCurrentLine: (line: number) => void;
@@ -31,7 +41,12 @@ export const EditorContextProvider = ({ children }: EditorContextProviderProps) 
     const [isCursorAtTheEndOfLine, setIsCursorAtTheEndOfLine] = useState<boolean>(true);
     const [cursorHorizontalPosition, setCursorHorizontalPosition] = useState<number>(0);
     const [cursorHorizontalPositionDelta, setCursorHorizontalPositionDelta] = useState<number>(0);
-    const [goToNextLine, setGoToNextLine] = useState<boolean>(false);
+    const [couldGoToPreviousLineWithLeftArrow, setCouldGoToPreviousLineWithLeftArrow] = useState<boolean>(false);
+    const [goToPreviousLineWithLeftArrow, setGoToPreviousLineWithLeftArrow] = useState<boolean>(false);
+    const [goToNextLineWithRightArrow, setGoToNextLineWithRightArrow] = useState<boolean>(false);
+    const [couldGoToNextLineWithRightArrow, setCouldGoToNextLineWithRightArrow] = useState<boolean>(false);
+    const [goToNextLineWithDownArrow, setGoToNextLineWithDownArrow] = useState<boolean>(false);
+    const [goToPreviousLineWithUpArrow, setGoToPreviousLineWithUpArrow] = useState<boolean>(false);
 
     const setCurrentLine = (instruction: string, line: number): void => {
         instructions.splice(line, 0, instruction);
@@ -58,7 +73,12 @@ export const EditorContextProvider = ({ children }: EditorContextProviderProps) 
         isCursorAtTheEndOfLine, setIsCursorAtTheEndOfLine,
         cursorHorizontalPosition, setCursorHorizontalPosition,
         cursorHorizontalPositionDelta, setCursorHorizontalPositionDelta,
-        goToNextLine, setGoToNextLine,
+        couldGoToPreviousLineWithLeftArrow, setCouldGoToPreviousLineWithLeftArrow,
+        goToPreviousLineWithLeftArrow, setGoToPreviousLineWithLeftArrow,
+        couldGoToNextLineWithRightArrow, setCouldGoToNextLineWithRightArrow,
+        goToNextLineWithRightArrow, setGoToNextLineWithRightArrow,
+        goToNextLineWithDownArrow, setGoToNextLineWithDownArrow,
+        goToPreviousLineWithUpArrow, setGoToPreviousLineWithUpArrow,
         setCurrentLine, updateCurrentLine, deleteCurrentLine,
         getInstruction
     }}>

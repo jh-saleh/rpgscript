@@ -8,7 +8,15 @@ interface EditorProps {
 }
 
 export const Editor = ({ maxNbLines = 300 }: EditorProps) => {
-    const { currentLineIndex, setCurrentLineIndex, instructions, cursorHorizontalPositionDelta, setCurrentLine, updateCurrentLine, deleteCurrentLine, isCursorAtTheEndOfLine, cursorHorizontalPosition, setCursorHorizontalPosition, getInstruction, goToNextLine, setGoToNextLine } = useEditor();
+    const { currentLineIndex, setCurrentLineIndex, instructions, cursorHorizontalPositionDelta,
+        setCurrentLine, updateCurrentLine, deleteCurrentLine, isCursorAtTheEndOfLine,
+        cursorHorizontalPosition, setCursorHorizontalPosition, getInstruction,
+        couldGoToNextLineWithRightArrow, setCouldGoToNextLineWithRightArrow,
+        couldGoToPreviousLineWithLeftArrow, setCouldGoToPreviousLineWithLeftArrow,
+        setGoToNextLineWithRightArrow,
+        setGoToPreviousLineWithLeftArrow,
+        setGoToNextLineWithDownArrow, setGoToPreviousLineWithUpArrow
+    } = useEditor();
 
     const keystrokeHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -28,18 +36,29 @@ export const Editor = ({ maxNbLines = 300 }: EditorProps) => {
         if (currentLineIndex !== undefined && event.key === 'ArrowUp') {
             if (currentLineIndex > 0) {
                 setCurrentLineIndex((currentLineIndex) => (currentLineIndex ?? 0) - 1);
+                setGoToPreviousLineWithUpArrow(() => true);
             }
         }
         if (currentLineIndex !== undefined && event.key === 'ArrowDown') {
             if (currentLineIndex < instructions.length - 1) {
                 setCurrentLineIndex((currentLineIndex) => (currentLineIndex ?? 0) + 1);
+                setGoToNextLineWithDownArrow(() => true);
             }
         }
         if (currentLineIndex !== undefined && event.key === 'ArrowRight') {
-            if (goToNextLine && currentLineIndex < instructions.length - 1) {
-                setGoToNextLine(() => false);
+            if (couldGoToNextLineWithRightArrow && currentLineIndex < instructions.length - 1) {
+                setCouldGoToNextLineWithRightArrow(() => false);
+                setGoToNextLineWithRightArrow(() => true);
                 setCurrentLineIndex((currentLineIndex) => (currentLineIndex ?? 0) + 1);
                 setCursorHorizontalPosition(() => 0);
+            }
+        }
+        if (currentLineIndex !== undefined && event.key === 'ArrowLeft') {
+            if (couldGoToPreviousLineWithLeftArrow && currentLineIndex > 0) {
+                setCouldGoToPreviousLineWithLeftArrow(() => false);
+                setGoToPreviousLineWithLeftArrow(() => true);
+                setCurrentLineIndex((currentLineIndex) => (currentLineIndex ?? 0) - 1);
+                setCursorHorizontalPosition(() => instructions[(currentLineIndex ?? 0) - 1].length);
             }
         }
         if (event.key === 'Escape' || event.key === 'Esc') {
@@ -71,9 +90,14 @@ export const Editor = ({ maxNbLines = 300 }: EditorProps) => {
             {/*instructions.join(" / ")*/}
             <StatusBar />
             <div>
-                {`goToNextLine : ${goToNextLine}`}
+                {`couldGoToNextLineWithRightArrow : ${couldGoToNextLineWithRightArrow}`}
             </div>
-            {`isCursorAtTheEndOfLine : ${isCursorAtTheEndOfLine.toString()}`}
+            <div>
+                {`couldGoToPreviousLineWithLeftArrow : ${couldGoToPreviousLineWithLeftArrow}`}
+            </div>
+            <div>
+                {`isCursorAtTheEndOfLine : ${isCursorAtTheEndOfLine.toString()}`}
+            </div>
         </EditorLayout>
     );
 }
