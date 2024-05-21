@@ -18,6 +18,7 @@ text-align: right;
 export const LineInstructionLayout = styled.input`
 color: white;
 border: none;
+font-family: inherit;
 &:focus {
     outline: none;
     border: 1px solid gray;
