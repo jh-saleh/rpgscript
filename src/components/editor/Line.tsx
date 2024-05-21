@@ -30,7 +30,11 @@ export const Line = ({ line }: LineProps) => {
 
     useEffect(() => {
         if ((goToNextLineWithDownArrow || goToPreviousLineWithUpArrow || goToNextLineWithRightArrow || goToPreviousLineWithLeftArrow) && currentLineIndex === line) {
-            //console.log("useEffect called from currentLineIndex");
+            //console.log("currentLineIndex,", currentLineIndex);
+            //console.log(`goToNextLineWithDownArrow: ${goToNextLineWithDownArrow}`);
+            //console.log(`goToPreviousLineWithUpArrow: ${goToPreviousLineWithUpArrow}`);
+            //console.log(`goToNextLineWithRightArrow: ${goToNextLineWithRightArrow}`);
+            //console.log(`goToPreviousLineWithLeftArrow: ${goToPreviousLineWithLeftArrow}`);
             ref.current?.focus();
             ref.current?.setSelectionRange(cursorHorizontalPosition, cursorHorizontalPosition);
             setGoToNextLineWithDownArrow(() => false);
@@ -47,7 +51,7 @@ export const Line = ({ line }: LineProps) => {
         }
     }, [runFunctionUpdateEditorStatesHandler, currentLineIndex]);
 
-    const updateEditorStatesHandler = (debug: boolean = true) => {
+    const updateEditorStatesHandler = (debug: boolean = false) => {
         if (debug) {
             console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             console.log(`keyHandler called with ${line}.`);
@@ -68,9 +72,14 @@ export const Line = ({ line }: LineProps) => {
         if (event.code === "ArrowUp" || event.code === "ArrowDown" || event.code === "Tab") {
             event.preventDefault();
         }
+
         if (event.key === 'Escape' || event.key === 'Esc') {
             ref.current?.blur();
         }
+
+        //if (event.repeat) {
+        //    return;
+        //}
     }
 
     return <LineWrapperLayout onClick={() => setCurrentLineIndex(() => line)}>
@@ -82,7 +91,11 @@ export const Line = ({ line }: LineProps) => {
             value={getInstruction(line)}
             onChange={(e) => { updateCurrentLine(e.currentTarget.value, line); }}
             onClick={() => setRunFonctionUpdateEditorStatesHandler((value) => !value)}
-            onKeyUp={() => setRunFonctionUpdateEditorStatesHandler((value) => !value)}
+            onKeyUp={(event) => {
+                event.preventDefault();
+                console.log(event.code)
+                setRunFonctionUpdateEditorStatesHandler((value) => !value)
+            }}
             onKeyDown={preventUpDownHandler} />
     </LineWrapperLayout>
 }
