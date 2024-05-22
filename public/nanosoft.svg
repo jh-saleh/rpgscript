@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.3.2 (1:1.3.2+202311252150+091e20ef0f)"
-   sodipodi:docname="milosoft.svg"
+   sodipodi:docname="nanosoft.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,15 +23,16 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.4538721"
-     inkscape:cx="1.3756369"
-     inkscape:cy="136.87587"
+     inkscape:zoom="2.9077442"
+     inkscape:cx="94.231123"
+     inkscape:cy="84.601665"
      inkscape:window-width="1850"
      inkscape:window-height="1016"
      inkscape:window-x="70"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     showgrid="false" />
   <defs
      id="defs1" />
   <g
@@ -52,12 +53,12 @@
        d="m 21.993302,18.024769 a 14.261042,14.261042 0 0 0 -8.202071,-2.98981 c -2.301868,-0.0265 -5.0535233,0.635 -8.5195423,2.06376 L 9.5579147,2.1761627 C 18.315592,-1.4486293 22.522472,0.58866271 26.306012,3.1551207 Z"
        fill="#f8682c"
        id="path3"
-       style="fill:#00b4f1;fill-opacity:1;stroke-width:0.264583"
+       style="fill:#225ad8;fill-opacity:1;stroke-width:0.264583"
        inkscape:label="path3" />
     <path
        d="m 23.527882,22.178749 c 3.81,2.54001 8.01688,4.5773 16.74813,0.9525 l -4.31271,14.86959 c -8.73125,3.62479 -12.93813,1.5875 -16.72167,-0.97896 l 4.31271,-14.84313 z"
        fill="#ffc300"
        id="path4"
-       style="fill:#91c300;fill-opacity:1;stroke-width:0.264583" />
+       style="fill:#6a8f00;fill-opacity:1;stroke-width:0.264583" />
   </g>
 </svg>

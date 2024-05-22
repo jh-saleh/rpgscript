@@ -10,7 +10,7 @@ export const Loading = () => {
                     <div>
                         Nanosoft
                     </div>
-                    <Image src={"./milosoft.svg"} alt="Milosoft image" width={210} height={200} />
+                    <Image src={"./nanosoft.svg"} alt="Nanosoft image" width={210} height={200} />
                 </CompanyWrapperLayout>
                 <ScreensWrapperLayout>
                     <div>

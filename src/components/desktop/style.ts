@@ -8,5 +8,8 @@ grid-template-rows: auto 34px;
 `;
 
 export const BackgroundLayout = styled.div`
+background-size: cover;
+background-repeat: no-repeat;
 background-image: url("./windowsBackground.jpeg");
+width: 100dvw;
 `;
