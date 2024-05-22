@@ -8,7 +8,7 @@ export const Loading = () => {
             <div>
                 <CompanyWrapperLayout>
                     <div>
-                        Milisoft
+                        Nanosoft
                     </div>
                     <Image src={"./milosoft.svg"} alt="Milosoft image" width={210} height={200} />
                 </CompanyWrapperLayout>
@@ -35,7 +35,7 @@ export const Loading = () => {
                 Made by Jean-Hanna SALEH
             </div>
             <div>
-                Milisoft
+                Nanosoft
             </div>
         </WindowsStartupCopyrightLayout>
     </WindowsStartupWrapperLayout>)

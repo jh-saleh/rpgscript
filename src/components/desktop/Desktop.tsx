@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { DesktopWrapperLayout } from "./style";
+import { BarLayout, NavigationBarWrapper, StartButtonLayout, StatusLayout } from "./NavigationBar/NavigationBar";
+import { BackgroundLayout, DesktopWrapperLayout } from "./style";
 
 export const Desktop = () => {
 
@@ -10,6 +11,14 @@ export const Desktop = () => {
     }, []);
 
     return (<DesktopWrapperLayout>
-
+        <BackgroundLayout />
+        <NavigationBarWrapper>
+            <StartButtonLayout />
+            <BarLayout >
+                <div />
+                <div />
+            </BarLayout>
+            <StatusLayout />
+        </NavigationBarWrapper>
     </DesktopWrapperLayout>);
 }
