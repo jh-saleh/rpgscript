@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import localFont from 'next/font/local';
+import { Libre_Franklin } from "next/font/google";
 import "./globals.css";
-
-const font = localFont({ src: './Consolas.ttf' });
+import StyledComponentsRegistry from "./registry";
+const franklin = Libre_Franklin({ style: ["normal", "italic"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "RPG Script - By Jean-hanna SALEH",
@@ -16,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={franklin.className}>
+        <StyledComponentsRegistry>
+          {children}
+        </StyledComponentsRegistry>
+      </body>
     </html>
   );
 }

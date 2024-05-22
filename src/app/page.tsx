@@ -1,11 +1,9 @@
 "use client"
-import { Editor } from "@/components/editor/Editor";
-import { EditorContextProvider } from "@/components/hooks/Editor.hook";
+
+import { Startup } from "@/components/startup/Startup";
 
 export default function Home() {
   return (
-    <EditorContextProvider>
-      <Editor />
-    </EditorContextProvider>
+    <Startup />
   );
 }
