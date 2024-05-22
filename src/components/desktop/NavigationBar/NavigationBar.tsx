@@ -28,6 +28,9 @@ export const StartButtonLayout = styled.div`
         width: 29px;
         height: 29px;
     }
+    &:hover{
+        filter: brightness(105%);
+    }
 `;
 
 export const BarLayout = styled.div`
