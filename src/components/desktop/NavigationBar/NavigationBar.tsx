@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const NavigationBarWrapper = styled.div`
-    height: 34px;
+    height: 30px;
     width: 100dvw;
     display: grid;
-    grid-template-columns: 1fr 150px;
+    grid-template-columns: 1fr 115px;
     user-select: none;
 `;
 
@@ -23,10 +23,11 @@ export const StartButtonLayout = styled.div`
         font-weight: 600;
         color: white;
         text-shadow: 1px 1px black;
+        font-size: medium;
     }
     > img {
-        width: 29px;
-        height: 29px;
+        width: 23px;
+        height: 23px;
     }
     &:hover{
         filter: brightness(105%);
@@ -42,26 +43,26 @@ export const BarLayout = styled.div`
 
 export const StatusLayout = styled.div`
     height: inherit;
-    width: 150px;
+    width: 115px;
     background: linear-gradient(rgb(12, 89, 185) 1%, rgb(19, 158, 233) 6%, rgb(24, 181, 242) 10%, rgb(19, 155, 235) 14%, rgb(18, 144, 232) 19%, rgb(13, 141, 234) 63%, rgb(13, 159, 241) 81%, rgb(15, 158, 237) 88%, rgb(17, 155, 233) 91%, rgb(19, 146, 226) 94%, rgb(19, 126, 215) 97%, rgb(9, 91, 201) 100%);
     display: grid;
-    grid-template-columns: repeat(3, 22px) auto;
+    grid-template-columns: repeat(3, 11px) auto;
     place-items: center;
     gap: 7px;
     > div {
-        font-size: small;
+        font-size: x-small;
     }
     > img {
         cursor: pointer;
-        margin-left: 7px;
+        margin-left: 15px;
     }
     > img:first-child {
-        width: 15px;
+        width: 10px;
     }
     > img:nth-child(2) {
-        width: 21px;
+        width: 14px;
     }
     > img:nth-child(3) {
-        width: 19px;
+        width: 12px;
     }
 `;

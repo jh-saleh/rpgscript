@@ -36,13 +36,13 @@ display: flex;
 > div:first-child {
 background-color: white;
 width: 15dvw;
-height: 0.7dvh;
+height: 0.5dvh;
 border-bottom-left-radius: 100%;
 }
 > div:nth-child(2) {
 background-color: white;
 width: 80dvw;
-height: 0.7dvh;
+height: 0.5dvh;
 border-bottom-right-radius: 100%;
 }
 `;
@@ -53,13 +53,13 @@ justify-content: end;
 > div:first-child {
 background-color: #e18a5b;
 width: 15dvw;
-height: 0.7dvh;
+height: 0.5dvh;
 border-top-left-radius: 100%;
 }
 > div:nth-child(2) {
 background-color: #e18a5b;
 width: 80dvw;
-height: 0.7dvh;
+height: 0.5dvh;
 border-top-right-radius: 100%;
 }
 `;

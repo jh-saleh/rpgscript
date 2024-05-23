@@ -4,7 +4,7 @@ export const DesktopWrapperLayout = styled.div`
 height: 100dvh;
 width: 100dvw;
 display: grid;
-grid-template-rows: auto 34px;
+grid-template-rows: auto 30px;
 `;
 
 export const BackgroundLayout = styled.div`
