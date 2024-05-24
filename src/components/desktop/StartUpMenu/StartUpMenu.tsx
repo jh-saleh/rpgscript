@@ -1,13 +1,15 @@
+import { useWindows } from "@/components/hooks/Windows.hook";
 import { AppIconLayout, AppSectionLayout, BottomIconLayout, BottomSectionLayout, ProgrammsSectionLayout, Separator, ShorcutSectionLayout, ShortcutIconLayout, TopSection, UserIconLayout, UserNameLayout, WrapperLayout } from "./style";
 
 interface StartUpMenuProps {
     open: boolean;
+    closeMenu: () => void;
 }
 
-export const StartUpMenu = ({ open }: StartUpMenuProps) => {
+export const StartUpMenu = ({ open, closeMenu }: StartUpMenuProps) => {
     const LINKEDIN_URL = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "";
     const PORTFOLIO_URL = process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "";
-    const MEDIA_PLAYER_URL = process.env.NEXT_PUBLIC_SCREENS_MEDIA_PLAYER_URL ?? "";
+    const { clickWindow, openWindow } = useWindows();
 
     return (<>
         {open && <WrapperLayout>
@@ -20,7 +22,7 @@ export const StartUpMenu = ({ open }: StartUpMenuProps) => {
             <ProgrammsSectionLayout>
                 <div>
                     <AppSectionLayout>
-                        <AppIconLayout>
+                        <AppIconLayout onClick={() => { clickWindow("rpgscript"); openWindow("rpgscript"); closeMenu(); }}>
                             <img src="./rpgscript.png" alt="rpgscript logo" />
                             <div>
                                 RPG Script
@@ -45,7 +47,7 @@ export const StartUpMenu = ({ open }: StartUpMenuProps) => {
                                 LinkedIn
                             </div>
                         </AppIconLayout>
-                        <AppIconLayout href={MEDIA_PLAYER_URL} target="_blank">
+                        <AppIconLayout>
                             <img src="./mediaplayer.png" alt="media player link" />
                             <div>
                                 Screens Media Player

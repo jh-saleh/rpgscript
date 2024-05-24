@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Window } from "../window/Window";
 import { NavigationBar } from './NavigationBar/NavigationBar';
 import { BackgroundLayout, DesktopWrapperLayout } from "./style";
 
@@ -12,6 +13,11 @@ export const Desktop = () => {
 
     return (<DesktopWrapperLayout>
         <BackgroundLayout />
+        <Window id="rpgscript">
+            <div>
+                Wow such awesome and esoteric langage !
+            </div>
+        </Window>
         <NavigationBar />
     </DesktopWrapperLayout>);
 }
