@@ -8,12 +8,29 @@ export default function Home() {
     <WindowsContextProvider initialData={[
       {
         id: "rpgscript",
+        position: {
+          left: 0,
+          top: 0
+        },
         size: {
           height: 250,
           width: 600
         },
         label: "RPG Script",
         path: "./rpgscript.png"
+      },
+      {
+        id: "rpgscriptspecs",
+        position: {
+          left: 20,
+          top: 20
+        },
+        size: {
+          height: 250,
+          width: 600
+        },
+        label: "RPG Script Specifications",
+        path: "./rpgscriptspecs.png"
       }
     ]}>
       <Startup />

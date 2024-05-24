@@ -18,6 +18,11 @@ export const Desktop = () => {
                 Wow such awesome and esoteric langage !
             </div>
         </Window>
+        <Window id="rpgscriptspecs">
+            <div>
+                Wow such awesome and esoteric langage !
+            </div>
+        </Window>
         <NavigationBar />
     </DesktopWrapperLayout>);
 }

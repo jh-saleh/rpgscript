@@ -30,12 +30,14 @@ export const NavigationBar = () => {
                 <div />
             </BarLayout>
             <AppsBarLayout>
-                {Object.keys(windows).filter((id) => windows[id].state !== "closed").map((id, index) => <AppLayout key={`app_bar_${index}`} $state={windows[id].state} onClick={() => minimizeWindow(id)}>
-                    <img src={windows[id].path} alt={`${id} logo`} />
-                    <div>
-                        {windows[id].label}
-                    </div>
-                </AppLayout>)}
+                {Object.keys(windows).filter((id) => windows[id].state !== "closed")
+                    .sort((id1, id2) => windows[id1].order - windows[id2].order)
+                    .map((id, index) => <AppLayout key={`app_bar_${index}`} $state={windows[id].state} onClick={() => minimizeWindow(id)}>
+                        <img src={windows[id].path} alt={`${id} logo`} />
+                        <div>
+                            {windows[id].label.length > 10 ? windows[id].label.slice(0, 19) + "..." : windows[id].label}
+                        </div>
+                    </AppLayout>)}
             </AppsBarLayout>
             <StatusLayout>
                 <img src={"./bluetooth.png"} alt={"danger icon"} />

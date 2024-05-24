@@ -5,6 +5,8 @@ height: 100dvh;
 width: 100dvw;
 display: grid;
 grid-template-rows: auto 30px;
+position: relative;
+z-index: 0;
 `;
 
 export const BackgroundLayout = styled.div`

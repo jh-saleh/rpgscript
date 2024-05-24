@@ -1,5 +1,8 @@
+import { animated } from "react-spring";
 import styled, { css, keyframes } from "styled-components";
 import { WindowState } from "../hooks/Windows.hook";
+
+export const navbarHeight = 54;
 
 const windowAnimation = ($width: number, $height: number, $state: WindowState) => {
     if ($state === "normal" || $state === "maximized") {
@@ -11,7 +14,7 @@ const windowAnimation = ($width: number, $height: number, $state: WindowState) =
         }
         100%{
             width: 100dvw;
-            height: calc(100dvh - 54px);
+            height: calc(100dvh - ${navbarHeight}px);
         }
         `;
 
@@ -20,20 +23,19 @@ const windowAnimation = ($width: number, $height: number, $state: WindowState) =
     return css``;
 }
 
-export const WindowLayout = styled.div<{ $top: number, $left: number, $width: number, $height: number, $state: WindowState }>(({ $top, $left, $width, $height, $state }) => css`
+export const WindowLayout = styled(animated.div)<{ $width: number, $height: number, $state: WindowState }>(({ $width, $height, $state }) => css`
     ${windowAnimation($width, $height, $state)}
     z-index: 1;
     min-width: ${$width}px;
     height: ${$height}px;
     position: absolute;
-    top: ${$top}px;
-    left: ${$left}px;
     user-select: none;
 `);
 
-export const TopSection = styled.div`
+export const TopSection = styled(animated.div)`
     display: flex;
     justify-content: space-between;
+    cursor: grab;
     background: linear-gradient(rgb(0, 88, 238) 0%, rgb(53, 147, 255) 4%, rgb(40, 142, 255) 6%, rgb(18, 125, 255) 8%, rgb(3, 111, 252) 10%, rgb(2, 98, 238) 14%, rgb(0, 87, 229) 20%, rgb(0, 84, 227) 24%, rgb(0, 85, 235) 56%, rgb(0, 91, 245) 66%, rgb(2, 106, 254) 76%, rgb(0, 98, 239) 86%, rgb(0, 82, 214) 92%, rgb(0, 64, 171) 94%, rgb(0, 48, 146) 100%);
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;

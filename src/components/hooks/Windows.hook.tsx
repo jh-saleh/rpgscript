@@ -20,6 +20,7 @@ interface WindowData {
     state: WindowState;
     label: string;
     path: string;
+    order: number;
 }
 
 type WindowsType = Record<string, WindowData>;
@@ -36,27 +37,26 @@ interface WindowsContextType {
 const WindowsContext = createContext<WindowsContextType | null>(null);
 
 interface WindowsContextProviderProps {
-    initialData: { id: string, size: WindowSize, label: string, path: string }[];
+    initialData: { id: string, position: WindowPosition, size: WindowSize, label: string, path: string }[];
     children: ReactNode;
 }
 
 export const WindowsContextProvider = ({ initialData, children }: WindowsContextProviderProps): ReactNode => {
     const [windows, setWindows] = useState<WindowsType>({});
+    const [order, setOrder] = useState<number>(-1);
 
     useEffect(() => {
         let initWindows: WindowsType = {};
-        initialData.forEach(({ id, size, label, path }) => {
+        initialData.forEach(({ id, size, label, path, position }) => {
             initWindows[id] = {
-                position: {
-                    left: 0,
-                    top: 0
-                },
+                position,
                 size,
                 label,
                 path,
                 lastState: "closed",
                 state: "closed",
-                zIndex: 0
+                zIndex: 0,
+                order: 0
             };
         });
 
@@ -65,19 +65,20 @@ export const WindowsContextProvider = ({ initialData, children }: WindowsContext
 
     const clickWindow = (id: string): void => {
         Object.keys(windows).forEach((windowId) => {
-            if (id === windowId) {
-                windows[id].zIndex = 1
-            } else {
-                windows[id].zIndex = 0;
-            }
+            console.log(windowId);
+            console.log(id === windowId);
+            windows[windowId].zIndex = id === windowId ? 1 : 0;
         });
+        console.log(windows);
         setWindows(() => ({ ...windows }));
     };
 
     const openWindow = (id: string): void => {
         windows[id].lastState = windows[id].state;
         windows[id].state = "open";
+        windows[id].order = order;
         setWindows(() => ({ ...windows }));
+        setOrder((value) => value + 1);
     };
 
     const closeWindow = (id: string): void => {

@@ -11,6 +11,12 @@ export const StartUpMenu = ({ open, closeMenu }: StartUpMenuProps) => {
     const PORTFOLIO_URL = process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "";
     const { clickWindow, openWindow } = useWindows();
 
+    const clickAppHandler = (id: string) => {
+        clickWindow(id);
+        openWindow(id);
+        closeMenu();
+    }
+
     return (<>
         {open && <WrapperLayout>
             <TopSection>
@@ -22,13 +28,13 @@ export const StartUpMenu = ({ open, closeMenu }: StartUpMenuProps) => {
             <ProgrammsSectionLayout>
                 <div>
                     <AppSectionLayout>
-                        <AppIconLayout onClick={() => { clickWindow("rpgscript"); openWindow("rpgscript"); closeMenu(); }}>
+                        <AppIconLayout onClick={() => { clickAppHandler("rpgscript"); }}>
                             <img src="./rpgscript.png" alt="rpgscript logo" />
                             <div>
                                 RPG Script
                             </div>
                         </AppIconLayout>
-                        <AppIconLayout>
+                        <AppIconLayout onClick={() => { clickAppHandler("rpgscriptspecs"); }}>
                             <img src="./rpgscriptspecs.png" alt="rpgscripts spec logo" />
                             <div>
                                 RPG Script Specs
