@@ -65,11 +65,8 @@ export const WindowsContextProvider = ({ initialData, children }: WindowsContext
 
     const clickWindow = (id: string): void => {
         Object.keys(windows).forEach((windowId) => {
-            console.log(windowId);
-            console.log(id === windowId);
             windows[windowId].zIndex = id === windowId ? 1 : 0;
         });
-        console.log(windows);
         setWindows(() => ({ ...windows }));
     };
 
