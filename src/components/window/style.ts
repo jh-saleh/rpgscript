@@ -27,7 +27,7 @@ export const WindowLayout = styled(animated.div)<{ $width: number, $height: numb
     ${windowAnimation($width, $height, $state)}
     z-index: 1;
     min-width: ${$width}px;
-    height: ${$height}px;
+    min-height: ${$height}px;
     position: absolute;
     user-select: none;
 `);

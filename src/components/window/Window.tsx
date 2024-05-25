@@ -2,14 +2,16 @@ import { ReactNode } from "react";
 import { useSpring } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import { useWindows } from "../hooks/Windows.hook";
+import { Bar, Menu } from "./bar/Bar";
 import { CloseButton, MainSection, MaximizeButton, MinimizeButton, TopLeftSection, TopRightSection, TopSection, WindowLayout, navbarHeight } from "./style";
 
 interface WindowProps {
     id: string;
+    menu?: Menu;
     children: ReactNode;
 }
 
-export const Window = ({ id, children }: WindowProps) => {
+export const Window = ({ id, menu, children }: WindowProps) => {
     const { windows, closeWindow, minimizeWindow, maximizeWindow, clickWindow } = useWindows();
     const { state, position: { top, left }, size: { height, width }, label, path, zIndex } = windows[id];
 
@@ -52,6 +54,7 @@ export const Window = ({ id, children }: WindowProps) => {
                         <CloseButton onClick={() => closeWindow(id)} />
                     </TopRightSection>
                 </TopSection>
+                {menu && <Bar menu={menu} />}
                 <MainSection>
                     {children}
                 </MainSection>
