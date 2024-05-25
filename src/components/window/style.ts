@@ -145,7 +145,6 @@ position: relative;
 export const MainSection = styled.div`
     background-color: white;
     color: black;
-    height: 100%;
     width: 100%;
     border-left: 2px #0831d9 solid;
     border-right: 2px #0831d9 solid;

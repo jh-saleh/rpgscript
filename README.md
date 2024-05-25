@@ -54,7 +54,7 @@ End of the fight of the fibonacci.
 | The a is debuffing the b's attack (under OR inside OR within OR on) the e.    | e = a < b                                          | bool      |   ✓   |
 | The a is debuffing the b's defense (under OR inside OR within OR on) the e.   | e = a <= b                                         | bool      |   ✓   |
 | The e1 is combining with the e2.                                              | e1 = e1 and e2                                     | bool      |   ✓+T |
-| The e1 is merging the e2.                                                     | e1 = e1 or e2                                      | bool      |   ✓+T |
+| The e1 is merging with the e2.                                                     | e1 = e1 or e2                                      | bool      |   ✓+T |
 | The a is wondering the effects of the e.                                      | if (e) then pc+=1                                  | bool      |   ✓+T |
 | The a is pondering the effects of the e.                                      | if (e) then pc+=1 else pc+=2                       | bool      |   ✓+T |
 | The a prepare(s) an attack                                                    | rc = loop start                                    | loop      |   ✓   |

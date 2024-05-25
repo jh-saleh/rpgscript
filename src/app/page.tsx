@@ -9,12 +9,12 @@ export default function Home() {
       {
         id: "rpgscript",
         position: {
-          left: 0,
-          top: 0
+          left: 20,
+          top: 20
         },
         size: {
-          height: 250,
-          width: 600
+          height: 400,
+          width: 800
         },
         label: "RPG Script",
         path: "./rpgscript.png"
@@ -22,8 +22,8 @@ export default function Home() {
       {
         id: "rpgscriptspecs",
         position: {
-          left: 20,
-          top: 20
+          left: 60,
+          top: 60
         },
         size: {
           height: 250,

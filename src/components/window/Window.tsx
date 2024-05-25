@@ -23,7 +23,6 @@ export const Window = ({ id, menu, children }: WindowProps) => {
     }));
 
     const bind = useDrag(({ down, offset: [ox, oy] }) => {
-
         api.start({
             x: Math.min(Math.max(0, ox), window.innerWidth - width),
             y: Math.min(Math.max(0, oy), window.innerHeight - height - navbarHeight),

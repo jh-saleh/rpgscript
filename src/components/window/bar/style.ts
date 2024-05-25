@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const BarLayout = styled.div`
     background-color: #edebda;
-    min-height: 21px;
+    height: 21px;
     width: 100%;
     position: relative;
     display: flex;
