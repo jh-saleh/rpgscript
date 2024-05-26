@@ -402,19 +402,19 @@ export class Interpreter {
 
     extractTokensFromInstruction(instr: string): string[] {
         const theVariablesToCheck: string = "(The|the) " + Object.keys(this.entries[this.function]).reduce((previousValue, currentValue) => previousValue + "|(The|the) " + currentValue);
-        const theVariableReg = new RegExp("\\b(" + theVariablesToCheck + ")\\b", "g");
-        const theVariablesExtracted = instr.match(theVariableReg)?.map((value) => value) ?? [];
-        let variablesExtracted: string[] = [];
-        if (theVariablesExtracted.length) {
-            const variablesToCheck: string = Object.keys(this.entries[this.function]).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
-            const variableReg = new RegExp("\\b(" + variablesToCheck + ")\\b", "g");
-            variablesExtracted = theVariablesExtracted.join(" ").match(variableReg) ?? [];
-        }
-        const functionsToCheck: string = Object.keys(this.functions).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
-        const functionsNumbersBooleansReg = new RegExp("\\b(" + functionsToCheck + "|[1-9][0-9]*|strong|weak)\\b", "g");
-        let functionsNumbersBooleansExtracted = instr.match(functionsNumbersBooleansReg)?.map((value) => value) ?? [];
+        const functionsRegPrefix = Object.keys(this.entries[this.function]).length > 0 ? "|" : "";
+        const functionsToCheck: string = functionsRegPrefix + Object.keys(this.functions).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
+        const completeReg = new RegExp("\\b(" + theVariablesToCheck + functionsToCheck + "|[1-9][0-9]*|strong|weak)\\b", "g");
+        const theVariablesToCheckReg = new RegExp("\\b(" + theVariablesToCheck + ")\\b", "g");
 
-        const tokensExtracted = variablesExtracted.concat(functionsNumbersBooleansExtracted);
+        const tokensExtracted = instr.match(completeReg)?.map((value) => {
+            if (value.match(theVariablesToCheckReg)) {
+                return value.slice(4, value.length);
+            } else {
+                return value;
+            }
+        }) ?? [];
+
         const nbArguments = this.findNbArgumentsForInstruction(instr);
         if ((nbArguments !== -1 && tokensExtracted.length !== nbArguments) || (nbArguments === -1 && tokensExtracted.length < 1)) {
             throw Error(FormatEnum(InstructionsError.UnknownVariable, this.pc.toString()));
