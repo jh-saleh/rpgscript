@@ -234,7 +234,7 @@ export class Interpreter {
                 break;
             }
             if (!special.includes(instr) && !comment.test(this.instructions[this.pc])) {
-                const variables = this.extractVariableFromInstruction(instr);
+                const variables = this.extractTokensFromInstruction(instr);
                 if (enter.regExp.test(instr)) {
                     for (let variable of variables) {
                         this.entries[this.function][variable].protected = false;
@@ -400,17 +400,26 @@ export class Interpreter {
         throw Error(FormatEnum(InstructionsError.Syntax, this.pc.toString(), instr));
     }
 
-    extractVariableFromInstruction(instr: string): string[] {
-        const variablesToCheck: string = Object.keys(this.entries[this.function]).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
-        const functionsRegPrefix = variablesToCheck.length > 0 ? "|" : "";
-        const functionsToCheck: string = functionsRegPrefix + Object.keys(this.functions).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
-        const reg = new RegExp("\\b(" + variablesToCheck + functionsToCheck + "|[1-9][0-9]*|strong|weak)\\b", "g");
+    extractTokensFromInstruction(instr: string): string[] {
+        const theVariablesToCheck: string = "(The|the) " + Object.keys(this.entries[this.function]).reduce((previousValue, currentValue) => previousValue + "|(The|the) " + currentValue);
+        const theVariableReg = new RegExp("\\b(" + theVariablesToCheck + ")\\b", "g");
+        const theVariablesExtracted = instr.match(theVariableReg)?.map((value) => value) ?? [];
+        let variablesExtracted: string[] = [];
+        if (theVariablesExtracted.length) {
+            const variablesToCheck: string = Object.keys(this.entries[this.function]).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
+            const variableReg = new RegExp("\\b(" + variablesToCheck + ")\\b", "g");
+            variablesExtracted = theVariablesExtracted.join(" ").match(variableReg) ?? [];
+        }
+        const functionsToCheck: string = Object.keys(this.functions).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
+        const functionsNumbersBooleansReg = new RegExp("\\b(" + functionsToCheck + "|[1-9][0-9]*|strong|weak)\\b", "g");
+        let functionsNumbersBooleansExtracted = instr.match(functionsNumbersBooleansReg)?.map((value) => value) ?? [];
+
+        const tokensExtracted = variablesExtracted.concat(functionsNumbersBooleansExtracted);
         const nbArguments = this.findNbArgumentsForInstruction(instr);
-        const variablesExtracted = instr.match(reg)?.map((value) => value) ?? [];
-        if ((nbArguments !== -1 && variablesExtracted.length !== nbArguments) || (nbArguments === -1 && variablesExtracted.length < 1)) {
+        if ((nbArguments !== -1 && tokensExtracted.length !== nbArguments) || (nbArguments === -1 && tokensExtracted.length < 1)) {
             throw Error(FormatEnum(InstructionsError.UnknownVariable, this.pc.toString()));
         }
-        return variablesExtracted;
+        return tokensExtracted;
     }
 
     execute(path?: string, data?: string[]): InterpreterOutput {

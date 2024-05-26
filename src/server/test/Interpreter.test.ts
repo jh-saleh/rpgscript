@@ -439,3 +439,9 @@ test('interprete_should_be_able_to_print_the_fizz_buzz_sequence', () => {
             'f', 'i', 'z', 'z', 'b', 'u', 'z', 'z', 11, 'f', 'i', 'z', 'z', 13, 14,
             'f', 'i', 'z', 'z', 'b', 'u', 'z', 'z']);
 });
+
+test('interprete_should_be_able_to_print_the_gcd', () => {
+    const interpreter = new Interpreter();
+    const { logs } = interpreter.execute("src/server/test/examples/gcd.rpg");
+    expect(logs).toEqual([3]);
+});

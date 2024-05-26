@@ -1,0 +1,16 @@
+Fight of the gdc
+Entities
+a: 15hp
+b: 3hp
+result: 0hp
+
+Events
+The a, the b and the result enter combat!
+The result prepares an attack
+The a is slowed down by the b.
+The result protects the a.
+The a protects the b.
+The b protects the result.
+until the result is charged up.
+The a activates a counter attack!
+End of the fight of the gdc.
