@@ -5,7 +5,7 @@ import Editor, { useMonaco } from '@monaco-editor/react';
 import { useEffect, useState } from 'react';
 import { Window } from "../../window/Window";
 import { Console } from './Console';
-import { fibonacci, fizzBuzz } from './Files';
+import { fibonacci, fizzBuzz, gcd } from './Files';
 
 export const CodeEditor = () => {
     const [code, setCode] = useState<string>(fizzBuzz);
@@ -571,6 +571,9 @@ export const CodeEditor = () => {
             {
                 label: "Fibonacci",
                 onClick: () => setCode(() => fibonacci)
+            }, {
+                label: "Greatest Common Divider",
+                onClick: () => setCode(() => gcd)
             },
         ]
     }}>

@@ -28,7 +28,7 @@ export const ModalSelectionsLayout = styled.div(() => css`
     top: ${height}px;
     left: 0px;
     height: min-content;
-    width: min-content;
+    width: max-content;
     display: flex;
     flex-direction: column;
     background-color: white;

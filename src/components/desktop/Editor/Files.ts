@@ -91,3 +91,20 @@ The elf activates a counter attack!
 The dragon loses 1 points.
 until the dragon is charged up.
 End of the fight of the fibonacci.`;
+
+export const gcd = `Fight of the gcd
+Entities
+dragon: 15hp
+ghost: 3hp
+knight: 0hp
+
+Events
+The dragon, the ghost and the knight enter combat!
+The knight prepares an attack
+The dragon is slowed down by the ghost.
+The knight protects the dragon.
+The dragon protects the ghost.
+The ghost protects the knight.
+until the knight is charged up.
+The dragon activates a counter attack!
+End of the fight of the gcd.`;
