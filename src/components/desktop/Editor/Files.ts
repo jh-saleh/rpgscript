@@ -72,3 +72,22 @@ The u activates a counter attack!
 The z activates a counter attack!
 The z activates a counter attack!
 End of the flashback of the buzz.`;
+
+export const fibonacci = `Fight of the fibonacci
+Entities
+dragon: 20hp
+human: 0hp
+ghost: 1hp
+elf: 0hp
+
+Events
+The dragon, the human, the ghost and the elf enter combat!
+The dragon prepares an attack
+The human heals the elf.
+The ghost heals the human.
+The human protects the ghost.
+The ghost protects the elf.
+The elf activates a counter attack!
+The dragon loses 1 points.
+until the dragon is charged up.
+End of the fight of the fibonacci.`;

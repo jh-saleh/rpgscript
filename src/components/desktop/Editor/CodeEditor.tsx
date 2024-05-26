@@ -5,7 +5,7 @@ import Editor, { useMonaco } from '@monaco-editor/react';
 import { useEffect, useState } from 'react';
 import { Window } from "../../window/Window";
 import { Console } from './Console';
-import { fizzBuzz } from './Files';
+import { fibonacci, fizzBuzz } from './Files';
 
 export const CodeEditor = () => {
     const [code, setCode] = useState<string>(fizzBuzz);
@@ -563,16 +563,23 @@ export const CodeEditor = () => {
         "Clear Output": {
             onClick: () => clearOutput()
         },
-        "Examples": {
-            onClick: () => console.log("Examples.")
-        }
+        "Examples": [
+            {
+                label: "Fizz Buzz",
+                onClick: () => setCode(() => fizzBuzz)
+            },
+            {
+                label: "Fibonacci",
+                onClick: () => setCode(() => fibonacci)
+            },
+        ]
     }}>
         <Editor
             height={300}
             width={"100%"}
             language="rpgscript"
             theme="rpgTheme"
-            value={fizzBuzz}
+            value={code}
             options={editorOptions}
             onChange={(value) => { setCode(() => value ?? ""); }}
         />

@@ -1,6 +1,7 @@
-import { BarLayout, SelectionLayout } from "./style";
+import { BarLayout, ModalSelectionLayout, ModalSelectionsLayout, SelectionLayout } from "./style";
 
 export interface MenuSelection {
+    label?: string;
     onClick: () => void;
 }
 export type Menu = Record<string, (MenuSelection[] | MenuSelection)>;
@@ -14,7 +15,18 @@ export const Bar = ({ menu }: BarProps) => {
     return <BarLayout>
         {Object.keys(menu).map((selection, index) => {
             if (Array.isArray(menu[selection])) {
-                // TODO implement
+                return <>
+                    <SelectionLayout key={`menu_option_dropdown_${selection}_${index}`}>
+                        {selection}
+                        <ModalSelectionsLayout>
+                            {(menu[selection] as MenuSelection[]).map((subSelection) => {
+                                return <ModalSelectionLayout onClick={subSelection.onClick}>
+                                    {subSelection.label}
+                                </ModalSelectionLayout>;
+                            })}
+                        </ModalSelectionsLayout>
+                    </SelectionLayout>
+                </>;
             }
 
             if (typeof menu[selection] === "object") {

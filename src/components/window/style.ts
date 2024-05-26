@@ -144,6 +144,7 @@ position: relative;
 `;
 
 export const MainSection = styled.div`
+    z-index: 0;
     background-color: white;
     color: black;
     width: 100%;
