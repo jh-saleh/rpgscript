@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Window } from "../window/Window";
-import { CodeEditor } from "./CodeEditor/CodeEditor";
+import { CodeEditor } from "./Editor/CodeEditor";
 import { NavigationBar } from './NavigationBar/NavigationBar';
 import { BackgroundLayout, DesktopWrapperLayout } from "./style";
 

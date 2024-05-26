@@ -17,11 +17,12 @@ gap: 5px;
     background-color: #f4f4f4;
     overflow-y: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
     gap: 5px;
 }
 > div:nth-child(2) > div {
     font-size: smaller;
     user-select: text;
+    line-break: anywhere;
 }
 `;

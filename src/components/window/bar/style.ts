@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const BarLayout = styled.div`
     background-color: #edebda;
-    height: 21px;
+    height: 22px;
     width: 100%;
     position: relative;
     display: flex;
@@ -18,7 +18,7 @@ export const SelectionLayout = styled.div`
     background-color: inherit;
     font-size: x-small;
     color: black;
-    padding: 3px 5px;
+    padding: 5px 7px;
     &:hover {
         color: white;
         background-color: #1660e8;

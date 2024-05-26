@@ -1,103 +1,26 @@
-import { useWindows } from '@/components/hooks/Windows.hook';
+import { InterpreterOutput } from '@/server/Interpreter';
+import axiosInstance from '@/server/axios/axiosClient';
 import { absorbing, attack, boostingAttack, boostingDefense, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, environmentChanging, fightSection, flashbackSection, flees, happened, heal, healFor, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, merging, pondering, protect, remember, slowedDown, slowedDownFor, vibrating, wondering } from '@/server/tokens';
 import Editor, { useMonaco } from '@monaco-editor/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Window } from "../../window/Window";
-import { ConsoleLayout } from './style';
+import { Console } from './Console';
+import { fizzBuzz } from './Files';
 
 export const CodeEditor = () => {
-    const { windows } = useWindows();
-    const [results, setResults] = useState<string[]>(["wow", "wow", "wow", "wow", "wow", "wow", "wow", "wow", "wow", "wow", "wow", "wow", "wow", "hello world"])
-    const code = `Fight of the fizz buzz
-Entities
-bard: 10hp
-elf: 0hp
-wolf: 0hp
-ghost: 0hp
-dragon: 15hp
+    const [code, setCode] = useState<string>(fizzBuzz);
+    const [outputs, setOutputs] = useState<string[]>([]);
+    const monaco = useMonaco();
+    const URL = process.env.NEXT_PUBLIC_BASE_URL ?? "";
 
-Environments
-sun: weak
-rain: weak
-mist: weak
-wind: weak
-
-Events
-The bard, the elf, the wolf, the ghost and the dragon enter combat!
-The sun, the rain, the mist and the wind are making up the scene!
-
-The dragon prepares an attack
-The wolf heals for 1 point.
-
-The ghost protects the wolf.
-The ghost is slowed down for 3 turns.
-The ghost is challenging the elf under the sun.
-The bard is wondering the effects of the sun.
-The bard remembers the flashback of the fizz.
-
-The ghost protects the wolf.
-The ghost is slowed down for 5 turns.
-The ghost is challenging the elf under the rain.
-The bard is wondering the effects of the rain.
-The bard remembers the flashback of the buzz.
-
-The sun is vibrating.
-The rain is vibrating.
-The sun is combining with the rain.
-The bard is wondering the effects of the sun.
-The wolf activates a counter attack!
-
-The dragon loses 1 point.
-until the dragon is charged up.
-End of the fight of the fizz buzz.
-
-
-
-Flashback of the fizz
-Entities
-f: 102mp
-i: 105mp
-z: 122mp
-
-Events
-The f, the i and the z enter combat!
-The f activates a counter attack!
-The i activates a counter attack!
-The z activates a counter attack!
-The z activates a counter attack!
-End of the flashback of the fizz.
-
-
-
-Flashback of the buzz
-Entities
-b: 98mp
-u: 117mp
-z: 122mp
-
-Events
-The b, the u and the z enter combat!
-The b activates a counter attack!
-The u activates a counter attack!
-The z activates a counter attack!
-The z activates a counter attack!
-End of the flashback of the buzz.`;
-    const options = {
+    const editorOptions = {
         selectOnLineNumbers: true,
         smoothScrolling: false,
         minimap: { enabled: false },
         overviewRulerLanes: 0,
         overviewRulerBorder: false,
     };
-    const consoleRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (consoleRef !== null && consoleRef.current !== null) {
-            consoleRef.current?.scrollTo({ top: consoleRef.current?.scrollHeight });
-        }
-    }, [results.length]);
-
-    const monaco = useMonaco();
     useEffect(() => {
         if (monaco) {
             monaco.languages.register({ id: 'rpgscript' });
@@ -601,12 +524,44 @@ End of the flashback of the buzz.`;
         }
     }, [monaco]);
 
+    const downloadCode = () => {
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:attachment/text,' + encodeURI(code);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'code.rpg';
+        hiddenElement.click();
+    }
+
+    const executeCode = () => {
+        const formData = new FormData();
+        formData.append("code", code);
+        axiosInstance.post(`${URL}/api/rpgscript/execute`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        }).then(({ data }) => {
+            const { logs }: InterpreterOutput = data;
+            const line: string = logs.join("");
+            setOutputs((value) => [...value, line]);
+        }).catch((error) => {
+            console.log(error.response.data.error);
+            setOutputs((value) => [...value, error.response.data.error]);
+        });
+    }
+
+    const clearOutput = () => {
+        setOutputs(() => []);
+    }
+
     return <Window id="rpgscript" menu={{
         "Run": {
-            onClick: () => console.log("Code running.")
+            onClick: () => executeCode()
         },
         "Save": {
-            onClick: () => console.log("Code saved.")
+            onClick: () => downloadCode()
+        },
+        "Clear Output": {
+            onClick: () => clearOutput()
         },
         "Examples": {
             onClick: () => console.log("Examples.")
@@ -617,20 +572,10 @@ End of the flashback of the buzz.`;
             width={"100%"}
             language="rpgscript"
             theme="rpgTheme"
-            value={""}
-            options={options}
+            value={fizzBuzz}
+            options={editorOptions}
+            onChange={(value) => { setCode(() => value ?? ""); }}
         />
-        <ConsoleLayout ref={consoleRef}>
-            <div>
-                Output
-            </div>
-            <div>
-                {results.map((result, index) => {
-                    return (<div key={`output_n°${index}`}>
-                        ${result}
-                    </div>);
-                })}
-            </div>
-        </ConsoleLayout>
+        <Console outputs={outputs} />
     </Window>;
 }

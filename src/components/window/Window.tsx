@@ -3,7 +3,7 @@ import { useSpring } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import { useWindows } from "../hooks/Windows.hook";
 import { Bar, Menu } from "./bar/Bar";
-import { CloseButton, MainSection, MaximizeButton, MinimizeButton, TopLeftSection, TopRightSection, TopSection, WindowLayout, navbarHeight } from "./style";
+import { CloseButton, MainSection, MaximizeButton, MinimizeButton, TopLeftSection, TopRightSection, TopSection, WindowLayout } from "./style";
 
 interface WindowProps {
     id: string;
@@ -24,8 +24,8 @@ export const Window = ({ id, menu, children }: WindowProps) => {
 
     const bind = useDrag(({ down, offset: [ox, oy] }) => {
         api.start({
-            x: Math.min(Math.max(0, ox), window.innerWidth - width),
-            y: Math.min(Math.max(0, oy), window.innerHeight - height - navbarHeight),
+            x: ox,
+            y: oy,
             immediate: down,
         });
     });
