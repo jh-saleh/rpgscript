@@ -587,11 +587,18 @@ export const CodeEditor = () => {
     }
 
     return <Window id="rpgscript" menu={{
+        "File": [
+            {
+                label: "New File...",
+                onClick: () => setCode(() => "")
+            },
+            {
+                label: "Save",
+                onClick: () => downloadCode()
+            },
+        ],
         "Run": {
             onClick: () => executeCode()
-        },
-        "Save": {
-            onClick: () => downloadCode()
         },
         "Clear Output": {
             onClick: () => clearOutput()
@@ -608,10 +615,7 @@ export const CodeEditor = () => {
                 label: "Greatest Common Divider",
                 onClick: () => setCode(() => gcd)
             },
-        ],
-        "New": {
-            onClick: () => setCode(() => "")
-        },
+        ]
     }}>
         <Editor
             height={300}
