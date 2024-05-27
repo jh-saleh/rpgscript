@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ConsoleLayout = styled.div`
 border: 1px #d0d0d0 solid;
-background-color: #f4f4f4;
+background-color: #edebda;
 width: 100%;
 height: 249px;
 gap: 5px;
@@ -14,7 +14,7 @@ gap: 5px;
     height: 220px;
     border: 1px #d0d0d0 solid;
     padding: 5px;
-    background-color: #f4f4f4;
+    background-color: #edebda;
     overflow-y: auto;
     display: flex;
     flex-direction: column;    
