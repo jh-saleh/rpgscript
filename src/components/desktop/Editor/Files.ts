@@ -5,6 +5,7 @@ elf: 0hp
 wolf: 0hp
 ghost: 0hp
 dragon: 15hp
+knight: 32mp
 
 Environments
 sun: weak
@@ -13,7 +14,7 @@ mist: weak
 wind: weak
 
 Events
-The bard, the elf, the wolf, the ghost and the dragon enter combat!
+The bard, the elf, the wolf, the ghost, the knight and the dragon enter combat!
 The sun, the rain, the mist and the wind are making up the scene!
 
 The dragon prepares an attack
@@ -36,25 +37,27 @@ The rain is vibrating.
 The sun is combining with the rain.
 The bard is wondering the effects of the sun.
 The wolf activates a counter attack!
+The bard is wondering the effects of the sun.
+The knight activates a counter attack!
 
 The dragon loses 1 point.
 until the dragon is charged up.
 End of the fight of the fizz buzz.
-
-
 
 Flashback of the fizz
 Entities
 f: 102mp
 i: 105mp
 z: 122mp
+space: 32mp
 
 Events
-The f, the i and the z enter combat!
+The f, the i, the z and the space enter combat!
 The f activates a counter attack!
 The i activates a counter attack!
 The z activates a counter attack!
 The z activates a counter attack!
+The space activates a counter attack!
 End of the flashback of the fizz.
 
 
@@ -64,13 +67,15 @@ Entities
 b: 98mp
 u: 117mp
 z: 122mp
+space: 32mp
 
 Events
-The b, the u and the z enter combat!
+The b, the u, the z and the space enter combat!
 The b activates a counter attack!
 The u activates a counter attack!
 The z activates a counter attack!
 The z activates a counter attack!
+The space activates a counter attack!
 End of the flashback of the buzz.`;
 
 export const fibonacci = `Fight of the fibonacci
@@ -79,15 +84,17 @@ dragon: 20hp
 human: 0hp
 ghost: 1hp
 elf: 0hp
+bard: 32mp
 
 Events
-The dragon, the human, the ghost and the elf enter combat!
+The dragon, the human, the ghost, the bard and the elf enter combat!
 The dragon prepares an attack
 The human heals the elf.
 The ghost heals the human.
 The human protects the ghost.
 The ghost protects the elf.
 The elf activates a counter attack!
+The bard activates a counter attack!
 The dragon loses 1 points.
 until the dragon is charged up.
 End of the fight of the fibonacci.`;

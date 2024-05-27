@@ -1,3 +1,4 @@
+import { useWindows } from '@/components/hooks/Windows.hook';
 import { InterpreterOutput } from '@/server/Interpreter';
 import axiosInstance from '@/server/axios/axiosClient';
 import { absorbing, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, environmentChanging, fightSection, flashbackSection, flees, happened, heal, healFor, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, vibrating, wondering } from '@/server/tokens';
@@ -6,12 +7,14 @@ import { useEffect, useState } from 'react';
 import { Window } from "../../window/Window";
 import { Console } from './Console';
 import { fibonacci, fizzBuzz, gcd } from './Files';
+import { EditorLayout } from './style';
 
 export const CodeEditor = () => {
     const [code, setCode] = useState<string>(fizzBuzz);
     const [outputs, setOutputs] = useState<string[]>([]);
     const monaco = useMonaco();
     const URL = process.env.NEXT_PUBLIC_BASE_URL ?? "";
+    const { windows } = useWindows();
 
     const editorOptions = {
         selectOnLineNumbers: true,
@@ -617,15 +620,17 @@ export const CodeEditor = () => {
             },
         ]
     }}>
-        <Editor
-            height={300}
-            width={"100%"}
-            language="rpgscript"
-            theme="rpgTheme"
-            value={code}
-            options={editorOptions}
-            onChange={(value) => { setCode(() => value ?? ""); }}
-        />
+        <EditorLayout $state={windows["rpgscript"].state}>
+            <Editor
+                height={"100%"}
+                width={"100%"}
+                language="rpgscript"
+                theme="rpgTheme"
+                value={code}
+                options={editorOptions}
+                onChange={(value) => { setCode(() => value ?? ""); }}
+            />
+        </EditorLayout>
         <Console outputs={outputs} />
     </Window>;
 }

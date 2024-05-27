@@ -2,7 +2,7 @@ import { animated } from "react-spring";
 import styled, { css, keyframes } from "styled-components";
 import { WindowState } from "../hooks/Windows.hook";
 
-export const navbarHeight = 54;
+export const navbarHeight = 30;
 
 const windowAnimation = ($width: number, $height: number, $state: WindowState) => {
     if ($state === "normal" || $state === "maximized") {
@@ -31,6 +31,8 @@ export const WindowLayout = styled(animated.div)<{ $width: number, $height: numb
     min-height: ${$height}px;
     position: absolute;
     user-select: none;
+    display: flex;
+    flex-direction: column;
 `);
 
 export const TopSection = styled(animated.div)`
@@ -144,6 +146,7 @@ position: relative;
 `;
 
 export const MainSection = styled.div`
+    flex-grow: 1;
     z-index: 0;
     background-color: white;
     color: black;
