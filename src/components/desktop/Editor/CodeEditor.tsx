@@ -1,6 +1,6 @@
 import { InterpreterOutput } from '@/server/Interpreter';
 import axiosInstance from '@/server/axios/axiosClient';
-import { absorbing, attack, boostingAttack, boostingDefense, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, environmentChanging, fightSection, flashbackSection, flees, happened, heal, healFor, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, merging, pondering, protect, remember, slowedDown, slowedDownFor, vibrating, wondering } from '@/server/tokens';
+import { absorbing, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, environmentChanging, fightSection, flashbackSection, flees, happened, heal, healFor, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, vibrating, wondering } from '@/server/tokens';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import { useEffect, useState } from 'react';
 import { Window } from "../../window/Window";
@@ -60,6 +60,7 @@ export const CodeEditor = () => {
                         // instructions
                         [enter.regExp, 'rpg-instruction-enter'],
                         [protect.regExp, 'rpg-instruction-protect'],
+                        [meditate.regExp, 'rpg-instruction-meditate'],
                         [attack.regExp, 'rpg-instruction-attack'],
                         [lose.regExp, 'rpg-instruction-lose'],
                         [heal.regExp, 'rpg-instruction-heal'],
@@ -82,6 +83,8 @@ export const CodeEditor = () => {
                         [merging.regExp, 'rpg-instruction-merging'],
                         [wondering.regExp, 'rpg-instruction-wondering'],
                         [pondering.regExp, 'rpg-instruction-pondering'],
+                        [castEnvToEntity.regExp, 'rpg-instruction-castEnvToEntity'],
+                        [castEntityToEnv.regExp, 'rpg-instruction-castEntityToEnv'],
                         [loopEntityLabel.regExp, 'rpg-instruction-loopEntityLabel'],
                         [loopEntityCondition.regExp, 'rpg-instruction-loopEntityCondition'],
                         [loopEnvironmentLabel.regExp, 'rpg-instruction-loopEnvironmentLabel'],
@@ -109,6 +112,7 @@ export const CodeEditor = () => {
                     { token: "rpg-end-flashback-section", foreground: "#a18539" },
                     { token: 'rpg-instruction-enter', foreground: instructionColor },
                     { token: 'rpg-instruction-protect', foreground: instructionColor },
+                    { token: 'rpg-instruction-meditate', foreground: instructionColor },
                     { token: 'rpg-instruction-attack', foreground: instructionColor },
                     { token: 'rpg-instruction-lose', foreground: instructionColor },
                     { token: 'rpg-instruction-heal', foreground: instructionColor },
@@ -131,6 +135,8 @@ export const CodeEditor = () => {
                     { token: 'rpg-instruction-merging', foreground: instructionColor },
                     { token: 'rpg-instruction-wondering', foreground: instructionColor },
                     { token: 'rpg-instruction-pondering', foreground: instructionColor },
+                    { token: 'rpg-instruction-castEnvToEntity', foreground: instructionColor },
+                    { token: 'rpg-instruction-castEntityToEnv', foreground: instructionColor },
                     { token: 'rpg-instruction-loopEntityLabel', foreground: instructionColor },
                     { token: 'rpg-instruction-loopEntityCondition', foreground: instructionColor },
                     { token: 'rpg-instruction-loopEnvironmentLabel', foreground: instructionColor },
@@ -254,6 +260,15 @@ export const CodeEditor = () => {
                             label: "protects",
                             kind: monaco.languages.CompletionItemKind.Snippet,
                             insertText: "The ${1:var1} protects the ${2:var2}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "meditates",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var1} meditates.",
                             insertTextRules:
                                 monaco.languages.CompletionItemInsertTextRule
                                     .InsertAsSnippet,
@@ -458,6 +473,24 @@ export const CodeEditor = () => {
                             range: range,
                         },
                         {
+                            label: "castEnvToEntity",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var1}'s hidden skill is triggered under the ${2:var2}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "castEntityToEnv",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var1} triggers the ${2:var2}'s hidden skill.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
                             label: "loopEntity",
                             kind: monaco.languages.CompletionItemKind.Snippet,
                             insertText: [
@@ -575,7 +608,10 @@ export const CodeEditor = () => {
                 label: "Greatest Common Divider",
                 onClick: () => setCode(() => gcd)
             },
-        ]
+        ],
+        "New": {
+            onClick: () => setCode(() => "")
+        },
     }}>
         <Editor
             height={300}

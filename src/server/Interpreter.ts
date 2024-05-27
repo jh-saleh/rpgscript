@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, vibrating, wondering } from './tokens';
+import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, vibrating, wondering } from './tokens';
 
 export interface InterpreterOutput {
     logs: (string | number)[];
@@ -261,6 +261,8 @@ export class Interpreter {
                         });
                     if (protect.regExp.test(instr)) {
                         this.entries[this.function][variables[0]].value = this.entries[this.function][variables[1]].value;
+                    } else if (meditate.regExp.test(instr)) {
+                        this.entries[this.function][variables[0]].value = Math.random();
                     } else if (attack.regExp.test(instr)) {
                         this.entries[this.function][variables[1]].value -= this.entries[this.function][variables[0]].value;
                     } else if (lose.regExp.test(instr)) {
@@ -336,6 +338,10 @@ export class Interpreter {
                         } else {
                             throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
                         }
+                    } else if (castEnvToEntity.regExp.test(instr)) {
+                        this.entries[this.function][variables[0]].value = this.entries[this.function][variables[1]].value;
+                    } else if (castEntityToEnv.regExp.test(instr)) {
+                        this.entries[this.function][variables[0]].value = fromNumberToBooleanNumber(this.entries[this.function][variables[1]].value);
                     } else if (loopEntityLabel.regExp.test(instr)) {
                         this.rc.push(this.pc);
                     } else if (loopEntityCondition.regExp.test(instr)) {

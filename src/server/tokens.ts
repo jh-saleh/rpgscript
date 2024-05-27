@@ -52,6 +52,10 @@ export const fromBooleanToBooleanNumber = (bool: boolean): number => {
     return bool ? 1 : 0;
 }
 
+export const fromNumberToBooleanNumber = (nb: number): number => {
+    return nb > 0 ? 1 : 0;
+}
+
 export const special = ["", " ", "\n", "\t"];
 export const eventSection = /^Events$/;
 export const fightSection = /^Fight \b[a-z]+\b(\b [a-z]+\b)*$/;
@@ -70,6 +74,7 @@ export const comment: RegExp = /^#\w+( \w+)*$/;
 // instruction set
 export const enter: RPGRegExp = new RPGRegExp(/^The ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+) ente(r|rs) combat!$/, -1);
 export const protect: RPGRegExp = new RPGRegExp(/^The [a-z]+ protec(t|ts) the [a-z]+.$/, 2);
+export const meditate: RPGRegExp = new RPGRegExp(/^The [a-z]+ meditat(e|es).$/, 1);
 export const attack: RPGRegExp = new RPGRegExp(/^The [a-z]+ attac(k|ks) the [a-z]+.$/, 2);
 export const lose: RPGRegExp = new RPGRegExp(/^The [a-z]+ los(e|es) ([1-9][0-9]*|0) poin(t|ts).$/, 2);
 export const heal: RPGRegExp = new RPGRegExp(/^The [a-z]+ hea(l|ls) the [a-z]+.$/, 2);
@@ -92,6 +97,8 @@ export const combining: RPGRegExp = new RPGRegExp(/^The [a-z]+ is combining with
 export const merging: RPGRegExp = new RPGRegExp(/^The [a-z]+ is merging with the [a-z]+.$/, 2);
 export const wondering: RPGRegExp = new RPGRegExp(/^The [a-z]+ is wondering the effects of the [a-z]+.$/, 2);
 export const pondering: RPGRegExp = new RPGRegExp(/^The [a-z]+ is pondering the effects of the [a-z]+.$/, 2);
+export const castEnvToEntity: RPGRegExp = new RPGRegExp(/^The [a-z]+'s hidden skill is triggered (under|inside|within|on) the [a-z]+.$/, 2);
+export const castEntityToEnv: RPGRegExp = new RPGRegExp(/^The [a-z]+ trigge(r|rs) the [a-z]+'s hidden skill.$/, 2);
 export const loopEntityLabel: RPGRegExp = new RPGRegExp(/^The [a-z]+ prepar(e|es) an attack$/, 1);
 export const loopEntityCondition: RPGRegExp = new RPGRegExp(/^until the [a-z]+ is charged up.$/, 1);
 export const loopEnvironmentLabel: RPGRegExp = new RPGRegExp(/^The [a-z]+ is starting to change$/, 1);
@@ -104,7 +111,7 @@ export const endOfFlashbackSection: RPGRegExp = new RPGRegExp(/^End of the flash
 
 export const instructionSet = [
     enter,
-    protect,
+    protect, meditate,
     attack, lose,
     heal, healFor,
     criticalHit, dodge,
@@ -116,6 +123,7 @@ export const instructionSet = [
     debuffingAttack, debuffingDefense,
     combining, merging,
     wondering, pondering,
+    castEnvToEntity, castEntityToEnv,
     loopEntityLabel, loopEntityCondition,
     loopEnvironmentLabel, loopEnvironmentCondition,
     remember, happened,

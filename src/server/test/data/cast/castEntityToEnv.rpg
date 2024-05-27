@@ -1,0 +1,15 @@
+Fight cast entity to env
+Entities
+dragon: 0hp
+ghost: 100hp
+
+Environments
+sun: strong
+rain: weak
+
+Events
+The dragon and the ghost enters combat!
+The sun and the rain are making up the scene!
+The sun triggers the dragon's hidden skill.
+The rain triggers the ghost's hidden skill.
+End of the fight cast entity to env.

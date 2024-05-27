@@ -73,7 +73,7 @@ test('interprete_should_not_allow_unknown_syntax', () => {
     }).toThrow(FormatEnum(InstructionsError.Syntax, "7", "The dragon bleepbloop."));
 });
 
-test('interprete_should_allow_an_entity_variable_to_store_the_value_of_another_variable_when_the_instruction_"a protect[s] b."_exists', () => {
+test('interprete_should_allow_an_entity_variable_to_store_the_value_of_another_variable_when_the_instruction_"The a protec(t|ts) the b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/protect.rpg");
     expect(entries["fight protect"]["dragon"].value).toBe(100);
@@ -82,41 +82,49 @@ test('interprete_should_allow_an_entity_variable_to_store_the_value_of_another_v
     expect(entries["fight protect"]["ghost"].type).toBe("number");
 });
 
-test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a attack[s] b."_exists', () => {
+test('interprete_should_allow_random_number_generation_when_the_instruction_"The a meditat(e|es)."_exists', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/arithmetic/meditate.rpg");
+    expect(entries["fight meditate"]["dragon"].type).toBe("number");
+    expect(entries["fight meditate"]["dragon"].value).toBeGreaterThanOrEqual(0);
+    expect(entries["fight meditate"]["dragon"].value).toBeLessThanOrEqual(1);
+});
+
+test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"The a attac(k|ks) the b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/attack.rpg");
     expect(entries["fight attack"]["dragon"].value).toBe(100);
     expect(entries["fight attack"]["ghost"].value).toBe(0);
 });
 
-test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"a lose[s] c points."_exists', () => {
+test('interprete_should_allow_a_variable_to_decrease_its_value_when_the_instruction_"The a los(e|es) c points."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/losePoints.rpg");
     expect(entries["fight lose points"]["dragon"].value).toBe(90);
 });
 
-test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] b."_exists', () => {
+test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"The a hea(l|ls) the b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/heals.rpg");
     expect(entries["fight of the healing"]["dragon"].value).toBe(100);
     expect(entries["fight of the healing"]["wolf"].value).toBe(150);
 });
 
-test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"a heal[s] for c points."_exists', () => {
+test('interprete_should_allow_a_variable_to_increase_its_value_when_the_instruction_"The a hea(l|ls) for c points."_exists', () => {
     const interpreter = new Interpreter();
 
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/healsFor.rpg");
     expect(entries["fight of the self healing"]["dragon"].value).toBe(150);
 });
 
-test('interprete_should_allow_a_variable_to_divide_its_value_when_the_instruction_"a critically hit[s] b."_exists', () => {
+test('interprete_should_allow_a_variable_to_divide_its_value_when_the_instruction_"The a critically hi(t|ts) the b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/criticalHits.rpg");
     expect(entries["fight of the critical hits"]["wolf"].value).toBe(50);
     expect(entries["fight of the critical hits"]["dragon"].value).toBe(2);
 });
 
-test('interprete_should_allow_a_variable_to_multiply_its_value_when_the_instruction_"a dodge[s] b."_exists', () => {
+test('interprete_should_allow_a_variable_to_multiply_its_value_when_the_instruction_"The a dodg(e|es) the b."_exists', () => {
     const interpreter = new Interpreter();
     const { entries } = interpreter.execute("src/server/test/data/arithmetic/dodge.rpg");
     expect(entries["fight dodge"]["wolf"].value).toBe(50);
@@ -137,7 +145,7 @@ test('interprete_should_allow_a_variable_to_modulo_its_value_when_the_instructio
     expect(entries["fight slowed down for"]["dragon"].value).toBe(145);
 });
 
-test('interprete_should_print_the_variable_s_value_when_the_instruction_"a activate[s] a counter!"_exists', () => {
+test('interprete_should_print_the_variable_s_value_when_the_instruction_"The a activat(e|es) a counter!"_exists', () => {
     const interpreter = new Interpreter();
     const { logs, entries } = interpreter.execute("src/server/test/data/counter.rpg");
     expect(entries["fight counter"]["dragon"].value).toBe(65);
@@ -319,6 +327,32 @@ test('interprete_should_compare_entity_values_when_the_instruction_"a is ponderi
     expect(entries["fight pondering"]["human"].value).toBe(10);
     expect(entries["fight pondering"]["elf"].value).toBe(10);
     expect(entries["fight pondering"]["rain"].value).toBe(0);
+});
+
+test('interprete_should_cast_the_value_of_an_environment_variable_into_an_entity_one_when_the_instruction_"The a s hidden skill is triggered(under OR inside OR within OR on) the e.', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/cast/castEnvToEntity.rpg");
+    expect(entries["fight cast env to entity"]["sun"].type).toBe("boolean");
+    expect(entries["fight cast env to entity"]["sun"].value).toBe(1);
+    expect(entries["fight cast env to entity"]["dragon"].type).toBe("number");
+    expect(entries["fight cast env to entity"]["dragon"].value).toBe(1);
+    expect(entries["fight cast env to entity"]["rain"].type).toBe("boolean");
+    expect(entries["fight cast env to entity"]["rain"].value).toBe(0);
+    expect(entries["fight cast env to entity"]["ghost"].type).toBe("number");
+    expect(entries["fight cast env to entity"]["ghost"].value).toBe(0);
+});
+
+test('interprete_should_cast_the_value_of_an_entity_variable_into_an_environment_one_when_the_instruction_"The e triggers the a s hidden skill.', () => {
+    const interpreter = new Interpreter();
+    const { entries } = interpreter.execute("src/server/test/data/cast/castEntityToEnv.rpg");
+    expect(entries["fight cast entity to env"]["sun"].type).toBe("boolean");
+    expect(entries["fight cast entity to env"]["sun"].value).toBe(0);
+    expect(entries["fight cast entity to env"]["dragon"].type).toBe("number");
+    expect(entries["fight cast entity to env"]["dragon"].value).toBe(0);
+    expect(entries["fight cast entity to env"]["rain"].type).toBe("boolean");
+    expect(entries["fight cast entity to env"]["rain"].value).toBe(1);
+    expect(entries["fight cast entity to env"]["ghost"].type).toBe("number");
+    expect(entries["fight cast entity to env"]["ghost"].value).toBe(100);
 });
 
 test('interprete_should_allow_a_loop_when_the_instruction_"The a prepare(s) an attack / until the a is charged up."_exists', () => {

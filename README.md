@@ -39,7 +39,7 @@ End of the fight of the fibonacci.
 | a: (string)mp                                                                                   | char variable definition                           | variable  |   ✓   |
 | The token1, ... and tokenN enter combat!                                                        | token1, ..., tokenN can be modified                | starter   |   ✓   |
 | The a protect(s) the b.                                                                         | a = b                                              | art       |   ✓   |
-| The a meditate(s).                                                                              | a = random(0, 1)                                   | art       |       |
+| The a meditate(s).                                                                              | a = random(0, 1)                                   | art       |   ✓   |
 | The a attack(s) the b.                                                                          | b = b - a                                          | art       |   ✓   |
 | The a lose(s) c points.                                                                         | a = a - c                                          | art       |   ✓   |
 | The a heal(s) the b.                                                                            | b = b + a                                          | art       |   ✓   |
@@ -64,8 +64,8 @@ End of the fight of the fibonacci.
 | The e1 is merging with the e2.                                                                  | e1 = e1 or e2                                      | bool      |   ✓+T |
 | The a is wondering the effects of the e.                                                        | if (e) then pc+=1                                  | bool      |   ✓+T |
 | The a is pondering the effects of the e.                                                        | if (e) then pc+=1 else pc+=2                       | bool      |   ✓+T |
-| The a's hidden skill is triggered (under OR inside OR within OR on) the e.                      | a = (integer)e                                     | cast      |       |
-| The e triggers the a's hidden skill.                                                            | e = (bool)a                                        | cast      |       |
+| The a's hidden skill is triggered (under OR inside OR within OR on) the e.                      | a = (integer)e                                     | cast      |   ✓   |
+| The e triggers the a's hidden skill.                                                            | e = (bool)a                                        | cast      |   ✓   |
 | The a prepare(s) an attack                                                                      | rc = loop start                                    | loop      |   ✓   |
 | until the a is charged up.                                                                      | if (a === 0) pc = rc else pc+=1                    | loop      |   ✓   |
 | The e is starting to change                                                                     | rc = loop start                                    | loop      |   ✓   |
