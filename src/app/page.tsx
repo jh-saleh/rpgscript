@@ -26,8 +26,8 @@ export default function Home() {
           top: 60
         },
         size: {
-          height: 250,
-          width: 600
+          height: 400,
+          width: 800
         },
         label: "RPG Script Specifications",
         path: "./rpgscriptspecs.png"

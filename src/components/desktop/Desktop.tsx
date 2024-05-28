@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Window } from "../window/Window";
 import { CodeEditor } from "./Editor/CodeEditor";
 import { NavigationBar } from './NavigationBar/NavigationBar';
+import { Specifications } from "./Specifications/Specifications";
 import { BackgroundLayout, DesktopWrapperLayout } from "./style";
 
 export const Desktop = () => {
@@ -14,11 +14,7 @@ export const Desktop = () => {
     return (<DesktopWrapperLayout>
         <BackgroundLayout />
         <CodeEditor />
-        <Window id="rpgscriptspecs">
-            <div>
-                Wow such awesome and esoteric langage !
-            </div>
-        </Window>
+        <Specifications />
         <NavigationBar />
     </DesktopWrapperLayout>);
 }
