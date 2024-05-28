@@ -19,8 +19,8 @@ export const Bar = ({ menu }: BarProps) => {
                     <SelectionLayout key={`menu_option_dropdown_${selection}_${index}`}>
                         {selection}
                         <ModalSelectionsLayout>
-                            {(menu[selection] as MenuSelection[]).map((subSelection) => {
-                                return <ModalSelectionLayout onClick={subSelection.onClick}>
+                            {(menu[selection] as MenuSelection[]).map((subSelection, index) => {
+                                return <ModalSelectionLayout key={`menu_option_for_${selection}_${index}`} onClick={subSelection.onClick}>
                                     {subSelection.label}
                                 </ModalSelectionLayout>;
                             })}

@@ -15,14 +15,10 @@ export const Window = ({ id, menu, children }: WindowProps) => {
     const { windows, closeWindow, minimizeWindow, maximizeWindow, clickWindow } = useWindows();
     const { state, position: { top, left }, size: { height, width }, label, path, zIndex } = windows[id];
 
-    const [{ x, y }, api] = useSpring(() => ({
-        from: {
-            x: top,
-            y: left
-        },
-    }));
+    const [{ x, y }, api] = useSpring(() => ({}));
 
     const bind = useDrag(({ down, offset: [ox, oy] }) => {
+        console.log(ox, oy);
         api.start({
             x: ox,
             y: oy,
@@ -37,8 +33,8 @@ export const Window = ({ id, menu, children }: WindowProps) => {
                 $state={state}
                 style={{
                     zIndex,
-                    x: state === "maximized" ? 0 : x,
-                    y: state === "maximized" ? 0 : y
+                    x: state === "maximized" ? left : x,
+                    y: state === "maximized" ? top : y
                 }}>
                 <TopSection {...bind()}>
                     <TopLeftSection>

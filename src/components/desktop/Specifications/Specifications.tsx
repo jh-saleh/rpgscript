@@ -10,6 +10,7 @@ export const Specifications = () => {
     const { state } = windows["rpgscriptspecs"];
     const URL = process.env.NEXT_PUBLIC_BASE_URL ?? "";
     const portfolioURL = process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "";
+    const linkedinURL = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "";
     const [specs, setSpecs] = useState<Specification[]>([]);
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export const Specifications = () => {
             <MotivationLayout>
                 <p>
                     RPGScript is an <a href="https://en.wikipedia.org/wiki/Esoteric_programming_language" target="_blank">esoteric</a> pseudo assembly language
-                    written and designed by Jean-Hanna SALEH. An esoteric programming language or an esolang is "designed to test the boundaries of computer programming language design" - Wikipedia.
+                    written and designed by <a href={linkedinURL}>Jean-Hanna SALEH</a>. An esoteric programming language or an esolang is "designed to test the boundaries of computer programming language design" - Wikipedia.
                 </p>
                 <p>
                     RPGScript allows you to write code in the way a text adventure game would play out the likes of <a href="https://en.wikipedia.org/wiki/Caves_of_Qud" target="_blank">Caves of QUD</a>, <a href="https://en.wikipedia.org/wiki/Dwarf_Fortress" target="_blank">Dwarf Fortress</a> or <a href="https://en.wikipedia.org/wiki/SanctuaryRPG" target="_blank">SanctuaryRPG</a>.
@@ -44,20 +45,32 @@ export const Specifications = () => {
                 Instruction set
             </TitleLayout>
             <InstructionsWrapperLayout>
-                {specs.map((spec) => <InstructionLayout>
-                    <div>
-                        {spec.instruction}
-                    </div>
-                    <div>
-                        {spec.meaning}
-                    </div>
-                    <div>
-                        {spec.domain}
-                    </div>
-                    <div>
-                        {spec.status}
-                    </div>
-                </InstructionLayout>)}
+                <thead>
+                    <tr>
+                        <th>
+                            Instruction
+                        </th>
+                        <th>
+                            Meaning
+                        </th>
+                        <th>
+                            Domain
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {specs.map((spec) => <InstructionLayout>
+                        <td>
+                            {spec.instruction}
+                        </td>
+                        <td>
+                            {spec.meaning}
+                        </td>
+                        <td>
+                            {spec.domain}
+                        </td>
+                    </InstructionLayout>)}
+                </tbody>
             </InstructionsWrapperLayout>
         </SpecificationsLayout>
     </Window>;
