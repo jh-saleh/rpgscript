@@ -16,7 +16,7 @@ interface WindowData {
     position: WindowPosition;
     size: WindowSize;
     zIndex: number;
-    lastState: WindowState;
+    previousState: WindowState;
     state: WindowState;
     label: string;
     path: string;
@@ -32,6 +32,7 @@ interface WindowsContextType {
     closeWindow: (id: string) => void;
     minimizeWindow: (id: string) => void;
     maximizeWindow: (id: string) => void;
+    updatePosition: (id: string, top: number, left: number) => void;
 }
 
 const WindowsContext = createContext<WindowsContextType | null>(null);
@@ -53,7 +54,7 @@ export const WindowsContextProvider = ({ initialData, children }: WindowsContext
                 size,
                 label,
                 path,
-                lastState: "closed",
+                previousState: "closed",
                 state: "closed",
                 zIndex: 0,
                 order: 0
@@ -71,7 +72,7 @@ export const WindowsContextProvider = ({ initialData, children }: WindowsContext
     };
 
     const openWindow = (id: string): void => {
-        windows[id].lastState = windows[id].state;
+        windows[id].previousState = windows[id].state;
         windows[id].state = "open";
         windows[id].order = order;
         setWindows(() => ({ ...windows }));
@@ -79,18 +80,18 @@ export const WindowsContextProvider = ({ initialData, children }: WindowsContext
     };
 
     const closeWindow = (id: string): void => {
-        windows[id].lastState = windows[id].state;
+        windows[id].previousState = windows[id].state;
         windows[id].state = "closed";
         setWindows(() => ({ ...windows }));
     };
 
     const minimizeWindow = (id: string): void => {
         if (windows[id].state === "open" || windows[id].state === "normal" || windows[id].state === "maximized") {
-            windows[id].lastState = windows[id].state;
+            windows[id].previousState = windows[id].state;
             windows[id].state = "minimized";
         } else if (windows[id].state === "minimized") {
-            windows[id].state = windows[id].lastState;
-            windows[id].lastState = "minimized";
+            windows[id].state = windows[id].previousState;
+            windows[id].previousState = "minimized";
         }
 
         setWindows(() => ({ ...windows }));
@@ -98,16 +99,24 @@ export const WindowsContextProvider = ({ initialData, children }: WindowsContext
 
     const maximizeWindow = (id: string): void => {
         if (windows[id].state === "maximized") {
-            windows[id].lastState = "maximized";
+            windows[id].previousState = "maximized";
             windows[id].state = "normal";
         } else {
-            windows[id].lastState = windows[id].state;
+            windows[id].previousState = windows[id].state;
             windows[id].state = "maximized";
         }
         setWindows(() => ({ ...windows }));
     };
 
-    return <WindowsContext.Provider value={{ windows, clickWindow, openWindow, closeWindow, minimizeWindow, maximizeWindow }}>
+    const updatePosition = (id: string, top: number, left: number): void => {
+        windows[id].position = {
+            top,
+            left
+        }
+        setWindows(() => ({ ...windows }));
+    }
+
+    return <WindowsContext.Provider value={{ windows, clickWindow, openWindow, closeWindow, minimizeWindow, maximizeWindow, updatePosition }}>
         {children}
     </WindowsContext.Provider>
 }

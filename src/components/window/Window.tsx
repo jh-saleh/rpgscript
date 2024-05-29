@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
+import { useDrag } from "@use-gesture/react";
+import { ReactNode, useRef, useState } from "react";
 import { useSpring } from "react-spring";
-import { useDrag } from "react-use-gesture";
-import { useWindows } from "../hooks/Windows.hook";
+import { navBarHeight } from "../desktop/style";
+import { WindowPosition, useWindows } from "../hooks/Windows.hook";
 import { Bar, Menu } from "./bar/Bar";
 import { CloseButton, MainSection, MaximizeButton, MinimizeButton, TopLeftSection, TopRightSection, TopSection, WindowLayout } from "./style";
 
@@ -14,46 +15,82 @@ interface WindowProps {
 export const Window = ({ id, menu, children }: WindowProps) => {
     const { windows, closeWindow, minimizeWindow, maximizeWindow, clickWindow } = useWindows();
     const { state, position: { top, left }, size: { height, width }, label, path, zIndex } = windows[id];
+    const [windowPos, setWindowPos] = useState<WindowPosition>({ top, left });
+    const windowRef = useRef<HTMLDivElement>(null);
 
-    const [{ x, y }, api] = useSpring(() => ({}));
+    const [{ x, y }, api] = useSpring(() => ({
+        x: 0,
+        y: 0,
+    }));
+
 
     const bind = useDrag(({ down, offset: [ox, oy] }) => {
-        console.log(ox, oy);
-        api.start({
-            x: ox,
-            y: oy,
-            immediate: down,
-        });
+        if (windowRef.current !== null) {
+            const { width: windowWidth, height: windowHeight } = windowRef.current.getBoundingClientRect();
+
+            if (down) {
+                const leftWindow = Math.max(-left, Math.min(window.innerWidth - windowWidth - left, ox));
+                const topWindow = Math.max(-top, Math.min(window.innerHeight - windowHeight - navBarHeight - top, oy));
+                api.start({
+                    x: leftWindow,
+                    y: topWindow,
+                    immediate: down,
+                    from: {
+                        x: leftWindow,
+                        y: topWindow,
+                    }
+                });
+            }
+        }
     });
 
-    return (<>
-        {(state === "open" || state === "normal" || state === "maximized") &&
-            <WindowLayout onMouseDown={() => { clickWindow(id); }}
-                $width={width} $height={height}
-                $state={state}
-                style={{
-                    zIndex,
-                    x: state === "maximized" ? left : x,
-                    y: state === "maximized" ? top : y
-                }}>
-                <TopSection {...bind()}>
-                    <TopLeftSection>
-                        <img src={path} alt={`${id} logo`} />
-                        <div>
-                            {label}
-                        </div>
-                    </TopLeftSection>
-                    <TopRightSection>
-                        <MinimizeButton onClick={() => minimizeWindow(id)} />
-                        <MaximizeButton onClick={() => maximizeWindow(id)} />
-                        <CloseButton onClick={() => closeWindow(id)} />
-                    </TopRightSection>
-                </TopSection>
-                {menu && <Bar menu={menu} />}
-                <MainSection>
-                    {children}
-                </MainSection>
-            </WindowLayout>
-        }
-    </>)
+    return (
+        <WindowLayout ref={windowRef}
+            onMouseDown={() => {
+                clickWindow(id);
+            }}
+            $width={width} $height={height}
+            $top={top} $left={left}
+            $state={state}
+            style={{
+                zIndex,
+                x: x,
+                y: y
+            }}>
+            <TopSection>
+                <TopLeftSection {...bind()}>
+                    <img src={path} alt={`${id} logo`} />
+                    <div>
+                        {label}
+                    </div>
+                </TopLeftSection>
+                <TopRightSection>
+                    <MinimizeButton onClick={() => minimizeWindow(id)} />
+                    <MaximizeButton onClick={() => {
+                        if (state === "open" || state === "normal") {
+                            setWindowPos({
+                                top: y.get(),
+                                left: x.get()
+                            });
+                            api.set({
+                                x: 0,
+                                y: 0
+                            });
+                        } else {
+                            api.set({
+                                x: windowPos.left,
+                                y: windowPos.top
+                            });
+                        }
+                        maximizeWindow(id);
+                    }} />
+                    <CloseButton onClick={() => closeWindow(id)} />
+                </TopRightSection>
+            </TopSection>
+            {menu && <Bar menu={menu} />}
+            <MainSection>
+                {children}
+            </MainSection>
+        </WindowLayout>
+    )
 }

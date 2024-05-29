@@ -621,7 +621,7 @@ export const CodeEditor = () => {
         ]
     }}>
         <EditorLayout $state={windows["rpgscript"].state}>
-            <Editor
+            {monaco && <Editor
                 height={"100%"}
                 width={"100%"}
                 language="rpgscript"
@@ -629,7 +629,7 @@ export const CodeEditor = () => {
                 value={code}
                 options={editorOptions}
                 onChange={(value) => { setCode(() => value ?? ""); }}
-            />
+            />}
         </EditorLayout>
         <Console outputs={outputs} />
     </Window>;

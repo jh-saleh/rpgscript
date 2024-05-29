@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
+export const navBarHeight = 30;
+
 export const DesktopWrapperLayout = styled.div`
 height: 100dvh;
 width: 100dvw;
 display: grid;
-grid-template-rows: auto 30px;
-position: relative;
+grid-template-rows: auto ${navBarHeight}px;
 z-index: 0;
 `;
 

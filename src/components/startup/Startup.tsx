@@ -10,7 +10,7 @@ export const Startup = () => {
     useEffect(() => {
         setIntervalValue(() => setInterval(() => {
             setPage((page) => page + 1);
-        }, 2500));
+        }, 100));
     }, []);
 
     useEffect(() => {

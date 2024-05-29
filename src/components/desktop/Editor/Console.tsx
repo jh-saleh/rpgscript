@@ -11,7 +11,6 @@ export const Console = ({ outputs }: ConsoleProps) => {
     useEffect(() => {
         if (consoleRef !== null && consoleRef.current !== null) {
             consoleRef.current?.scrollTo({ top: consoleRef.current?.scrollHeight });
-            console.log(consoleRef.current?.scrollHeight);
         }
     }, [outputs.length]);
 

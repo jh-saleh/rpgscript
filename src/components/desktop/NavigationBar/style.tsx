@@ -1,8 +1,9 @@
 import { WindowState } from "@/components/hooks/Windows.hook";
 import styled, { css } from "styled-components";
+import { navBarHeight } from "../style";
 
 export const NavigationBarWrapper = styled.div`
-    height: 30px;
+    height: ${navBarHeight}px;
     width: 100dvw;
     display: grid;
     grid-template-columns: min-content auto 115px;

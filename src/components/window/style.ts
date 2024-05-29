@@ -1,55 +1,52 @@
 import { animated } from "react-spring";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 import { WindowState } from "../hooks/Windows.hook";
 
 export const navbarHeight = 30;
 
-const windowAnimation = ($width: number, $height: number, $state: WindowState) => {
-    if ($state === "normal" || $state === "maximized") {
+const setWindowSize = ($width: number, $height: number, $left: number, $top: number, $state: WindowState) => {
+    if ($state === "maximized") {
+        return css`
+            min-width: 100dvw;
+            min-height: calc(100dvh - ${navbarHeight}px);`;
 
-        const keyframe = keyframes`
-        0%{
+    } else {
+        return css`
+            top: ${$top}px;
+            left: ${$left}px;
+            min-width: ${$width}px;
             width: ${$width}px;
-            height: ${$height}px;
-        }
-        100%{
-            width: 100dvw;
-            height: calc(100dvh - ${navbarHeight}px);
-        }
-        `;
-
-        return css`animation: ${keyframe} 0s linear forwards ${$state === "normal" ? "reverse" : ""};`;
+            min-height: ${$height}px;`
     }
-    return css``;
 }
 
-export const WindowLayout = styled(animated.div)<{ $width: number, $height: number, $state: WindowState }>(({ $width, $height, $state }) => css`
-    ${windowAnimation($width, $height, $state)}
+export const WindowLayout = styled(animated.div)<{ $width: number, $height: number, $left: number, $top: number, $state: WindowState }>(({ $width, $height, $left, $top, $state }) => css`
+    ${setWindowSize($width, $height, $left, $top, $state)}
     z-index: 1;
-    min-width: ${$width}px;
-    width: ${$width}px;
-    min-height: ${$height}px;
     position: absolute;
     user-select: none;
-    display: flex;
+    display: ${$state === "open" || $state === "normal" || $state === "maximized" ? "flex" : "none"};
     flex-direction: column;
+    touch-action: 'none';
 `);
 
-export const TopSection = styled(animated.div)`
+export const TopSection = styled.div`
     display: flex;
     justify-content: space-between;
     cursor: grab;
     background: linear-gradient(rgb(0, 88, 238) 0%, rgb(53, 147, 255) 4%, rgb(40, 142, 255) 6%, rgb(18, 125, 255) 8%, rgb(3, 111, 252) 10%, rgb(2, 98, 238) 14%, rgb(0, 87, 229) 20%, rgb(0, 84, 227) 24%, rgb(0, 85, 235) 56%, rgb(0, 91, 245) 66%, rgb(2, 106, 254) 76%, rgb(0, 98, 239) 86%, rgb(0, 82, 214) 92%, rgb(0, 64, 171) 94%, rgb(0, 48, 146) 100%);
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
+    touch-action: 'none';
 `;
 
-export const TopLeftSection = styled.div`
+export const TopLeftSection = styled(animated.div)`
 display: grid;
 grid-template-columns: repeat(2, max-content);
 gap: 2px;
 padding: 3px;
 align-items: center;
+width: 100%;
 > div {
     font-size: small;
     text-shadow: 1px 1px black;
