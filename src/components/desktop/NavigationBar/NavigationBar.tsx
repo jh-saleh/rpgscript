@@ -46,7 +46,13 @@ export const NavigationBar = () => {
             <AppsBarLayout>
                 {Object.keys(windows).filter((id) => windows[id].state !== "closed")
                     .sort((id1, id2) => windows[id1].order - windows[id2].order)
-                    .map((id, index) => <AppLayout key={`app_bar_${index}`} $state={windows[id].state} onClick={() => minimizeWindow(id)}>
+                    .map((id, index) => <AppLayout key={`app_bar_${index}`} $state={windows[id].state} onClick={(e) => {
+                        e.stopPropagation();
+                        if (windows[id].state === "minimized") {
+                            focusWindow(id);
+                        }
+                        minimizeWindow(id);
+                    }}>
                         <img src={windows[id].path} alt={`${id} logo`} />
                         <div>
                             {windows[id].label.length > 10 ? windows[id].label.slice(0, 19) + "..." : windows[id].label}
