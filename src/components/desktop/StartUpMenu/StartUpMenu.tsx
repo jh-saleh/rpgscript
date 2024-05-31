@@ -6,11 +6,11 @@ export const StartUpMenu = () => {
     const LINKEDIN_URL = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "";
     const PORTFOLIO_URL = process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "";
     const { clickWindow, openWindow } = useWindows();
-    const { nodes, getInFocus } = useFocusWindows();
+    const { nodes, focusWindow } = useFocusWindows();
 
     const clickAppHandler = (id: string) => {
         clickWindow(id);
-        getInFocus(id);
+        focusWindow(id);
         openWindow(id);
     }
 

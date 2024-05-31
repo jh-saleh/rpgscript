@@ -2,6 +2,7 @@ import { useDrag } from "@use-gesture/react";
 import { ReactNode, useRef, useState } from "react";
 import { useSpring } from "react-spring";
 import { navBarHeight } from "../desktop/style";
+import { useFocusApps } from "../hooks/FocusApps.hook";
 import { useFocusWindows } from "../hooks/FocusWindows.hook";
 import { WindowPosition, useWindows } from "../hooks/Windows.hook";
 import { Bar, Menu } from "./bar/Bar";
@@ -18,7 +19,8 @@ export const Window = ({ id, menu, children }: WindowProps) => {
     const { state, position: { top, left }, size: { height, width }, label, path, zIndex } = windows[id];
     const [windowPos, setWindowPos] = useState<WindowPosition>({ top, left });
     const windowRef = useRef<HTMLDivElement>(null);
-    const { nodes, getInFocus } = useFocusWindows();
+    const { nodes, focusWindow } = useFocusWindows();
+    const { unfocusApps } = useFocusApps();
 
     const [{ x, y }, api] = useSpring(() => ({
         x: 0,
@@ -44,7 +46,8 @@ export const Window = ({ id, menu, children }: WindowProps) => {
         <WindowLayout ref={windowRef}
             onMouseDown={() => {
                 clickWindow(id);
-                getInFocus(id);
+                focusWindow(id);
+                unfocusApps();
             }}
             $width={width} $height={height}
             $top={top} $left={left}

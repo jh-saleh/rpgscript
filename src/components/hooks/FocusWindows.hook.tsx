@@ -2,7 +2,8 @@ import { ReactNode, createContext, useContext, useEffect, useState } from "react
 
 export interface FocusWindowsContextType {
     nodes: Record<string, boolean>;
-    getInFocus(id: string): void;
+    focusWindow(id: string): void;
+    unfocusWindows(): void;
 }
 
 const FocusWindowsContext = createContext<FocusWindowsContextType | null>(null);
@@ -22,14 +23,21 @@ export const FocusWindowsContextProvider = ({ ids, children }: FocusWindowsConte
         setNodes(() => ({ ...nodes }));
     }, []);
 
-    const getInFocus = (id: string) => {
+    const focusWindow = (id: string) => {
         Object.keys(nodes).forEach((nodeId) => {
             nodes[nodeId] = nodeId === id;
         });
         setNodes(() => ({ ...nodes }));
     }
 
-    return <FocusWindowsContext.Provider value={{ nodes, getInFocus }}>
+    const unfocusWindows = () => {
+        Object.keys(nodes).forEach((nodeId) => {
+            nodes[nodeId] = false;
+        });
+        setNodes(() => ({ ...nodes }));
+    }
+
+    return <FocusWindowsContext.Provider value={{ nodes, focusWindow, unfocusWindows }}>
         {children}
     </FocusWindowsContext.Provider>
 }

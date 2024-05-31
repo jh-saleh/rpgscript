@@ -15,4 +15,10 @@ background-size: cover;
 background-repeat: no-repeat;
 background-image: url("./windowsBackground.jpeg");
 width: 100dvw;
+padding: 10px;
+> div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 `;

@@ -1,3 +1,4 @@
+import { useFocusApps } from "@/components/hooks/FocusApps.hook";
 import { useFocusWindows } from "@/components/hooks/FocusWindows.hook";
 import { useWindows } from "@/components/hooks/Windows.hook";
 import dayjs from "dayjs";
@@ -8,7 +9,8 @@ import { AppLayout, AppsBarLayout, BarLayout, NavigationBarWrapper, StartButtonL
 export const NavigationBar = () => {
     const [time, setTime] = useState<string>("");
     const { windows, minimizeWindow } = useWindows();
-    const { nodes, getInFocus } = useFocusWindows();
+    const { nodes, focusWindow } = useFocusWindows();
+    const { unfocusApps } = useFocusApps();
 
     useEffect(() => {
         setTime(dayjs().format("HH:mm"));
@@ -20,14 +22,18 @@ export const NavigationBar = () => {
     }, []);
 
     return (<>
-        <NavigationBarWrapper onMouseDown={() => getInFocus("navbar")}>
+        <NavigationBarWrapper onMouseDown={() => {
+            focusWindow("navbar");
+            unfocusApps();
+        }}>
             <BarLayout >
                 <StartButtonLayout onMouseDown={(event) => {
                     event.stopPropagation();
+                    unfocusApps();
                     if (!nodes["startupmenu"]) {
-                        getInFocus("startupmenu");
+                        focusWindow("startupmenu");
                     } else {
-                        getInFocus("navbar");
+                        focusWindow("navbar");
                     }
                 }}>
                     <img src="./navbar_nanosoft.svg" alt="start up logo" />
