@@ -2,6 +2,7 @@ import { useDrag } from "@use-gesture/react";
 import { ReactNode, useRef, useState } from "react";
 import { useSpring } from "react-spring";
 import { navBarHeight } from "../desktop/style";
+import { useFocusWindows } from "../hooks/FocusWindows.hook";
 import { WindowPosition, useWindows } from "../hooks/Windows.hook";
 import { Bar, Menu } from "./bar/Bar";
 import { CloseButton, MainSection, MaximizeButton, MinimizeButton, TopLeftSection, TopRightSection, TopSection, WindowLayout } from "./style";
@@ -17,6 +18,7 @@ export const Window = ({ id, menu, children }: WindowProps) => {
     const { state, position: { top, left }, size: { height, width }, label, path, zIndex } = windows[id];
     const [windowPos, setWindowPos] = useState<WindowPosition>({ top, left });
     const windowRef = useRef<HTMLDivElement>(null);
+    const { nodes, getInFocus } = useFocusWindows();
 
     const [{ x, y }, api] = useSpring(() => ({
         x: 0,
@@ -42,6 +44,7 @@ export const Window = ({ id, menu, children }: WindowProps) => {
         <WindowLayout ref={windowRef}
             onMouseDown={() => {
                 clickWindow(id);
+                getInFocus(id);
             }}
             $width={width} $height={height}
             $top={top} $left={left}
@@ -51,7 +54,7 @@ export const Window = ({ id, menu, children }: WindowProps) => {
                 x: x,
                 y: y
             }}>
-            <TopSection>
+            <TopSection $isFocused={nodes[id]}>
                 <TopLeftSection {...bind()}>
                     <img src={path} alt={`${id} logo`} />
                     <div>
@@ -59,8 +62,8 @@ export const Window = ({ id, menu, children }: WindowProps) => {
                     </div>
                 </TopLeftSection>
                 <TopRightSection>
-                    <MinimizeButton onClick={() => minimizeWindow(id)} />
-                    <MaximizeButton onClick={() => {
+                    <MinimizeButton $isFocused={nodes[id]} onClick={() => minimizeWindow(id)} />
+                    <MaximizeButton $isFocused={nodes[id]} onClick={() => {
                         if (state === "open" || state === "normal") {
                             setWindowPos({
                                 top: y.get(),
@@ -78,11 +81,11 @@ export const Window = ({ id, menu, children }: WindowProps) => {
                         }
                         maximizeWindow(id);
                     }} />
-                    <CloseButton onClick={() => closeWindow(id)} />
+                    <CloseButton $isFocused={nodes[id]} onClick={() => closeWindow(id)} />
                 </TopRightSection>
             </TopSection>
-            {menu && <Bar menu={menu} />}
-            <MainSection>
+            {menu && <Bar windowId={id} menu={menu} />}
+            <MainSection $isFocused={nodes[id]}>
                 {children}
             </MainSection>
         </WindowLayout>

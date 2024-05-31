@@ -1,24 +1,21 @@
+import { useFocusWindows } from "@/components/hooks/FocusWindows.hook";
 import { useWindows } from "@/components/hooks/Windows.hook";
 import { AppIconLayout, AppSectionLayout, BottomIconLayout, BottomSectionLayout, ProgrammsSectionLayout, Separator, ShorcutSectionLayout, ShortcutIconLayout, TopSection, UserIconLayout, UserNameLayout, WrapperLayout } from "./style";
 
-interface StartUpMenuProps {
-    open: boolean;
-    closeMenu: () => void;
-}
-
-export const StartUpMenu = ({ open, closeMenu }: StartUpMenuProps) => {
+export const StartUpMenu = () => {
     const LINKEDIN_URL = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "";
     const PORTFOLIO_URL = process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "";
     const { clickWindow, openWindow } = useWindows();
+    const { nodes, getInFocus } = useFocusWindows();
 
     const clickAppHandler = (id: string) => {
         clickWindow(id);
+        getInFocus(id);
         openWindow(id);
-        closeMenu();
     }
 
     return (<>
-        {open && <WrapperLayout>
+        {nodes["startupmenu"] && <WrapperLayout>
             <TopSection>
                 <UserIconLayout src={"./aircraft.png"} alt="User icon" />
                 <UserNameLayout>

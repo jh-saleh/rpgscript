@@ -36,7 +36,7 @@ export const ModalSelectionsLayout = styled.div(() => css`
     display: none;
 `);
 
-export const BarLayout = styled.div`
+export const BarLayout = styled.div<{ $isFocused: boolean }>(({ $isFocused }) => `
     z-index: 1;
     background-color: #edebda;
     height: ${height}px;
@@ -45,6 +45,6 @@ export const BarLayout = styled.div`
     gap: 5px;
     place-items: center;
     padding: 2px 0px;
-    border-left: 2px #0831d9 solid;
-    border-right: 2px #0831d9 solid;
-`;
+    border-left: 2px ${$isFocused ? "#0831d9" : "#6582f5"} solid;
+    border-right: 2px ${$isFocused ? "#0831d9" : "#6582f5"} solid;
+`);

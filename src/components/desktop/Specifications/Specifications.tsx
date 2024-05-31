@@ -59,7 +59,7 @@ export const Specifications = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {specs.map((spec) => <InstructionLayout>
+                    {specs.map((spec, index) => <InstructionLayout key={`instruction_n_${index}`}>
                         <td>
                             {spec.instruction}
                         </td>

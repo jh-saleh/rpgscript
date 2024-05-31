@@ -15,7 +15,7 @@ margin-bottom: 5px;
 }
 `;
 
-export const MotivationLayout = styled.p`
+export const MotivationLayout = styled.div`
 font-size: medium;
 display: flex;
 flex-wrap: wrap;

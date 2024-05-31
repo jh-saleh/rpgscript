@@ -1,3 +1,4 @@
+import { useFocusWindows } from "@/components/hooks/FocusWindows.hook";
 import { BarLayout, ModalSelectionLayout, ModalSelectionsLayout, SelectionLayout } from "./style";
 
 export interface MenuSelection {
@@ -8,25 +9,26 @@ export type Menu = Record<string, (MenuSelection[] | MenuSelection)>;
 
 
 interface BarProps {
+    windowId: string;
     menu: Menu;
 }
 
-export const Bar = ({ menu }: BarProps) => {
-    return <BarLayout>
+export const Bar = ({ windowId, menu }: BarProps) => {
+    const { nodes } = useFocusWindows();
+
+    return <BarLayout $isFocused={nodes[windowId]}>
         {Object.keys(menu).map((selection, index) => {
             if (Array.isArray(menu[selection])) {
-                return <>
-                    <SelectionLayout key={`menu_option_dropdown_${selection}_${index}`}>
-                        {selection}
-                        <ModalSelectionsLayout>
-                            {(menu[selection] as MenuSelection[]).map((subSelection, index) => {
-                                return <ModalSelectionLayout key={`menu_option_for_${selection}_${index}`} onClick={subSelection.onClick}>
-                                    {subSelection.label}
-                                </ModalSelectionLayout>;
-                            })}
-                        </ModalSelectionsLayout>
-                    </SelectionLayout>
-                </>;
+                return <SelectionLayout key={`menu_option_dropdown_${selection}_${index}`}>
+                    {selection}
+                    <ModalSelectionsLayout>
+                        {(menu[selection] as MenuSelection[]).map((subSelection, subindex) => {
+                            return <ModalSelectionLayout key={`menu_option_for_${selection}_${subindex}`} onClick={subSelection.onClick}>
+                                {subSelection.label}
+                            </ModalSelectionLayout>;
+                        })}
+                    </ModalSelectionsLayout>
+                </SelectionLayout>;
             }
 
             if (typeof menu[selection] === "object") {
