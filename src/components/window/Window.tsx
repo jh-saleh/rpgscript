@@ -23,26 +23,20 @@ export const Window = ({ id, menu, children }: WindowProps) => {
         y: 0,
     }));
 
-
     const bind = useDrag(({ down, offset: [ox, oy] }) => {
         if (windowRef.current !== null) {
             const { width: windowWidth, height: windowHeight } = windowRef.current.getBoundingClientRect();
-
-            if (down) {
+            if (down && state !== "maximized") {
                 const leftWindow = Math.max(-left, Math.min(window.innerWidth - windowWidth - left, ox));
                 const topWindow = Math.max(-top, Math.min(window.innerHeight - windowHeight - navBarHeight - top, oy));
                 api.start({
                     x: leftWindow,
                     y: topWindow,
                     immediate: down,
-                    from: {
-                        x: leftWindow,
-                        y: topWindow,
-                    }
                 });
             }
         }
-    });
+    }, { enabled: state !== "maximized" });
 
     return (
         <WindowLayout ref={windowRef}

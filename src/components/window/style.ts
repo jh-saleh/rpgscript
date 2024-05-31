@@ -9,7 +9,6 @@ const setWindowSize = ($width: number, $height: number, $left: number, $top: num
         return css`
             min-width: 100dvw;
             min-height: calc(100dvh - ${navbarHeight}px);`;
-
     } else {
         return css`
             top: ${$top}px;
