@@ -1,12 +1,15 @@
 import { useFocusWindows } from "@/components/hooks/FocusWindows.hook";
+import { useSystemModal } from "@/components/hooks/SystemModal.hook";
 import { useWindows } from "@/components/hooks/Windows.hook";
 import { AppIconLayout, AppSectionLayout, BottomIconLayout, BottomSectionLayout, ProgrammsSectionLayout, Separator, ShorcutSectionLayout, ShortcutIconLayout, TopSection, UserIconLayout, UserNameLayout, WrapperLayout } from "./style";
 
 export const StartUpMenu = () => {
     const LINKEDIN_URL = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "";
     const PORTFOLIO_URL = process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "";
+    const MEDIA_PLAYER_URL = process.env.NEXT_PUBLIC_SCREENS_MEDIA_PLAYER_URL ?? "";
     const { clickWindow, openWindow } = useWindows();
-    const { nodes, focusWindow } = useFocusWindows();
+    const { nodes, focusWindow, unfocusWindows } = useFocusWindows();
+    const { openLogOffModal, openShutOffModal } = useSystemModal();
 
     const clickAppHandler = (id: string) => {
         clickWindow(id);
@@ -50,7 +53,7 @@ export const StartUpMenu = () => {
                                 LinkedIn
                             </div>
                         </AppIconLayout>
-                        <AppIconLayout>
+                        <AppIconLayout href={MEDIA_PLAYER_URL} target="_blank">
                             <img src="./mediaplayer.png" alt="media player link" />
                             <div>
                                 Screens Media Player
@@ -130,13 +133,13 @@ export const StartUpMenu = () => {
                 </div>
             </ProgrammsSectionLayout>
             <BottomSectionLayout>
-                <BottomIconLayout>
+                <BottomIconLayout onClick={() => { openShutOffModal(); unfocusWindows(); }}>
                     <img src="./turnoff.png" alt="Turn off computer" />
                     <div>
                         Turn off computer
                     </div>
                 </BottomIconLayout>
-                <BottomIconLayout>
+                <BottomIconLayout onClick={() => { openLogOffModal(); unfocusWindows(); }}>
                     <img src="./logoff.png" alt="Log off button" />
                     <div>
                         Log Off

@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { CompanyWrapperLayout, LoadingBarLayout, LoadingBarWrapperLayout, LoadingBlocs, ScreensWrapperLayout, WindowsStartupCopyrightLayout, WindowsStartupLayout, WindowsStartupWrapperLayout } from "./style";
+import { CompanyWrapperLayout, LoadingBarLayout, LoadingBarWrapperLayout, LoadingBlocs, ScreensWrapperLayout, StartupCopyrightLayout, StartupLayout, StartupWrapperLayout } from "./style";
 
 export const Loading = () => {
 
-    return (<WindowsStartupWrapperLayout>
-        <WindowsStartupLayout>
+    return (<StartupWrapperLayout>
+        <StartupLayout>
             <div>
                 <CompanyWrapperLayout>
                     <div>
@@ -29,14 +29,14 @@ export const Loading = () => {
                     </div>
                 </LoadingBarWrapperLayout>
             </div>
-        </WindowsStartupLayout>
-        <WindowsStartupCopyrightLayout>
+        </StartupLayout>
+        <StartupCopyrightLayout>
             <div>
                 Made by Jean-Hanna SALEH
             </div>
             <div>
                 Nanosoft
             </div>
-        </WindowsStartupCopyrightLayout>
-    </WindowsStartupWrapperLayout>)
+        </StartupCopyrightLayout>
+    </StartupWrapperLayout>)
 }

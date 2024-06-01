@@ -1,6 +1,10 @@
 import { BottomLineDecorationLayout, TopLineDecorationLayout, WelcomeContentLayout, WelcomeWrapperLayout } from "./style";
 
-export const Welcome = () => {
+interface BlueScreenProps {
+    label: string;
+}
+
+export const BlueScreen = ({ label }: BlueScreenProps) => {
 
     return (<WelcomeWrapperLayout>
         <div />
@@ -10,7 +14,7 @@ export const Welcome = () => {
                 <div />
             </TopLineDecorationLayout>
             <div>
-                welcome
+                {label}
             </div>
             <BottomLineDecorationLayout>
                 <div />

@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from "styled-components";
 
-export const WindowsStartupWrapperLayout = styled.div`
+export const StartupWrapperLayout = styled.div`
 height: 100dvh;
 width: 100dvw;
 background-color: black;
@@ -10,14 +10,14 @@ font-size: xx-large;
 user-select: none;
 `;
 
-export const WindowsStartupLayout = styled.div`
+export const StartupLayout = styled.div`
 width: 100dvw;
 background-color: black;
 display: grid;
 place-items: center;
 `;
 
-export const WindowsStartupCopyrightLayout = styled.div`
+export const StartupCopyrightLayout = styled.div`
 display: flex;
 justify-content: space-between;
 font-size: large;
