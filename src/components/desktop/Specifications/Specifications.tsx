@@ -28,7 +28,7 @@ export const Specifications = () => {
             <MotivationLayout>
                 <p>
                     RPGScript is an <a href="https://en.wikipedia.org/wiki/Esoteric_programming_language" target="_blank">esoteric</a> pseudo assembly language
-                    written and designed by <a href={LINKEDIN_URL}>Jean-Hanna SALEH</a>. An esoteric programming language or an esolang is "designed to test the boundaries of computer programming language design" - Wikipedia.
+                    written and designed by <a href={LINKEDIN_URL}>Jean-Hanna SALEH</a>. An esoteric programming language or an esolang is &quot;designed to test the boundaries of computer programming language design&quot; - Wikipedia.
                 </p>
                 <p>
                     RPGScript allows you to write code in the way a text adventure game would play out the likes of <a href="https://en.wikipedia.org/wiki/Caves_of_Qud" target="_blank">Caves of QUD</a>, <a href="https://en.wikipedia.org/wiki/Dwarf_Fortress" target="_blank">Dwarf Fortress</a> or <a href="https://en.wikipedia.org/wiki/SanctuaryRPG" target="_blank">SanctuaryRPG</a>.
