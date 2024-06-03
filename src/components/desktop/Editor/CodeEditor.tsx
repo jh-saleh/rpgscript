@@ -1,5 +1,5 @@
 import { useWindows } from '@/components/hooks/Windows.hook';
-import { InterpreterOutput } from '@/server/Interpreter';
+import { Interpreter, InterpreterOutput } from '@/server/Interpreter';
 import axiosInstance from '@/server/axios/axiosClient';
 import { absorbing, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, environmentChanging, fightSection, flashbackSection, flees, happened, heal, healFor, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, vibrating, wondering } from '@/server/tokens';
 import Editor, { useMonaco } from '@monaco-editor/react';
@@ -568,7 +568,7 @@ export const CodeEditor = () => {
         hiddenElement.click();
     }
 
-    const executeCode = () => {
+    const executeCodeOld = () => {
         const formData = new FormData();
         formData.append("code", code);
         axiosInstance.post(`${URL}/api/rpgscript/execute`, formData, {
@@ -583,6 +583,18 @@ export const CodeEditor = () => {
             console.log(error.response.data.error);
             setOutputs((value) => [...value, error.response.data.error]);
         });
+    }
+
+    const executeCode = () => {
+        try {
+            const interpreter = new Interpreter();
+            let data = code.split("\n").map((instruction) => instruction.trim());
+            const { logs }: InterpreterOutput = interpreter.execute(undefined, data);
+            const line: string = logs.join("");
+            setOutputs((value) => [...value, line]);
+        } catch (e) {
+            setOutputs((value) => [...value, String(e)]);
+        }
     }
 
     const clearOutput = () => {
