@@ -16,15 +16,17 @@ export const Desktop = () => {
     const { clickWindow, openWindow } = useWindows();
     const { focusWindow } = useFocusWindows();
     const { unfocusApps } = useFocusApps();
-    const { setShutdown } = useSystem();
+    const { loggedIn, setShutdown } = useSystem();
     const { isLogOffModalOpen, closeLogOffModal, isShutOffModalOpen, closeShutOffModal } = useSystemModal();
     const PORTFOLIO_URL = process.env.NEXT_PUBLIC_PORTFOLIO_URL;
     const LINKEDIN_URL = process.env.NEXT_PUBLIC_LINKEDIN_URL;
 
     useEffect(() => {
-        const startUpSound = new Audio("./windowsXP.mp3");
-        startUpSound.play();
-    }, []);
+        if (loggedIn) {
+            const startUpSound = new Audio("./startup.mp3");
+            startUpSound.play();
+        }
+    }, [loggedIn]);
 
     const clickAppHandler = (id: string) => {
         clickWindow(id);

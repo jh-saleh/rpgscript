@@ -1,11 +1,11 @@
 "use client"
 
+import { Startup } from "@/components/cinematic/Startup";
 import { FocusAppsContextProvider } from "@/components/hooks/FocusApps.hook";
 import { FocusWindowsContextProvider } from "@/components/hooks/FocusWindows.hook";
 import { SystemContextProvider } from "@/components/hooks/System.hook";
 import { SystemModalContextProvider } from "@/components/hooks/SystemModal.hook";
 import { WindowsContextProvider } from "@/components/hooks/Windows.hook";
-import { Startup } from "@/components/startup/Startup";
 
 export default function Home() {
   return (

@@ -3,6 +3,8 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useStat
 interface SystemContextType {
     shutdown: boolean;
     setShutdown: Dispatch<SetStateAction<boolean>>;
+    loggedIn: boolean;
+    setLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
 const SystemContext = createContext<SystemContextType | null>(null);
@@ -13,10 +15,12 @@ interface SystemContextProviderProps {
 
 export const SystemContextProvider = ({ children }: SystemContextProviderProps) => {
     const [shutdown, setShutdown] = useState<boolean>(false);
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     return <SystemContext.Provider value={
         {
-            shutdown, setShutdown
+            shutdown, setShutdown,
+            loggedIn, setLoggedIn
         }
     }>
         {children}

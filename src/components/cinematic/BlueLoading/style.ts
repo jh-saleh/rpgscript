@@ -20,15 +20,11 @@ width: 100dvw;
 justify-content: space-between;
 flex-direction: column;
 background-color: #5480e7;
-> div:nth-child(2) {
-    display: grid;
-    place-items: center;
-    color: white;
-    font-weight: 600;
-    font-size: 100px;
-    font-style: italic;
-    text-shadow: 2px 2px 4px #00249d;
-}
+`;
+
+export const BodyLayout = styled.div`
+display: grid;
+place-items: center;
 `;
 
 export const TopLineDecorationLayout = styled.div`

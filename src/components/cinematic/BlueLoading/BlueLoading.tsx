@@ -1,10 +1,11 @@
-import { BottomLineDecorationLayout, TopLineDecorationLayout, WelcomeContentLayout, WelcomeWrapperLayout } from "./style";
+import { ReactNode } from "react";
+import { BodyLayout, BottomLineDecorationLayout, TopLineDecorationLayout, WelcomeContentLayout, WelcomeWrapperLayout } from "./style";
 
 interface BlueScreenProps {
-    label: string;
+    children: ReactNode;
 }
 
-export const BlueScreen = ({ label }: BlueScreenProps) => {
+export const BlueScreen = ({ children }: BlueScreenProps) => {
 
     return (<WelcomeWrapperLayout>
         <div />
@@ -13,9 +14,9 @@ export const BlueScreen = ({ label }: BlueScreenProps) => {
                 <div />
                 <div />
             </TopLineDecorationLayout>
-            <div>
-                {label}
-            </div>
+            <BodyLayout>
+                {children}
+            </BodyLayout>
             <BottomLineDecorationLayout>
                 <div />
                 <div />

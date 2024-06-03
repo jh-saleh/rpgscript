@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const AppLayout = styled.a<{ $clicked: boolean }>(({ $clicked }) => `
 user-select: none;
@@ -10,7 +10,7 @@ place-items: center;
 > img {
     width: 40px;
     height: 40px;
-    opacity: ${$clicked ? "0.5" : "1"};
+    ${$clicked && css`filter: grayscale(32%); opacity: 0.8;`}
 }
 > div {
     width: 100px;
