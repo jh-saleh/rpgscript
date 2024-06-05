@@ -83,6 +83,7 @@ display: grid;
 grid-template-rows: min-content max-content;
 gap: 7px;
 place-items: center;
+color: white;
 > img {
     height: 30px;
     width: 30px;

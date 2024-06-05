@@ -6,6 +6,7 @@ const breakPointMaxWidth = "(max-width: 450px)";
 export const LoggingOffLayout = styled.div`
 display: grid;
 place-items: center;
+color: white;
 > div {
     min-width: 290px;
     height: 100%;

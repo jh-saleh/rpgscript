@@ -7,6 +7,7 @@ display: grid;
 grid-template-rows: 50px 30px;
 cursor: pointer;
 place-items: center;
+color: white;
 > img {
     width: 40px;
     height: 40px;
