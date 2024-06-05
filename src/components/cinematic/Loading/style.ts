@@ -8,6 +8,7 @@ display: grid;
 grid-template-rows: auto min-content;
 font-size: xx-large;
 user-select: none;
+color: white;
 `;
 
 export const StartupLayout = styled.div`

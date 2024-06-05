@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 export const WelcomeLayout = styled.div`
 display: grid;
 place-items: center;
+color: white;
 > div {
     height: 100%;
     display: grid;
