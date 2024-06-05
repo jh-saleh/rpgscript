@@ -50,6 +50,7 @@ height: 45px;
 `;
 
 export const UserNameLayout = styled.div`
+color: white;
 font-size: small;
 text-shadow: 1px 1px black;
 `;

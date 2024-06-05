@@ -108,6 +108,7 @@ export const StatusLayout = styled.div`
     place-items: center;
     gap: 7px;
     > div {
+        color: white;
         font-size: x-small;
     }
     > img {
