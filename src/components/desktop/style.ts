@@ -35,5 +35,10 @@ padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    flex-wrap: wrap;
+    width: min-content;
+    @media(max-height: 450px) {
+        height: calc(100dvh - 60px);
+    }
 }
 `;

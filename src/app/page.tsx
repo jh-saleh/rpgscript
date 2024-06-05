@@ -17,12 +17,8 @@ export default function Home() {
               {
                 id: "rpgscript",
                 position: {
-                  left: 20,
-                  top: 20
-                },
-                size: {
-                  height: 400,
-                  width: 800
+                  left: 0,
+                  top: 0
                 },
                 label: "RPG Script",
                 path: "./rpgscript.png"
@@ -30,12 +26,8 @@ export default function Home() {
               {
                 id: "rpgscriptspecs",
                 position: {
-                  left: 60,
-                  top: 60
-                },
-                size: {
-                  height: 400,
-                  width: 800
+                  left: 0,
+                  top: 0
                 },
                 label: "RPG Script Specifications",
                 path: "./rpgscriptspecs.png"

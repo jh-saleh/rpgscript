@@ -28,43 +28,45 @@ export const StartUpMenu = () => {
             <ProgrammsSectionLayout>
                 <div>
                     <AppSectionLayout>
-                        <AppIconLayout onClick={() => { clickAppHandler("rpgscript"); }}>
-                            <img src="./rpgscript.png" alt="rpgscript logo" />
-                            <div>
-                                RPG Script
-                            </div>
-                        </AppIconLayout>
-                        <AppIconLayout onClick={() => { clickAppHandler("rpgscriptspecs"); }}>
-                            <img src="./rpgscriptspecs.png" alt="rpgscripts spec logo" />
-                            <div>
-                                RPG Script Specs
-                            </div>
-                        </AppIconLayout>
-                        <Separator />
-                        <AppIconLayout href={PORTFOLIO_URL} target="_blank">
-                            <img src="./portfolio.png" alt="portfolio link" />
-                            <div>
-                                Portfolio
-                            </div>
-                        </AppIconLayout>
-                        <AppIconLayout href={LINKEDIN_URL} target="_blank">
-                            <img src="./linkedin.png" alt="linkedin link" />
-                            <div>
-                                LinkedIn
-                            </div>
-                        </AppIconLayout>
-                        <AppIconLayout href={MEDIA_PLAYER_URL} target="_blank">
-                            <img src="./mediaplayer.png" alt="media player link" />
-                            <div>
-                                Screens Media Player
-                            </div>
-                        </AppIconLayout>
-                        <AppIconLayout>
-                            <img src="./paint.png" alt="paint link" />
-                            <div>
-                                Paint
-                            </div>
-                        </AppIconLayout>
+                        <div>
+                            <AppIconLayout onClick={() => { clickAppHandler("rpgscript"); }}>
+                                <img src="./rpgscript.png" alt="rpgscript logo" />
+                                <div>
+                                    RPG Script
+                                </div>
+                            </AppIconLayout>
+                            <AppIconLayout onClick={() => { clickAppHandler("rpgscriptspecs"); }}>
+                                <img src="./rpgscriptspecs.png" alt="rpgscripts spec logo" />
+                                <div>
+                                    RPG Script Specs
+                                </div>
+                            </AppIconLayout>
+                            <Separator />
+                            <AppIconLayout href={PORTFOLIO_URL} target="_blank">
+                                <img src="./portfolio.png" alt="portfolio link" />
+                                <div>
+                                    Portfolio
+                                </div>
+                            </AppIconLayout>
+                            <AppIconLayout href={LINKEDIN_URL} target="_blank">
+                                <img src="./linkedin.png" alt="linkedin link" />
+                                <div>
+                                    LinkedIn
+                                </div>
+                            </AppIconLayout>
+                            <AppIconLayout href={MEDIA_PLAYER_URL} target="_blank">
+                                <img src="./mediaplayer.png" alt="media player link" />
+                                <div>
+                                    Screens Media Player
+                                </div>
+                            </AppIconLayout>
+                            <AppIconLayout>
+                                <img src="./paint.png" alt="paint link" />
+                                <div>
+                                    Paint
+                                </div>
+                            </AppIconLayout>
+                        </div>
                     </AppSectionLayout>
                     <ShorcutSectionLayout>
                         <ShortcutIconLayout>

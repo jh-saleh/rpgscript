@@ -26,9 +26,27 @@ flex-wrap: wrap;
 margin-bottom: 20px;
 `;
 
+const setSpecificationsLayoutSize = ($state: WindowState) => {
+    if ($state === "maximized") {
+        return css`
+            min-height: calc(100dvh - 330px);
+            max-height: calc(100dvh - 60px);
+        `;
+    } else {
+        return css`
+            height: 400px;
+            @media(max-width: 400px) {
+                width: 100dvw;
+            }
+            @media(max-height: 450px) {
+                height: calc(100dvh - 60px);
+            }
+        `;
+    }
+}
+
 export const SpecificationsLayout = styled.div<{ $state: WindowState }>(({ $state }) => css`
-    min-height: ${$state === "maximized" ? css`calc(100dvh - 330px)` : '100%'};
-    max-height: ${$state === "maximized" ? css`calc(100dvh - 60px)` : css`calc(100dvh - 330px)`};
+    ${setSpecificationsLayoutSize($state)}
     width: inherit;
     overflow-y: auto;
 `);

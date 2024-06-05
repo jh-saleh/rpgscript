@@ -4,7 +4,7 @@ import { WindowState } from "../hooks/Windows.hook";
 
 export const navbarHeight = 30;
 
-const setWindowSize = ($width: number, $height: number, $left: number, $top: number, $state: WindowState) => {
+const setWindowSize = ($left: number, $top: number, $state: WindowState) => {
     if ($state === "maximized") {
         return css`
             min-width: 100dvw;
@@ -13,14 +13,23 @@ const setWindowSize = ($width: number, $height: number, $left: number, $top: num
         return css`
             top: ${$top}px;
             left: ${$left}px;
-            min-width: ${$width}px;
-            width: ${$width}px;
-            min-height: ${$height}px;`
+            min-width: 700px;
+            width: 700px;
+            min-height: 400px;
+            @media(max-width: 700px){
+                width: 100dvw;
+                min-width: 100dvw;
+            }
+            @media(max-height: 850px){
+                min-height: min-content;
+                height: min-content;
+            }
+            `
     }
 }
 
-export const WindowLayout = styled(animated.div)<{ $width: number, $height: number, $left: number, $top: number, $state: WindowState }>(({ $width, $height, $left, $top, $state }) => css`
-    ${setWindowSize($width, $height, $left, $top, $state)}
+export const WindowLayout = styled(animated.div)<{ $left: number, $top: number, $state: WindowState }>(({ $left, $top, $state }) => css`
+    ${setWindowSize($left, $top, $state)}
     z-index: 1;
     position: absolute;
     user-select: none;

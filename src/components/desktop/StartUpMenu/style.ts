@@ -7,6 +7,9 @@ bottom: 30px;
 z-index: 1;
 min-height: 150px;
 min-width: 385px;
+@media (max-width: 385px) {
+    min-width: 320px;
+}
 box-shadow: rgba(0, 0, 0, 0.5) 2px 4px 2px;
 display: grid;
 grid-template-rows: repeat(3, min-content);
@@ -53,6 +56,12 @@ text-shadow: 1px 1px black;
 
 export const ProgrammsSectionLayout = styled.div`
 min-height: 375px;
+@media (max-width: 385px) {
+    min-height: 300px;
+}
+@media (max-height: 500px) {
+    min-height: 100px;
+}
 width: min-content;
 background-color: #4791eb;
 position: relative;
@@ -70,16 +79,30 @@ padding: 0px 2px;
     display: grid;
     grid-template-columns: repeat(2, 191px);
     border-bottom: 1px #385de7 solid;
+    @media (max-width: 385px) {
+        grid-template-columns: repeat(2, 160px);
+    }
+    @media (max-height: 500px) {
+        grid-template-columns: repeat(2, calc(50dvw - 2px));
+    }
 }
 `;
 
 export const AppSectionLayout = styled.div`
 background-color: white;
-height: 100%;
-display: flex;
-flex-direction: column;
-gap: 5px;
-padding: 5px;
+> div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    @media (max-height: 500px) {
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: min-content;
+    }
+    gap: 5px;
+    padding: 5px;
+}
 `;
 
 export const ShorcutSectionLayout = styled.div`
@@ -88,6 +111,10 @@ height: 100%;
 border-left: 1px #a4b7ff solid;
 display: flex;
 flex-direction: column;
+@media (max-height: 500px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 gap: 2px;
 padding: 5px;
 `;
@@ -103,10 +130,17 @@ height: min-content;
 > img {
     width: 30px;
     height: 30px;
+    @media (max-width: 385px) {
+        width: 20px;
+        height: 20px;
+    }
 }
 > div {
     color: black;
     font-size: small;
+    @media (max-width: 385px) {
+        font-size: x-small;
+    }
 }
 &:hover {
     background-color: rgb(47, 113, 205);
@@ -119,7 +153,7 @@ height: min-content;
 export const ShortcutIconLayout = styled.a`
 cursor: pointer;
 display: grid;
-grid-template-columns: min-content 140px;
+grid-template-columns: min-content max-content;
 padding: 5px;
 gap: 5px;
 align-items: center;
@@ -127,13 +161,21 @@ height: min-content;
 > img {
     width: 22px;
     height: 22px;
+    @media (max-width: 385px) {
+        width: 15px;
+        height: 15px;
+    }
 }
 > div {
     color: rgb(0, 19, 107);
     font-size: 12px;
     font-weight: 500;
-    display: flex;
-    flex-wrap: wrap;
+    max-width: 140px;
+    word-break: break-all;
+    @media (max-width: 385px) {
+        font-size: 10px;
+        max-width: 120px;
+    }
 }
 &:hover {
     background-color: rgb(47, 113, 205);

@@ -16,7 +16,7 @@ interface WindowProps {
 
 export const Window = ({ id, menu, children }: WindowProps) => {
     const { windows, closeWindow, minimizeWindow, maximizeWindow, clickWindow } = useWindows();
-    const { state, position: { top, left }, size: { height, width }, label, path, zIndex } = windows[id];
+    const { state, position: { top, left }, label, path, zIndex } = windows[id];
     const [windowPos, setWindowPos] = useState<WindowPosition>({ top, left });
     const windowRef = useRef<HTMLDivElement>(null);
     const { nodes, focusWindow } = useFocusWindows();
@@ -49,7 +49,6 @@ export const Window = ({ id, menu, children }: WindowProps) => {
                 focusWindow(id);
                 unfocusApps();
             }}
-            $width={width} $height={height}
             $top={top} $left={left}
             $state={state}
             style={{

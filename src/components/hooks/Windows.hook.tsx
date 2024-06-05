@@ -14,7 +14,6 @@ export type WindowState = "open" | "normal" | "maximized" | "closed" | "minimize
 
 interface WindowData {
     position: WindowPosition;
-    size: WindowSize;
     zIndex: number;
     previousState: WindowState;
     state: WindowState;
@@ -38,7 +37,7 @@ interface WindowsContextType {
 const WindowsContext = createContext<WindowsContextType | null>(null);
 
 interface WindowsContextProviderProps {
-    initialData: { id: string, position: WindowPosition, size: WindowSize, label: string, path: string }[];
+    initialData: { id: string, position: WindowPosition, label: string, path: string }[];
     children: ReactNode;
 }
 
@@ -48,10 +47,9 @@ export const WindowsContextProvider = ({ initialData, children }: WindowsContext
 
     useEffect(() => {
         let initWindows: WindowsType = {};
-        initialData.forEach(({ id, size, label, path, position }) => {
+        initialData.forEach(({ id, label, path, position }) => {
             initWindows[id] = {
                 position,
-                size,
                 label,
                 path,
                 previousState: "closed",

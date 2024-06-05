@@ -26,6 +26,9 @@ padding: 7px;
     font-weight: 700;
     font-style: italic;
 }
+@media (max-width: 500px) {
+    font-size: small;
+}
 `;
 
 export const CompanyWrapperLayout = styled.div`
@@ -36,21 +39,38 @@ align-items: end;
 gap: 20px;
 > div {
     font-size: 55px;
+    @media (max-width: 500px), (max-height: 550px) {
+        font-size: 35px;
+    }
+}
+> img {
+    width:210px;
+    height:200px;
+    @media (max-width: 500px), (max-height: 550px) {
+        width:160px;
+        height:150px;
+    }
 }
 `;
 
 export const ScreensWrapperLayout = styled.div`
-font-size: 100px;
 display: grid;
 grid-template-columns: min-content min-content;
 > div:first-child {
+    font-size: 100px;
     font-weight: 600;
     font-style: italic;
+    @media (max-width: 500px), (max-height: 550px) {
+        font-size: 70px;
+    }
 }
 > div:nth-child(2) {
     font-size: 60px;
     font-weight: 500;
     color: #cf5232;
+    @media (max-width: 500px), (max-height: 550px) {
+        font-size: 30px;
+    }
 }
 `;
 

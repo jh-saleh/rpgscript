@@ -6,7 +6,7 @@
 | #This is a comment                                                                              | comment                                            | comment    |   ✓   |
 | Entities                                                                                        | integer variables section definition               | section    |   ✓   |
 | a: (integer)hp                                                                                  | integer variable definition                        | variable   |   ✓   |
-| a: (string)mp                                                                                   | char variable definition                           | variable   |   ✓   |
+| a: (integer)mp                                                                                  | char variable definition                           | variable   |   ✓   |
 | The token1, ... and tokenN enter(s) combat!                                                     | token1, ..., tokenN can be modified                | starter    |   ✓   |
 | The a protect(s) the b.                                                                         | a = b                                              | arithmetic |   ✓   |
 | The a meditate(s).                                                                              | a = random(0, 1)                                   | arithmetic |   ✓   |

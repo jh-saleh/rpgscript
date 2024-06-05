@@ -65,6 +65,8 @@ const appColor = ($state: WindowState) => {
     return "";
 };
 
+const breakPointMaxWidth = "(max-width: 580px)";
+
 export const AppLayout = styled.div<{ $state: WindowState }>(({ $state }) => css`
     cursor: pointer;
     max-width: 170px;
@@ -77,9 +79,16 @@ export const AppLayout = styled.div<{ $state: WindowState }>(({ $state }) => css
     padding-left: 8px;
     gap: 12px;
     border-radius: 2px;
+    @media ${breakPointMaxWidth} {
+        width: min-content;
+        place-items: center;
+    }
     > div {
         color: white;
         font-size: small;
+        @media ${breakPointMaxWidth} {
+         display: none;
+        }
     }
     > img {
         height: 18px;

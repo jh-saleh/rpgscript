@@ -1,13 +1,19 @@
 import styled, { css } from "styled-components";
 
 export const WelcomeLayout = styled.div`
-height: 100%;
-width: 40dvw;
 display: grid;
-grid-template-rows: min-content min-content min-content;
-place-items: end;
-gap: 30px;
-padding: 25px 0px;
+place-items: center;
+> div {
+    height: 100%;
+    display: grid;
+    grid-template-rows: min-content min-content min-content;
+    place-items: end;
+    gap: 30px;
+    padding: 25px 0px;
+    @media (max-height: 500px) {
+        grid-template-rows: min-content min-content;
+    }
+}
 `;
 
 export const TextLayout = styled.div<{ $loadingDesktop: boolean }>(({ $loadingDesktop }) => `
@@ -16,22 +22,30 @@ font-weight: 500;
 font-size: ${$loadingDesktop ? "100px" : "xx-large"};
 ${$loadingDesktop ? css`text-shadow: 5px 5px #3155b5` : ""};
 font-style: italic;
-`);
-
-const loadDesktopPropertiesForAccountWrapper = ($loadingDesktop: boolean) => {
-    if ($loadingDesktop) {
-        return css``;
-    }
-    return css`
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
-    background: linear-gradient(to right, white,  #5480e7);
-    `;
+width: max-content;
+@media (max-height: 850px) and (min-height: 601px) {
+    font-size: ${$loadingDesktop ? "90px" : "x-large"};
 }
+@media (max-height: 600px) and (min-height: 501px) {
+    font-size: ${$loadingDesktop ? "80px" : "large"};
+}
+@media (max-height: 500px) {
+    display: none;
+}
+@media (max-width: 500px) {
+    font-size: ${$loadingDesktop ? "75px" : "large"};
+}
+`);
 
 export const AccountWrapperLayout = styled.div`
 padding: 1px;
 margin-top: 50px;
+@media (max-height: 850px) and (min-height: 501px) {
+    margin-top: 20px;
+}
+@media (max-height: 500px) {
+    margin-top: 0px;
+}
 `;
 
 const loadDesktopPropertiesForAccount = ($loadingDesktop: boolean) => {
@@ -51,11 +65,28 @@ cursor: pointer;
 display: flex;
 padding: 15px;
 min-width: 650px;
+@media (max-height: 850px) and (min-height: 501px) {
+    min-width: 450px;
+}
+@media (max-height: 500px) {
+    min-width: 340px;
+}
+@media (max-width: 500px) {
+    min-width: 330px;
+}
 > img {
     height: 90px;
     width: 90px;
     border: 3px ${$loadingDesktop ? "#bbcef1" : "#f3d146"} solid;
     border-radius: 10px;
+    @media (max-height: 850px) and (min-height: 501px) {
+        height: 70px;
+        width: 70px;
+    }
+    @media (max-height: 500px) {
+        height: 60px;
+        width: 60px;
+    }
 }
 > div {
     display: grid;
@@ -86,20 +117,37 @@ align-items: end;
 gap: 20px;
 > div {
     font-size: 27px;
+    @media (max-height: 850px) {
+        font-size: 24px;
+    }
+}
+> img {
+    width:110px;
+    height:100px;
+    @media (max-height: 850px) {
+        width:80px;
+        height:70px;
+    }
 }
 `;
 
 export const ScreensWrapperLayout = styled.div`
-font-size: 55px;
 display: grid;
 grid-template-columns: min-content min-content;
 > div:first-child {
+    font-size: 55px;
     font-weight: 600;
     font-style: italic;
+    @media (max-height: 850px) {
+        font-size: 42px;
+    }
 }
 > div:nth-child(2) {
     font-size: 30px;
     font-weight: 500;
     color: #cf5232;
+    @media (max-height: 850px) {
+        font-size: 20px;
+    }
 }
 `;

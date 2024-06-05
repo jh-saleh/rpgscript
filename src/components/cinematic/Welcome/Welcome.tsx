@@ -20,35 +20,37 @@ export const Welcome = () => {
 
     return <BlueScreen>
         <WelcomeLayout>
-            {!loadingDesktop &&
-                <LogoLayout>
-                    <CompanyWrapperLayout>
+            <div>
+                {!loadingDesktop &&
+                    <LogoLayout>
+                        <CompanyWrapperLayout>
+                            <div>
+                                Nanosoft
+                            </div>
+                            <Image src={"./nanosoft.svg"} alt="Nanosoft image" width={110} height={100} />
+                        </CompanyWrapperLayout>
+                        <ScreensWrapperLayout>
+                            <div>
+                                Screens
+                            </div>
+                            <div>
+                                xp
+                            </div>
+                        </ScreensWrapperLayout>
+                    </LogoLayout>}
+                <TextLayout $loadingDesktop={loadingDesktop}>
+                    {welcomeText}
+                </TextLayout>
+                <AccountWrapperLayout onClick={() => setLoadingDesktop(true)}>
+                    <AccountLayout $loadingDesktop={loadingDesktop}>
+                        <img src="./aircraft.png" alt="account logo" />
                         <div>
-                            Nanosoft
+                            <div>Admin</div>
+                            {loadingDesktop && <div>Loading your personal settings...</div>}
                         </div>
-                        <Image src={"./nanosoft.svg"} alt="Nanosoft image" width={110} height={100} />
-                    </CompanyWrapperLayout>
-                    <ScreensWrapperLayout>
-                        <div>
-                            Screens
-                        </div>
-                        <div>
-                            xp
-                        </div>
-                    </ScreensWrapperLayout>
-                </LogoLayout>}
-            <TextLayout $loadingDesktop={loadingDesktop}>
-                {welcomeText}
-            </TextLayout>
-            <AccountWrapperLayout onClick={() => setLoadingDesktop(true)}>
-                <AccountLayout $loadingDesktop={loadingDesktop}>
-                    <img src="./aircraft.png" alt="account logo" />
-                    <div>
-                        <div>Admin</div>
-                        {loadingDesktop && <div>Loading your personal settings...</div>}
-                    </div>
-                </AccountLayout>
-            </AccountWrapperLayout>
+                    </AccountLayout>
+                </AccountWrapperLayout>
+            </div>
         </WelcomeLayout>
     </BlueScreen>;
 }

@@ -30,25 +30,27 @@ export const LoggingOff = () => {
 
     return <BlueScreen>
         <LoggingOffLayout>
-            <LogoLayout>
-                <CompanyWrapperLayout>
-                    <div>
-                        Nanosoft
-                    </div>
-                    <Image src={"./nanosoft.svg"} alt="Nanosoft image" width={110} height={100} />
-                </CompanyWrapperLayout>
-                <ScreensWrapperLayout>
-                    <div>
-                        Screens
-                    </div>
-                    <div>
-                        xp
-                    </div>
-                </ScreensWrapperLayout>
-            </LogoLayout>
-            <TextLayout>
-                {texts[page]}
-            </TextLayout>
+            <div>
+                <LogoLayout>
+                    <CompanyWrapperLayout>
+                        <div>
+                            Nanosoft
+                        </div>
+                        <Image src={"./nanosoft.svg"} alt="Nanosoft image" width={110} height={100} />
+                    </CompanyWrapperLayout>
+                    <ScreensWrapperLayout>
+                        <div>
+                            Screens
+                        </div>
+                        <div>
+                            xp
+                        </div>
+                    </ScreensWrapperLayout>
+                </LogoLayout>
+                <TextLayout>
+                    {texts[page]}
+                </TextLayout>
+            </div>
         </LoggingOffLayout>
     </BlueScreen>
 }
