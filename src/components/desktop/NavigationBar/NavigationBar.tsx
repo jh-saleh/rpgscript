@@ -60,8 +60,8 @@ export const NavigationBar = () => {
                     </AppLayout>)}
             </AppsBarLayout>
             <StatusLayout>
-                <img src={"./bluetooth.png"} alt={"danger icon"} />
-                <img src={"./sound.png"} alt={"danger icon"} />
+                <img src={"./bluetooth.png"} alt={"bluetooth icon"} />
+                <img src={"./sound.png"} alt={"sound icon"} />
                 <img src={"./danger.png"} alt={"danger icon"} />
                 <div>
                     {time}
