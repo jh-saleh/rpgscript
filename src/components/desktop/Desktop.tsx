@@ -5,9 +5,11 @@ import { useSystem } from "../hooks/System.hook";
 import { useSystemModal } from "../hooks/SystemModal.hook";
 import { useWindows } from "../hooks/Windows.hook";
 import { App } from "./App/App";
+import { PrivacyPolicy } from "./BasicWindows/PrivacyPolicy";
+import { Specifications } from "./BasicWindows/Specifications";
+import { TermsOfService } from "./BasicWindows/TermsOfService";
 import { CodeEditor } from "./Editor/CodeEditor";
 import { NavigationBar } from './NavigationBar/NavigationBar';
-import { Specifications } from "./Specifications/Specifications";
 import { SystemModal } from "./SystemModal/SystemModal";
 import { SystemButtonLayout } from "./SystemModal/style";
 import { BackgroundLayout, DesktopWrapperLayout } from "./style";
@@ -66,10 +68,24 @@ export const Desktop = () => {
                                 LinkedIn
                             </div>
                         </App>
+                        <App id="termsofservice" onDoubleClick={() => clickAppHandler("termsofservice")}>
+                            <img src="./termsofservice.png" alt="terms of service logo" />
+                            <div>
+                                Terms of service
+                            </div>
+                        </App>
+                        <App id="privacypolicy" onDoubleClick={() => clickAppHandler("privacypolicy")}>
+                            <img src="./privacypolicy.png" alt="privacy policy logo" />
+                            <div>
+                                Privacy Policy
+                            </div>
+                        </App>
                     </div>
                 </BackgroundLayout>
                 <CodeEditor />
                 <Specifications />
+                <TermsOfService />
+                <PrivacyPolicy />
                 <NavigationBar />
             </DesktopWrapperLayout>
             <SystemModal label="Log Off Screens" open={isLogOffModalOpen} closeModal={closeLogOffModal} >

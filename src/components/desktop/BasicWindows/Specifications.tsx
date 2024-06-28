@@ -3,7 +3,7 @@ import { useWindows } from "@/components/hooks/Windows.hook";
 import axiosInstance from "@/server/axios/axiosClient";
 import { useEffect, useState } from "react";
 import { Window } from "../../window/Window";
-import { InstructionLayout, InstructionsWrapperLayout, MotivationLayout, SpecificationsLayout, TitleLayout } from "./style";
+import { BasicWindowLayout, InstructionLayout, InstructionsWrapperLayout, SectionLayout, TitleLayout } from "./style";
 
 export const Specifications = () => {
     const { windows } = useWindows();
@@ -21,11 +21,11 @@ export const Specifications = () => {
     }, []);
 
     return <Window id="rpgscriptspecs">
-        <SpecificationsLayout $state={state}>
+        <BasicWindowLayout $state={state}>
             <TitleLayout>
                 Motivation
             </TitleLayout>
-            <MotivationLayout>
+            <SectionLayout>
                 <p>
                     RPGScript is an <a href="https://en.wikipedia.org/wiki/Esoteric_programming_language" target="_blank">esoteric</a> pseudo assembly language
                     written and designed by <a href={LINKEDIN_URL}>Jean-Hanna SALEH</a>. An esoteric programming language or an esolang is &quot;designed to test the boundaries of computer programming language design&quot; - Wikipedia.
@@ -40,7 +40,7 @@ export const Specifications = () => {
                 <p>
                     The text editor has the same shortcuts as VS Code ! <a href="https://code.visualstudio.com/docs/getstarted/keybindings#_basic-editing" target="_blank">Check them out here.</a>
                 </p>
-            </MotivationLayout>
+            </SectionLayout>
             <TitleLayout>
                 Instruction set
             </TitleLayout>
@@ -72,6 +72,6 @@ export const Specifications = () => {
                     </InstructionLayout>)}
                 </tbody>
             </InstructionsWrapperLayout>
-        </SpecificationsLayout>
+        </BasicWindowLayout>
     </Window>;
 }

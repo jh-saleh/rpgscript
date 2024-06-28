@@ -2,7 +2,7 @@ import { WindowState } from "@/components/hooks/Windows.hook";
 import styled, { css } from "styled-components";
 
 export const TitleLayout = styled.h3`
-font-size: large;
+font-size: x-large;
 margin-bottom: 5px;
 &::after{
     background: linear-gradient(to right, rgb(112, 191, 255) 0px, rgb(255, 255, 255) 100%);
@@ -15,10 +15,15 @@ margin-bottom: 5px;
 }
 `;
 
-export const MotivationLayout = styled.div`
+export const SectionLayout = styled.div`
 font-size: medium;
 display: flex;
 flex-wrap: wrap;
+gap: 5px;
+text-align: justify;
+> p {
+    width: 100%;
+}
 > p  > a {
     display: contents;
     font-weight: 600;
@@ -26,7 +31,7 @@ flex-wrap: wrap;
 margin-bottom: 20px;
 `;
 
-const setSpecificationsLayoutSize = ($state: WindowState) => {
+const setBasicWindowLayoutSize = ($state: WindowState) => {
     if ($state === "maximized") {
         return css`
             min-height: calc(100dvh - 330px);
@@ -45,8 +50,8 @@ const setSpecificationsLayoutSize = ($state: WindowState) => {
     }
 }
 
-export const SpecificationsLayout = styled.div<{ $state: WindowState }>(({ $state }) => css`
-    ${setSpecificationsLayoutSize($state)}
+export const BasicWindowLayout = styled.div<{ $state: WindowState }>(({ $state }) => css`
+    ${setBasicWindowLayoutSize($state)}
     width: inherit;
     overflow-y: auto;
 `);

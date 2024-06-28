@@ -8,7 +8,7 @@ import { AppLayout, AppsBarLayout, BarLayout, NavigationBarWrapper, StartButtonL
 
 export const NavigationBar = () => {
     const [time, setTime] = useState<string>("");
-    const { windows, minimizeWindow } = useWindows();
+    const { windows, minimizeWindow, clickWindow } = useWindows();
     const { nodes, focusWindow } = useFocusWindows();
     const { unfocusApps } = useFocusApps();
 
@@ -50,6 +50,7 @@ export const NavigationBar = () => {
                         e.stopPropagation();
                         if (windows[id].state === "minimized") {
                             focusWindow(id);
+                            clickWindow(id);
                         }
                         minimizeWindow(id);
                     }}>

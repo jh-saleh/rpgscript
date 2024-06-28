@@ -65,7 +65,7 @@ const appColor = ($state: WindowState) => {
     return "";
 };
 
-const breakPointMaxWidth = "(max-width: 580px)";
+const breakPointMaxWidth = "(max-width: 900px)";
 
 export const AppLayout = styled.div<{ $state: WindowState }>(({ $state }) => css`
     cursor: pointer;
