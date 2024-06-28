@@ -28,7 +28,7 @@ export const PrivacyPolicy = () => {
                     Collection d&apos;information
                 </h3>
                 <p>
-                    Ce site ne collecte pas de données personnelles. Ce site n'utilise pas de cookies.
+                    Ce site ne collecte pas de données personnelles. Ce site n&apos;utilise pas de cookies.
                 </p>
                 <h3>
                     Responsabilité

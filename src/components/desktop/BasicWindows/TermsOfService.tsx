@@ -35,26 +35,26 @@ export const TermsOfService = () => {
                     <b>Adresse e-mail</b> : privacy@vercel.com
                 </p>
                 <h3>
-                    Conditions générales d’utilisation du site
+                    Conditions générales d&apos;utilisation du site
                 </h3>
                 <p>
-                    L’utilisation du site {baseURL} implique l’acceptation pleine et entière des conditions générales d’utilisation ci-après décrites.
-                    Ces conditions d’utilisation sont susceptibles d’être modifiées ou complétées à tout moment,
+                    L&apos;utilisation du site {baseURL} implique l&apos;acceptation pleine et entière des conditions générales d&apos;utilisation ci-après décrites.
+                    Ces conditions d&apos;utilisation sont susceptibles d&apos;être modifiées ou complétées à tout moment,
                     les utilisateurs du site {baseURL} sont donc invités à les consulter de manière régulière.
                 </p>
                 <p>
                     Ce site internet est normalement accessible à tout moment aux utilisateurs. Une interruption pour raison de maintenance technique peut être toutefois décidée par Jean-Hanna SALEH.
-                    Le site web {baseURL} est mis à jour régulièrement par Jean-Hanna SALEH. De la même façon, les mentions légales peuvent être modifiées à tout moment : elles s’imposent néanmoins
-                    à l’utilisateur qui est invité à s’y référer le plus souvent possible afin d’en prendre connaissance.
+                    Le site web {baseURL} est mis à jour régulièrement par Jean-Hanna SALEH. De la même façon, les mentions légales peuvent être modifiées à tout moment : elles s&apos;imposent néanmoins
+                    à l&apos;utilisateur qui est invité à s&apos;y référer le plus souvent possible afin d&apos;en prendre connaissance.
                 </p>
                 <h3>
                     Limitations de responsabilité
                 </h3>
                 <p>
                     Le site utilise la technologie JavaScript.
-                    Jean-Hanna SALEH ne pourra être tenu pour responsable des dommages directs et indirects causés au matériel de l’utilisateur, lors de l’accès au site {baseURL}.
-                    Jean-Hanna SALEH décline toute responsabilité quant à l’utilisation qui pourrait être faite des informations et contenus présents sur {baseURL}.
-                    Jean-Hanna SALEH s’engage à sécuriser au mieux le site {baseURL}, cependant sa responsabilité ne pourra être mise en cause si des données indésirables sont importées et installées sur son site à son insu.
+                    Jean-Hanna SALEH ne pourra être tenu pour responsable des dommages directs et indirects causés au matériel de l&apos;utilisateur, lors de l&apos;accès au site {baseURL}.
+                    Jean-Hanna SALEH décline toute responsabilité quant à l&apos;utilisation qui pourrait être faite des informations et contenus présents sur {baseURL}.
+                    Jean-Hanna SALEH s&apos;engage à sécuriser au mieux le site {baseURL}, cependant sa responsabilité ne pourra être mise en cause si des données indésirables sont importées et installées sur son site à son insu.
                 </p>
                 <h3>
                     Gestion des données personnelles
@@ -67,11 +67,11 @@ export const TermsOfService = () => {
                     Liens hypertextes et cookies
                 </h3>
                 <p>
-                    Le site {baseURL} contient des liens hypertextes vers d’autres sites.
-                    Jean-Hanna SALEH décline toute responsabilité à propos de ces liens externes ou des liens créés par d’autres sites vers {baseURL}.
+                    Le site {baseURL} contient des liens hypertextes vers d&apos;autres sites.
+                    Jean-Hanna SALEH décline toute responsabilité à propos de ces liens externes ou des liens créés par d&apos;autres sites vers {baseURL}.
                 </p>
                 <p>
-                    Le site {baseURL} n'utilise pas de cookies.
+                    Le site {baseURL} n&apos;utilise pas de cookies.
                     Un cookie est un petit fichier texte qui peut être envoyé à votre navigateur lorsque vous visitez un site web.
                     Pour plus d&apos;informations, lisez la politique de confidentialité.
                 </p>
@@ -79,7 +79,7 @@ export const TermsOfService = () => {
                     Droit applicable et attribution de juridiction
                 </h3>
                 <p>
-                    Tout litige en relation avec l’utilisation du site {baseURL} est soumis au droit français.
+                    Tout litige en relation avec l&apos;utilisation du site {baseURL} est soumis au droit français.
                     En dehors des cas où la loi ne le permet pas, il est fait attribution exclusive de juridiction aux tribunaux compétents de PARIS.
                 </p>
             </SectionLayout>
