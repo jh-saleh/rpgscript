@@ -47,7 +47,7 @@ export const PrivacyPolicy = () => {
                     • Les dommages de toute nature, directs ou indirects, résultant du contenu et/ou de l&apos;utilisation des sites Internet liés au site {baseURL} ou auxquels les utilisateurs pourraient avoir accès via le site de {baseURL}.
                 </p>
                 <p>
-                    • Les omissions et /ou erreurs que pourraient contenir le site.
+                    • Les omissions et/ou erreurs que pourraient contenir le site.
                 </p>
                 <h3>
                     Liens

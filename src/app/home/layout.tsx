@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "RPG Script - By Jean-hanna SALEH",
-  description: "RPG Script - By Jean-hanna SALEH",
+  title: "Home - RPGScript",
   icons: [
     {
       rel: 'icon',

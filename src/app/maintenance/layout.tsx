@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Maintenance - RPGScript",
-    description: "RPG Script - By Jean-hanna SALEH",
     icons: [
         {
             rel: 'icon',
