@@ -8,7 +8,7 @@ display: grid;
 place-items: center;
 color: white;
 > div {
-    min-width: 290px;
+    min-width: 400px;
     height: 100%;
     display: flex;
     flex-direction: column;
