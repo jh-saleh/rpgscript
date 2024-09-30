@@ -9,6 +9,9 @@ place-items: center;
 color: white;
 > div {
     min-width: 400px;
+    @media ${breakPointMaxWidth} {
+        min-width: 290px;
+    }
     height: 100%;
     display: flex;
     flex-direction: column;
