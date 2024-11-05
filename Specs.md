@@ -55,7 +55,7 @@
 | The a use(s) the i.                                                                             | a = i[last element index]                          | lists      |       |
 | The a use(s) the i on the b.                                                                    | a = i[b]                                           | lists      |       |
 | The a use(s) the i for (number)turns(s) on the b.                                               | a = i[turns]                                       | lists      |       |
-| The i is currently level (number).                                                              | i[last element index + 1] = level                  | lists      |       |
+| The i is currently level (number).                                                              | i[last element index] = level                      | lists      |       |
 | The a upgrade(s) the i by (number)level(s).                                                     | i[a] = levels                                      | lists      |       |
 | The a upgrade(s) the i by (number)level(s) in (number)min(s).                                   | i[mins] = levels                                   | lists      |       |
 | The a combine(s) the i1 and the i2.                                                             | i1 = concat(i1, i2)                                | lists      |       |
