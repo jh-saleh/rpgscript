@@ -11,11 +11,22 @@ export enum Section {
     Events = "Events"
 }
 
-export interface Variable {
-    type: "string" | "number" | "boolean";
-    value: number;
+// J'utilise ici la notion de discriminated unions pour éviter de faire la vérification du undefined en fonction du champ value / values
+export interface BaseVariable {
     protected: boolean;
 }
+
+export interface SimpleVariable extends BaseVariable {
+    type: "string" | "number" | "boolean";
+    value: number;
+}
+
+export interface ArrayVariable extends BaseVariable {
+    type: "array";
+    values: number[];
+}
+
+export type Variable = SimpleVariable | ArrayVariable;
 
 export interface Function {
     type: "main" | "other";

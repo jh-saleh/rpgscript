@@ -12,6 +12,7 @@ export enum VariablesError {
     VariablesSectionMissing = "Entities or Environment section missing.",
     WrongEntityVariableSyntax = "Wrong entity variable syntax at line {0}.",
     WrongEnvironmentVariableSyntax = "Wrong environment variable syntax at line {0}.",
+    WrongItemVariableSyntax = "Wrong item variable syntax at line {0}.",
     WrongEnvironmentVariableValue = "Unknown environment value at line {0}",
     DuplicatedVariable = "Duplicated token at line {0}:\n{1}",
 }

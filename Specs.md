@@ -8,46 +8,46 @@
 | a: (integer)hp                                                                                  | integer variable definition                        | variable   |   ✓   |
 | a: (integer)mp                                                                                  | char variable definition                           | variable   |   ✓   |
 | The token1, ... and tokenN enter(s) combat!                                                     | token1, ..., tokenN can be modified                | starter    |   ✓   |
-| The a protect(s) the b.                                                                         | a = b                                              | arithmetic |   ✓   |
-| The a meditate(s).                                                                              | a = random(0, 1)                                   | arithmetic |   ✓   |
-| The a attack(s) the b.                                                                          | b = b - a                                          | arithmetic |   ✓   |
-| The a lose(s) c points.                                                                         | a = a - c                                          | arithmetic |   ✓   |
-| The a heal(s) the b.                                                                            | b = b + a                                          | arithmetic |   ✓   |
-| The a heal(s) for c points.                                                                     | a = a + c                                          | arithmetic |   ✓   |
-| The a critically hit(s) the b.                                                                  | b = b / a                                          | arithmetic |   ✓   |
-| The a dodge(s) the b.                                                                           | b = b * a                                          | arithmetic |   ✓   |
-| The a is slowed down by the b.                                                                  | a = a % b                                          | arithmetic |   ✓   |
-| The a is slowed down for c turn(s).                                                             | a = a % c                                          | arithmetic |   ✓   |
+| The a protect(s) the b.                                                                         | a = b                                              | arithmetic |   ✓+T |
+| The a meditate(s).                                                                              | a = random(0, 1)                                   | arithmetic |   ✓+T |
+| The a attack(s) the b.                                                                          | b = b - a                                          | arithmetic |   ✓+T |
+| The a lose(s) c points.                                                                         | a = a - c                                          | arithmetic |   ✓+T |
+| The a heal(s) the b.                                                                            | b = b + a                                          | arithmetic |   ✓+T |
+| The a heal(s) for c points.                                                                     | a = a + c                                          | arithmetic |   ✓+T |
+| The a critically hit(s) the b.                                                                  | b = b / a                                          | arithmetic |   ✓+T |
+| The a dodge(s) the b.                                                                           | b = b * a                                          | arithmetic |   ✓+T |
+| The a is slowed down by the b.                                                                  | a = a % b                                          | arithmetic |   ✓+T |
+| The a is slowed down for c turn(s).                                                             | a = a % c                                          | arithmetic |   ✓+T |
 | The a activate(s) a counter attack!                                                             | prints a                                           | console    |   ✓   |
 | Environments                                                                                    | boolean variables section definition               | section    |   ✓   |
 | e: (weak OR strong)                                                                             | boolean variable definition                        | variable   |   ✓   |
 | The token1, ... and tokenN (are OR is) making up the scene!                                     | token1, ..., tokenN can be modified                | starter    |   ✓   |
-| The e is getting (weak or strong).                                                              | e = false OR true                                  | bool       |   ✓   |
-| The e1 is absorbing the e2.                                                                     | e1 = e2                                            | bool       |   ✓   |
-| The e is vibrating.                                                                             | e = !e                                             | bool       |   ✓   |
-| The a is challenging the b (under OR inside OR within OR on) the e.                             | e = a === b                                        | bool       |   ✓   |
-| The a is boosting the b's attack (under OR inside OR within OR on) the e.                       | e = a > b                                          | bool       |   ✓   |
-| The a is boosting the b's defense (under OR inside OR within OR on) the e.                      | e = a >= b                                         | bool       |   ✓   |
-| The a is debuffing the b's attack (under OR inside OR within OR on) the e.                      | e = a < b                                          | bool       |   ✓   |
-| The a is debuffing the b's defense (under OR inside OR within OR on) the e.                     | e = a <= b                                         | bool       |   ✓   |
+| The e is getting (weak or strong).                                                              | e = false OR true                                  | bool       |   ✓+T |
+| The e1 is absorbing the e2.                                                                     | e1 = e2                                            | bool       |   ✓+T |
+| The e is vibrating.                                                                             | e = !e                                             | bool       |   ✓+T |
+| The a is challenging the b (under OR inside OR within OR on) the e.                             | e = a === b                                        | bool       |   ✓+T |
+| The a is boosting the b's attack (under OR inside OR within OR on) the e.                       | e = a > b                                          | bool       |   ✓+T |
+| The a is boosting the b's defense (under OR inside OR within OR on) the e.                      | e = a >= b                                         | bool       |   ✓+T |
+| The a is debuffing the b's attack (under OR inside OR within OR on) the e.                      | e = a < b                                          | bool       |   ✓+T |
+| The a is debuffing the b's defense (under OR inside OR within OR on) the e.                     | e = a <= b                                         | bool       |   ✓+T |
 | The e1 is combining with the e2.                                                                | e1 = e1 and e2                                     | bool       |   ✓+T |
 | The e1 is merging with the e2.                                                                  | e1 = e1 or e2                                      | bool       |   ✓+T |
 | The a is wondering the effects of the e.                                                        | if (e) then pc+=1                                  | bool       |   ✓+T |
 | The a is pondering the effects of the e.                                                        | if (e) then pc+=1 else pc+=2                       | bool       |   ✓+T |
-| The a's hidden skill is triggered (under OR inside OR within OR on) the e.                      | a = (integer)e                                     | cast       |   ✓   |
-| The e triggers the a's hidden skill.                                                            | e = (bool)a                                        | cast       |   ✓   |
-| The a prepare(s) an attack                                                                      | rc = loop start                                    | loop       |   ✓   |
-| until the a is charged up.                                                                      | if (a === 0) pc = rc else pc+=1                    | loop       |   ✓   |
-| The e is starting to change                                                                     | rc = loop start                                    | loop       |   ✓   |
-| until the e is done changing.                                                                   | if (e === false) pc = rc else pc+=1                | loop       |   ✓   |
+| The a's hidden skill is triggered (under OR inside OR within OR on) the e.                      | a = (integer)e                                     | cast       |   ✓+T |
+| The e triggers the a's hidden skill.                                                            | e = (bool)a                                        | cast       |   ✓+T |
+| The a prepare(s) an attack                                                                      | rc = loop start                                    | loop       |   ✓+T |
+| until the a is charged up.                                                                      | if (a === 0) pc = rc else pc+=1                    | loop       |   ✓+T |
+| The e is starting to change                                                                     | rc = loop start                                    | loop       |   ✓+T |
+| until the e is done changing.                                                                   | if (e === false) pc = rc else pc+=1                | loop       |   ✓+T |
 | Fight X                                                                                         | create fightX function / entry point               | function   |   ✓   |
 | End of the fight X.                                                                             | end label for fightX                               | function   |   ✓   |
 | Flashback X                                                                                     | create flashbackX function                         | function   |   ✓   |
 | End of the flashback X.                                                                         | end label for flashbackX                           | function   |   ✓   |
-| The a remembers the flashbackX.                                                                 | a = flashbackX()                                   | function   |   ✓   |
-| The flashback X happened (under OR inside OR within OR on) the e.                               | e = flashbackX()                                   | function   |   ✓   |
-| The a (flee(s) OR is defeated OR dissapear(s))!                                                 | return a                                           | function   |   ✓   |
-| The e (dissapear(s) OR stop(s) OR vanish(es))!                                                  | return e                                           | function   |   ✓   |
+| The a remembers the flashbackX.                                                                 | a = flashbackX()                                   | function   |   ✓+T |
+| The flashback X happened (under OR inside OR within OR on) the e.                               | e = flashbackX()                                   | function   |   ✓+T |
+| The a (flee(s) OR is defeated OR dissapear(s))!                                                 | return a                                           | function   |   ✓+T |
+| The e (dissapear(s) OR stop(s) OR vanish(es))!                                                  | return e                                           | function   |   ✓+T |
 | Items                                                                                           | lists section definition                           | section    |       |
 | i: ((number)(g OR dmg OR kg OR ql OR tr))+                                                      | lists variable definition                          | variable   |       |
 | The a equip(s) the token1, ... and the tokenN.                                                  | token1, ..., tokenN can be modified                | lists      |       |

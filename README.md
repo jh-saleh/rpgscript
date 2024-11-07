@@ -29,3 +29,12 @@ The dragon loses 1 points.
 until the dragon is charged up.
 End of the fight of the fibonacci.
 ```
+
+### Run tests
+```sh
+npx jest 
+```
+
+```sh
+npx jest --coverage 
+```
