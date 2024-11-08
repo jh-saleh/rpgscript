@@ -48,9 +48,9 @@
 | The flashback X happened (under OR inside OR within OR on) the e.                               | e = flashbackX()                                   | function   |   ✓+T |
 | The a (flee(s) OR is defeated OR dissapear(s))!                                                 | return a                                           | function   |   ✓+T |
 | The e (dissapear(s) OR stop(s) OR vanish(es))!                                                  | return e                                           | function   |   ✓+T |
-| Items                                                                                           | lists section definition                           | section    |       |
-| i: ((number)(g OR dmg OR kg OR ql OR tr))+                                                      | lists variable definition                          | variable   |       |
-| The a equip(s) the token1, ... and the tokenN.                                                  | token1, ..., tokenN can be modified                | lists      |       |
+| Items                                                                                           | lists section definition                           | section    |   ✓   |
+| i: ((number)(g OR dmg OR kg OR ql OR tr))+                                                      | lists variable definition                          | variable   |   ✓   |
+| The a equip(s) the token1, ... and the tokenN.                                                  | token1, ..., tokenN can be modified                | starter    |       |
 | The a inspect(s) the i.                                                                         | a = i.length                                       | lists      |       |
 | The a use(s) the i.                                                                             | a = i[last element index]                          | lists      |       |
 | The a use(s) the i on the b.                                                                    | a = i[b]                                           | lists      |       |
