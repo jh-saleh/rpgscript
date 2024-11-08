@@ -1,0 +1,12 @@
+Fight use last
+Entities
+knight: 0hp
+
+Items
+sword: 1g 2kg 3dm 4g 45kg
+
+Events
+The knight enters combat!
+The knight equips the sword.
+The knight uses the sword.
+End of the fight use last.

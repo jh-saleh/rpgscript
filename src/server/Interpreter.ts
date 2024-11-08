@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, vibrating, wondering } from './tokens';
+import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
 
 export interface InterpreterOutput {
     logs: (string | number)[];
@@ -237,6 +237,22 @@ export class Interpreter {
         this.entries[this.function] = localVariables;
     }
 
+    getEntity(variable: string): SimpleVariable {
+        const a = this.entries[this.function][variable];
+        if (a.type !== "number" && a.type !== "string") {
+            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, this.pc.toString(), this.instructions[this.pc]));
+        }
+        return a;
+    }
+
+    getItem(variable: string): ArrayVariable {
+        const i = this.entries[this.function][variable];
+        if (i.type !== "array") {
+            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, this.pc.toString(), this.instructions[this.pc]));
+        }
+        return i;
+    }
+
     analyze(): void {
         let specialIncrementIfElse: number = 0;
         let nextInstruction: boolean = true;
@@ -267,6 +283,11 @@ export class Interpreter {
                         this.entries[this.function][variable].protected = false;
                     }
                     nextInstruction = false;
+                } else if (equip.regExp.test(instr)) {
+                    for (let variable of variables) {
+                        this.entries[this.function][variable].protected = false;
+                    }
+                    nextInstruction = false;
                 }
                 if (nextInstruction) {
                     variables
@@ -278,6 +299,9 @@ export class Interpreter {
                                 }
                                 if (this.entries[this.function][value].type === "boolean") {
                                     throw Error(InstructionsError.ProtectedEnvironment);
+                                }
+                                if (this.entries[this.function][value].type === "array") {
+                                    throw Error(InstructionsError.ProtectedItem);
                                 }
                             }
                         });
@@ -609,6 +633,24 @@ export class Interpreter {
                     } else if (endOfFlashbackSection.regExp.test(instr)) {
                         this.pc = this.rc.pop() ?? 0;
                         this.function = this.getFutureFunctionContext();
+                    } else if (inspect.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        a.value = i.values.length;
+                    } else if (useLast.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        a.value = i.values[i.values.length - 1];
+                    } else if (useElement.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        const b = this.getEntity(variables[2]);
+                        a.value = i.values[b.value];
+                    } else if (useStaticElement.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        const turns = Number(variables[2]);
+                        a.value = i.values[turns];
                     } else {
                         throw Error(FormatEnum(InstructionsError.Syntax, this.pc.toString(), instr));
                     }

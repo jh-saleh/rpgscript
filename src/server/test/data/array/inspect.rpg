@@ -1,0 +1,12 @@
+Fight inspect
+Entities
+knight: 0hp
+
+Items
+sword: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight enters combat!
+The knight equips the sword.
+The knight inspects the sword.
+End of the fight inspect.

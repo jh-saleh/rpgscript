@@ -1,0 +1,13 @@
+Fight with weapons
+Entities
+knight: 0hp
+
+Items
+sword: 1g 2kg 3dm 4g 5kg
+potion: 2dmg 1g 7k
+helmet: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight enters combat!
+The knight equips the sword, the potion and the helmet.
+End of the fight with weapons.

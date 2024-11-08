@@ -650,7 +650,61 @@ describe('Function', () => {
 });
 
 describe('List', () => {
-    // todo
+    test('interprete_should_allow_item_variables_to_change_their_value_when_the_instruction_"The a equip(s) the token1, ... and the tokenN."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/equip.rpg");
+        expect(entries["fight with weapons"]["knight"].protected).toBe(false);
+        expect(entries["fight with weapons"]["sword"].protected).toBe(false);
+        expect(entries["fight with weapons"]["potion"].protected).toBe(false);
+        expect(entries["fight with weapons"]["helmet"].protected).toBe(false);
+    });
+
+    test('interprete_should_not_allow_item_variables_to_change_their_value_when_the_instruction_"The a equip(s) the token1, ... and the tokenN."_is_missing', () => {
+        const interpreter = new Interpreter();
+        expect(() => {
+            interpreter.execute("src/server/test/data/array/noEquip.rpg");
+        }).toThrow(InstructionsError.ProtectedItem);
+    });
+
+    test('interprete_should_provide_the_list_length_when_the_instruction_"The a inspect(s) the i."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/inspect.rpg");
+        const knight: SimpleVariable = entries["fight inspect"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight inspect"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(5);
+        expect(sword.values).toEqual([1, 2, 3, 4, 5]);
+    });
+
+    test('interprete_should_provide_the_last_element_of_a_list_when_the_instruction_"The a use(s) the i."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/useLast.rpg");
+        const knight: SimpleVariable = entries["fight use last"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight use last"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(45);
+        expect(sword.values).toEqual([1, 2, 3, 4, 45]);
+    });
+
+    test('interprete_should_provide_a_specific_element_of_a_list_when_the_instruction_"The a use(s) the i on the b."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/useElement.rpg");
+        const knight: SimpleVariable = entries["fight use element"]["knight"] as SimpleVariable;
+        const dragon: SimpleVariable = entries["fight use element"]["dragon"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight use element"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(-1);
+        expect(dragon.value).toBe(1);
+        expect(sword.values).toEqual([1, -1, 3, 4, 5]);
+    });
+
+    test('interprete_should_provide_a_specific_element_of_a_list_when_the_instruction_"The a use(s) the i for (number)turns(s) on the b."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/useStaticElement.rpg");
+        const knight: SimpleVariable = entries["fight use static element"]["knight"] as SimpleVariable;
+        const dragon: SimpleVariable = entries["fight use static element"]["dragon"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight use static element"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(-8);
+        expect(dragon.value).toBe(0);
+        expect(sword.values).toEqual([1, -1, -8, 4, 5]);
+    });
 });
 
 describe('Common algorithms', () => {

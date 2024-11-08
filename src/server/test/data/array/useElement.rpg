@@ -1,0 +1,13 @@
+Fight use element
+Entities
+knight: 0hp
+dragon: 1hp
+
+Items
+sword: 1g -1kg 3dm 4g 5kg
+
+Events
+The knight and the dragon enter combat!
+The knight equips the sword.
+The knight uses the sword on the dragon.
+End of the fight use element.

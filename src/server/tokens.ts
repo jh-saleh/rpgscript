@@ -125,6 +125,11 @@ export const happened: RPGRegExp = new RPGRegExp(/^The flashback [a-z]+( [a-z]+)
 export const flees: RPGRegExp = new RPGRegExp(/^The [a-z]+ (fle(e|es)|is defeated|dissapea(r|rs))!$/, 1);
 export const dissapears: RPGRegExp = new RPGRegExp(/^The [a-z]+ (dissapea(r|rs)|sto(p|ps)|vanish(e|es))!$/, 1);
 export const endOfFlashbackSection: RPGRegExp = new RPGRegExp(/^End of the flashback [a-z]+( [a-z]+)*.$/, 1);
+export const equip: RPGRegExp = new RPGRegExp(/^The [a-z]+ equi(p|ps) the ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+).$/, -1);
+export const inspect: RPGRegExp = new RPGRegExp(/^The [a-z]+ inspec(t|ts) the [a-z]+.$/, 2);
+export const useLast: RPGRegExp = new RPGRegExp(/^The [a-z]+ us(e|es) the [a-z]+.$/, 2);
+export const useElement: RPGRegExp = new RPGRegExp(/^The [a-z]+ us(e|es) the [a-z]+ on the [a-z]+.$/, 3);
+export const useStaticElement: RPGRegExp = new RPGRegExp(/^The [a-z]+ us(e|es) the [a-z]+ for \d+ tur(n|ns) on the [a-z]+.$/, 4);
 
 export const instructionSet = [
     enter,
@@ -145,5 +150,10 @@ export const instructionSet = [
     loopEnvironmentLabel, loopEnvironmentCondition,
     remember, happened,
     flees, dissapears,
-    endOfFlashbackSection
+    endOfFlashbackSection,
+    equip,
+    inspect,
+    useLast,
+    useElement,
+    useStaticElement,
 ];
