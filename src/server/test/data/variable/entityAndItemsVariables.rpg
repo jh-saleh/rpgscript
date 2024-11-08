@@ -1,0 +1,11 @@
+Fight of the entity and item variables
+
+Entities
+dragon: 100hp
+wolf: 50mp
+
+Items
+sword: 1g 2kg 3dm 4g 5kg 6dm 7o
+potion: 100g -1kg 45dmg 0.8g 5kg
+Events
+End of the fight of the entity and item variables.

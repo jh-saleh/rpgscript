@@ -19,7 +19,7 @@ export enum VariablesError {
 
 export enum InstructionsError {
     UnknownVariable = "Unknown variable used at line {0}.",
-    MissingEventsSection = "The events section is missing.",
+    MissingEventsSection = "The Events section is missing.",
     Syntax = "Wrong instruction syntax at line {0}:\n{1}",
     ProtectedEntity = "Cannot use the value of an entity that hasn't entered combat !",
     ProtectedEnvironment = "Cannot use the value of a environment that hasn't made up the scene !",

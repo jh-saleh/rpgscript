@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, vibrating, wondering } from './tokens';
+import { Entities, Function, Position, Section, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, vibrating, wondering } from './tokens';
 
 export interface InterpreterOutput {
     logs: (string | number)[];
@@ -158,8 +158,8 @@ export class Interpreter {
                 break;
             }
             if (!special.includes(this.instructions[this.pc]) && !comment.test(this.instructions[this.pc])) {
-                if (this.instructions[this.pc] !== Section.Entities && this.instructions[this.pc] !== Section.Environments) {
-                    if (!this.doesSectionExist.entities && !this.doesSectionExist.environment) {
+                if (this.instructions[this.pc] !== Section.Entities && this.instructions[this.pc] !== Section.Environments && this.instructions[this.pc] !== Section.Items) {
+                    if (!this.doesSectionExist.entities && !this.doesSectionExist.environment && !this.doesSectionExist.items) {
                         throw Error(VariablesError.VariablesSectionMissing);
                     }
                 } else {
@@ -171,6 +171,11 @@ export class Interpreter {
                     if (this.instructions[this.pc] === Section.Environments) {
                         currentVariablesSection = Section.Environments;
                         this.doesSectionExist.environment = true;
+                        this.pc++;
+                    }
+                    if (this.instructions[this.pc] === Section.Items) {
+                        currentVariablesSection = Section.Items;
+                        this.doesSectionExist.items = true;
                         this.pc++;
                     }
                 }
@@ -209,6 +214,20 @@ export class Interpreter {
                     localVariables[environmentSection[0]] = {
                         type: "boolean",
                         value: fromStringToBooleanNumber(environmentSection[1], this.pc),
+                        protected: true
+                    };
+                }
+                if (currentVariablesSection !== undefined && currentVariablesSection === Section.Items) {
+                    if (!item.test(this.instructions[this.pc])) {
+                        throw Error(FormatEnum(VariablesError.WrongItemVariableSyntax, this.pc.toString()));
+                    }
+                    const itemSection: string[] = this.instructions[this.pc].split(": ");
+                    if (localVariables.hasOwnProperty(itemSection[0])) {
+                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                    }
+                    localVariables[itemSection[0]] = {
+                        type: "array",
+                        values: fromStringToArray(itemSection[1]),
                         protected: true
                     };
                 }

@@ -1,58 +1,124 @@
 import { expect, test } from '@jest/globals';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from '../Errors';
 import { Interpreter } from '../Interpreter';
-import { SimpleVariable } from '../tokens';
+import { ArrayVariable, SimpleVariable } from '../tokens';
 
-test('interprete_should_not_allow_functions_with_missing_variables_section', () => {
-    const interpreter = new Interpreter();
-    expect(() => {
-        interpreter.execute("src/server/test/data/arithmetic/variablesSectionMissing.rpg");
-    }).toThrow(VariablesError.VariablesSectionMissing);
-});
+describe('Variable', () => {
+    test('interprete_should_not_allow_functions_with_missing_variables_section', () => {
+        const interpreter = new Interpreter();
+        expect(() => {
+            interpreter.execute("src/server/test/data/variable/variablesSectionMissing.rpg");
+        }).toThrow(VariablesError.VariablesSectionMissing);
+    });
 
-test('interprete_should_not_allow_wrong_syntax_for_entity_variables', () => {
-    const interpreter = new Interpreter();
-    expect(() => {
-        interpreter.execute("src/server/test/data/wrongEntityVariableSyntax.rpg");
-    }).toThrow(FormatEnum(VariablesError.WrongEntityVariableSyntax, "2"));
-});
+    test('interprete_should_not_allow_wrong_syntax_for_entity_variables', () => {
+        const interpreter = new Interpreter();
+        expect(() => {
+            interpreter.execute("src/server/test/data/variable/wrongEntityVariableSyntax.rpg");
+        }).toThrow(FormatEnum(VariablesError.WrongEntityVariableSyntax, "2"));
+    });
 
-test('interprete_should_not_allow_wrong_syntax_for_environment_variables', () => {
-    const interpreter = new Interpreter();
-    expect(() => {
-        interpreter.execute("src/server/test/data/boolean/wrongEnvironmentVariableSyntax.rpg");
-    }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "2"));
-});
+    test('interprete_should_not_allow_wrong_syntax_for_environment_variables', () => {
+        const interpreter = new Interpreter();
+        expect(() => {
+            interpreter.execute("src/server/test/data/variable/wrongEnvironmentVariableSyntax.rpg");
+        }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "2"));
+    });
 
-test('interprete_should_allow_both_environment_and_entity_variables', () => {
-    const interpreter = new Interpreter();
-    const { entries } = interpreter.execute("src/server/test/data/environmentAndEntityVariables.rpg");
-    const rain: SimpleVariable = entries["fight of the environment and entity variables"]["rain"] as SimpleVariable;
-    const sun: SimpleVariable = entries["fight of the environment and entity variables"]["sun"] as SimpleVariable;
-    const dragon: SimpleVariable = entries["fight of the environment and entity variables"]["dragon"] as SimpleVariable;
-    const wolf: SimpleVariable = entries["fight of the environment and entity variables"]["wolf"] as SimpleVariable;
-    expect(rain.type).toBe("boolean");
-    expect(rain.value).toBe(1);
-    expect(sun.type).toBe("boolean");
-    expect(sun.value).toBe(0);
-    expect(dragon.type).toBe("number");
-    expect(dragon.value).toBe(100);
-    expect(wolf.type).toBe("string");
-    expect(wolf.value).toBe(50);
-});
+    test('interprete_should_not_allow_wrong_syntax_for_items_variables', () => {
+        const interpreter = new Interpreter();
+        expect(() => {
+            interpreter.execute("src/server/test/data/variable/wrongItemVariableSyntax.rpg");
+        }).toThrow(FormatEnum(VariablesError.WrongItemVariableSyntax, "2"));
+    });
 
-test('interprete_should_not_allow_duplicated_variables', () => {
-    const interpreter = new Interpreter();
-    expect(() => {
-        interpreter.execute("src/server/test/data/duplicatedVariables.rpg");
-    }).toThrow(FormatEnum(VariablesError.DuplicatedVariable, "3", "dragon: 100hp"));
-});
+    test('interprete_should_allow_both_environment_and_entity_variables', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/variable/environmentAndEntityVariables.rpg");
+        const rain: SimpleVariable = entries["fight of the environment and entity variables"]["rain"] as SimpleVariable;
+        const sun: SimpleVariable = entries["fight of the environment and entity variables"]["sun"] as SimpleVariable;
+        const dragon: SimpleVariable = entries["fight of the environment and entity variables"]["dragon"] as SimpleVariable;
+        const wolf: SimpleVariable = entries["fight of the environment and entity variables"]["wolf"] as SimpleVariable;
+        expect(rain.type).toBe("boolean");
+        expect(rain.value).toBe(1);
+        expect(sun.type).toBe("boolean");
+        expect(sun.value).toBe(0);
+        expect(dragon.type).toBe("number");
+        expect(dragon.value).toBe(100);
+        expect(wolf.type).toBe("string");
+        expect(wolf.value).toBe(50);
+    });
 
-test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_declared', () => {
-    const interpreter = new Interpreter();
-    expect(() => {
-        interpreter.execute("src/server/test/data/unknownVariable.rpg");
-    }).toThrow(FormatEnum(InstructionsError.UnknownVariable, "5", "ghost"));
+    test('interprete_should_allow_both_environment_and_items_variables', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/variable/environmentAndItemsVariables.rpg");
+        const rain: SimpleVariable = entries["fight of the environment and item variables"]["rain"] as SimpleVariable;
+        const sun: SimpleVariable = entries["fight of the environment and item variables"]["sun"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight of the environment and item variables"]["sword"] as ArrayVariable;
+        const potion: ArrayVariable = entries["fight of the environment and item variables"]["potion"] as ArrayVariable;
+        expect(rain.type).toBe("boolean");
+        expect(rain.value).toBe(1);
+        expect(sun.type).toBe("boolean");
+        expect(sun.value).toBe(0);
+        expect(sword.type).toBe("array");
+        expect(sword.values).toEqual([1, 2, 3, 4, 5, 6, 7]);
+        expect(potion.type).toBe("array");
+        expect(potion.values).toEqual([100, -1, 45, 0.8, 5]);
+    });
+
+    test('interprete_should_allow_both_entity_and_items_variables', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/variable/entityAndItemsVariables.rpg");
+        const dragon: SimpleVariable = entries["fight of the entity and item variables"]["dragon"] as SimpleVariable;
+        const wolf: SimpleVariable = entries["fight of the entity and item variables"]["wolf"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight of the entity and item variables"]["sword"] as ArrayVariable;
+        const potion: ArrayVariable = entries["fight of the entity and item variables"]["potion"] as ArrayVariable;
+        expect(dragon.type).toBe("number");
+        expect(dragon.value).toBe(100);
+        expect(wolf.type).toBe("string");
+        expect(wolf.value).toBe(50);
+        expect(sword.type).toBe("array");
+        expect(sword.values).toEqual([1, 2, 3, 4, 5, 6, 7]);
+        expect(potion.type).toBe("array");
+        expect(potion.values).toEqual([100, -1, 45, 0.8, 5]);
+    });
+
+    test('interprete_should_allow_environment_and_entity_and_items_variables', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/variable/environmentAndEntityAndItemsVariables.rpg");
+        const rain: SimpleVariable = entries["fight of the environment and entity and item variables"]["rain"] as SimpleVariable;
+        const sun: SimpleVariable = entries["fight of the environment and entity and item variables"]["sun"] as SimpleVariable;
+        const dragon: SimpleVariable = entries["fight of the environment and entity and item variables"]["dragon"] as SimpleVariable;
+        const wolf: SimpleVariable = entries["fight of the environment and entity and item variables"]["wolf"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight of the environment and entity and item variables"]["sword"] as ArrayVariable;
+        const potion: ArrayVariable = entries["fight of the environment and entity and item variables"]["potion"] as ArrayVariable;
+        expect(rain.type).toBe("boolean");
+        expect(rain.value).toBe(1);
+        expect(sun.type).toBe("boolean");
+        expect(sun.value).toBe(0);
+        expect(dragon.type).toBe("number");
+        expect(dragon.value).toBe(100);
+        expect(wolf.type).toBe("string");
+        expect(wolf.value).toBe(50);
+        expect(sword.type).toBe("array");
+        expect(sword.values).toEqual([1, 2, 3, 4, 5, 6, 7]);
+        expect(potion.type).toBe("array");
+        expect(potion.values).toEqual([100, -1, 45, 0.8, 5]);
+    });
+
+    test('interprete_should_not_allow_duplicated_variables', () => {
+        const interpreter = new Interpreter();
+        expect(() => {
+            interpreter.execute("src/server/test/data/variable/duplicatedVariables.rpg");
+        }).toThrow(FormatEnum(VariablesError.DuplicatedVariable, "3", "dragon: 100hp"));
+    });
+
+    test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_declared', () => {
+        const interpreter = new Interpreter();
+        expect(() => {
+            interpreter.execute("src/server/test/data/variable/unknownVariable.rpg");
+        }).toThrow(FormatEnum(InstructionsError.UnknownVariable, "5", "ghost"));
+    });
 });
 
 test('interprete_should_allow_entity_variables_to_change_their_value_when_the_instruction_"The token1, ... and tokenN enter combat!"_exists', () => {
@@ -581,6 +647,10 @@ describe('Function', () => {
         expect(mist.value).toBe(1);
         expect(mist.type).toBe("boolean");
     });
+});
+
+describe('List', () => {
+    // todo
 });
 
 describe('Common algorithms', () => {

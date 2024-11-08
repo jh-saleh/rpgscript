@@ -8,7 +8,8 @@ export enum Entities {
 export enum Section {
     Entities = "Entities",
     Environments = "Environments",
-    Events = "Events"
+    Items = "Items",
+    Events = "Events",
 }
 
 // J'utilise ici la notion de discriminated unions pour éviter de faire la vérification du undefined en fonction du champ value / values
@@ -59,6 +60,10 @@ export const fromStringToBooleanNumber = (bool: string, line: number): number =>
     }
 }
 
+export const fromStringToArray = (array: string): number[] => {
+    return (array.match(/-?\d+(\.\d+)?/g) || []).map((value) => Number(value));
+}
+
 export const fromBooleanToBooleanNumber = (bool: boolean): number => {
     return bool ? 1 : 0;
 }
@@ -80,6 +85,7 @@ export const isNumber: RegExp = /^([1-9][0-9]*|0)$/;
 export const isBoolean: RegExp = /^(weak|strong)*$/;
 export const entity: RegExp = /^[a-z]+: ([1-9][0-9]*|0)(hp|mp)$/i;
 export const environment: RegExp = /^\b(?!strong\b|weak\b)[a-z]+\b: (weak|strong)$/i;
+export const item: RegExp = /^\w+: ((-?\d+(\.\d+)?)[a-z]{1,3}\s?)+$/i;
 export const comment: RegExp = /^#\w+( \w+)*$/;
 
 // instruction set
