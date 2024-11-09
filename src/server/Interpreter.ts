@@ -245,6 +245,14 @@ export class Interpreter {
         return a;
     }
 
+    getEnvironment(variable: string): SimpleVariable {
+        const b = this.entries[this.function][variable];
+        if (b.type !== "boolean") {
+            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, this.pc.toString(), this.instructions[this.pc]));
+        }
+        return b;
+    }
+
     getItem(variable: string): ArrayVariable {
         const i = this.entries[this.function][variable];
         if (i.type !== "array") {
@@ -306,291 +314,132 @@ export class Interpreter {
                             }
                         });
                     if (protect.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        const b: Variable = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
+                        const b: Variable = this.getEntity(variables[1]);
                         a.value = b.value;
                     } else if (meditate.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
                         a.value = Math.random();
                     } else if (attack.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        const b: Variable = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
+                        const b: Variable = this.getEntity(variables[1]);
                         b.value -= a.value;
                     } else if (lose.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
                         a.value -= Number(variables[1]);
                     } else if (heal.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        const b: Variable = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
+                        const b: Variable = this.getEntity(variables[1]);
                         b.value += a.value;
                     } else if (healFor.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
                         a.value += Number(variables[1]);
                     } else if (criticalHit.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        const b: Variable = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
+                        const b: Variable = this.getEntity(variables[1]);
                         b.value /= a.value;
                     } else if (dodge.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        const b: Variable = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
+                        const b: Variable = this.getEntity(variables[1]);
                         b.value *= a.value;
                     } else if (slowedDown.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        const b: Variable = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
+                        const b: Variable = this.getEntity(variables[1]);
                         a.value = a.value % b.value;
                     } else if (slowedDownFor.regExp.test(instr)) {
-                        const a: Variable = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
                         a.value = a.value % Number(variables[1]);
                     } else if (counter.regExp.test(instr)) {
                         const entity = variables[0];
-                        const a = this.entries[this.function][entity];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a: Variable = this.getEntity(variables[0]);
                         this.logs.push(a.type === "string" ? String.fromCharCode(a.value) : a.value);
                     } else if (environmentChanging.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a = this.getEnvironment(variables[0]);
                         a.value = fromStringToBooleanNumber(variables[1], this.pc);
                     } else if (absorbing.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a = this.getEnvironment(variables[0]);
+                        const b = this.getEnvironment(variables[1]);
                         a.value = b.value;
                     } else if (vibrating.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a = this.getEnvironment(variables[0]);
                         a.value = (a.value + 1) % 2;
                     } else if (challenging.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        const c = this.entries[this.function][variables[2]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
-                        if (c.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[2], this.pc.toString(), instr));
-                        }
+                        const a = this.getEntity(variables[0]);
+                        const b = this.getEntity(variables[1]);
+                        const c = this.getEnvironment(variables[2]);
                         c.value = fromBooleanToBooleanNumber(a.value === b.value);
                     } else if (boostingAttack.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        const c = this.entries[this.function][variables[2]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
-                        if (c.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[2], this.pc.toString(), instr));
-                        }
+                        const a = this.getEntity(variables[0]);
+                        const b = this.getEntity(variables[1]);
+                        const c = this.getEnvironment(variables[2]);
                         c.value = fromBooleanToBooleanNumber(a.value > b.value);
                     } else if (boostingDefense.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        const c = this.entries[this.function][variables[2]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
-                        if (c.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[2], this.pc.toString(), instr));
-                        }
+                        const a = this.getEntity(variables[0]);
+                        const b = this.getEntity(variables[1]);
+                        const c = this.getEnvironment(variables[2]);
                         c.value = fromBooleanToBooleanNumber(a.value >= b.value);
                     } else if (debuffingAttack.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        const c = this.entries[this.function][variables[2]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
-                        if (c.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[2], this.pc.toString(), instr));
-                        }
+                        const a = this.getEntity(variables[0]);
+                        const b = this.getEntity(variables[1]);
+                        const c = this.getEnvironment(variables[2]);
                         c.value = fromBooleanToBooleanNumber(a.value < b.value);
                     } else if (debuffingDefense.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        const c = this.entries[this.function][variables[2]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
-                        if (c.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[2], this.pc.toString(), instr));
-                        }
+                        const a = this.getEntity(variables[0]);
+                        const b = this.getEntity(variables[1]);
+                        const c = this.getEnvironment(variables[2]);
                         c.value = fromBooleanToBooleanNumber(a.value <= b.value);
                     } else if (combining.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a = this.getEnvironment(variables[0]);
+                        const b = this.getEnvironment(variables[1]);
                         a.value = a.value * b.value;
                     } else if (merging.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a = this.getEnvironment(variables[0]);
+                        const b = this.getEnvironment(variables[1]);
                         a.value = Math.min(1, a.value + b.value);
                     } else if (wondering.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        this.getEntity(variables[0]);
+                        const b = this.getEnvironment(variables[1]);
                         if (b.value === 0) {
                             this.pc++;
                         }
                     } else if (pondering.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        this.getEntity(variables[0]);
+                        const b = this.getEnvironment(variables[1]);
                         if (b.value === 0) {
                             this.pc++;
                         } else {
                             specialIncrementIfElse = 1;
                         }
                     } else if (castEnvToEntity.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a = this.getEntity(variables[0]);
+                        const b = this.getEnvironment(variables[1]);
                         a.value = b.value;
                     } else if (castEntityToEnv.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        const b = this.entries[this.function][variables[1]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
-                        if (b.type !== "number" && b.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        const a = this.getEnvironment(variables[0]);
+                        const b = this.getEntity(variables[1]);
                         a.value = fromNumberToBooleanNumber(b.value);
                     } else if (loopEntityLabel.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        this.getEntity(variables[0]);
                         this.rc.push(this.pc);
                     } else if (loopEntityCondition.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a = this.getEntity(variables[0]);
                         if (a.value > 0) {
                             this.pc = this.rc[this.rc.length - 1];
                         } else {
                             this.rc.pop();
                         }
                     } else if (loopEnvironmentLabel.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        this.getEnvironment(variables[0]);
                         this.rc.push(this.pc);
                     } else if (loopEnvironmentCondition.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        const a = this.getEnvironment(variables[0]);
                         if (a.value > 0) {
                             this.pc = this.rc[this.rc.length - 1];
                         } else {
                             this.rc.pop();
                         }
                     } else if (remember.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        this.getEntity(variables[0]);
                         this.rc.push(this.pc);
                         this.pc = this.functions[variables[1]].position.start;
                         this.returns.push({ function: this.function, variable: variables[0] });
@@ -598,10 +447,7 @@ export class Interpreter {
                         this.entries[this.function] = {};
                         this.extractVariables();
                     } else if (happened.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[1]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[1], this.pc.toString(), instr));
-                        }
+                        this.getEnvironment(variables[1]);
                         this.rc.push(this.pc);
                         this.pc = this.functions[variables[0]].position.start;
                         this.returns.push({ function: this.function, variable: variables[1] });
@@ -609,10 +455,7 @@ export class Interpreter {
                         this.entries[this.function] = {};
                         this.extractVariables();
                     } else if (flees.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "number" && a.type !== "string") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        this.getEntity(variables[0]);
                         const path = this.returns.pop();
                         if (path !== undefined) {
                             this.entries[path.function][path.variable] = this.entries[this.function][variables[0]];
@@ -620,10 +463,7 @@ export class Interpreter {
                             this.function = this.getFutureFunctionContext();
                         }
                     } else if (dissapears.regExp.test(instr)) {
-                        const a = this.entries[this.function][variables[0]];
-                        if (a.type !== "boolean") {
-                            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variables[0], this.pc.toString(), instr));
-                        }
+                        this.getEnvironment(variables[0]);
                         const path = this.returns.pop();
                         if (path !== undefined) {
                             this.entries[path.function][path.variable] = this.entries[this.function][variables[0]];
