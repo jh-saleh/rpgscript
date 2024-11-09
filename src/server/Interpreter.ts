@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
+import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, dissapears, dodge, enchant, enchantAlongside, enchantMin, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
 
 export interface InterpreterOutput {
     logs: (string | number)[];
@@ -350,7 +350,6 @@ export class Interpreter {
                         const a: Variable = this.getEntity(variables[0]);
                         a.value = a.value % Number(variables[1]);
                     } else if (counter.regExp.test(instr)) {
-                        const entity = variables[0];
                         const a: Variable = this.getEntity(variables[0]);
                         this.logs.push(a.type === "string" ? String.fromCharCode(a.value) : a.value);
                     } else if (environmentChanging.regExp.test(instr)) {
@@ -505,6 +504,20 @@ export class Interpreter {
                         const level = Number(variables[2]);
                         const min = Number(variables[3]);
                         i.values[min] = level;
+                    } else if (enchant.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        i.values[i.values.length - 1] = a.value;
+                    } else if (enchantAlongside.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const b = this.getEntity(variables[1]);
+                        const i = this.getItem(variables[2]);
+                        i.values[b.value] = a.value;
+                    } else if (enchantMin.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        const min = Number(variables[2]);
+                        i.values[min] = a.value;
                     } else {
                         throw Error(FormatEnum(InstructionsError.Syntax, this.pc.toString(), instr));
                     }

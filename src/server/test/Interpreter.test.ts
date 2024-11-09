@@ -730,6 +730,36 @@ describe('List', () => {
         expect(knight.value).toBe(15);
         expect(sword.values).toEqual([1, 2, 3, 115, 5]);
     });
+
+    test('interprete_should_edit_the_last_element_of_a_list_when_the_instruction_"The a enchant(s) the i.', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/enchant.rpg");
+        const knight: SimpleVariable = entries["fight enchant"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight enchant"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(23);
+        expect(sword.values).toEqual([1, 2, 3, 4, 23]);
+    });
+
+    test('interprete_should_edit_a_specific_element_of_a_list_when_the_instruction_"The a enchant(s) alongside the b the i."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/enchantAlongside.rpg");
+        const knight: SimpleVariable = entries["fight enchant alongside"]["knight"] as SimpleVariable;
+        const wizard: SimpleVariable = entries["fight enchant alongside"]["wizard"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight enchant alongside"]["sword"] as ArrayVariable;
+        expect(wizard.value).toBe(2);
+        expect(knight.value).toBe(23);
+        expect(sword.values).toEqual([1, 2, 23, 4, 5]);
+    });
+
+    test('interprete_should_edit_a_specific_element_of_a_list_when_the_instruction_"The a enchant(s) the i in (number)min(s)."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/enchantMin.rpg");
+        const knight: SimpleVariable = entries["fight enchant min"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight enchant min"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(23);
+        expect(sword.values).toEqual([1, 23, 3, 4, 5]);
+    });
+
 });
 
 describe('Common algorithms', () => {

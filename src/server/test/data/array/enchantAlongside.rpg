@@ -1,0 +1,13 @@
+Fight enchant alongside
+Entities
+knight: 23hp
+wizard: 2hp
+
+Items
+sword: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight and the wizard enter combat!
+The knight equips the sword.
+The knight enchants alongside the wizard the sword.
+End of the fight enchant alongside.

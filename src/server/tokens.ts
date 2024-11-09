@@ -133,6 +133,9 @@ export const useStaticElement: RPGRegExp = new RPGRegExp(/^The [a-z]+ us(e|es) t
 export const currentLevel: RPGRegExp = new RPGRegExp(/^The [a-z]+ is currently level \d+.$/, 2);
 export const upgradeLevel: RPGRegExp = new RPGRegExp(/^The [a-z]+ upgrad(e|es) the [a-z]+ by \d+ leve(l|ls).$/, 3);
 export const upgradeStaticLevel: RPGRegExp = new RPGRegExp(/^The [a-z]+ upgrad(e|es) the [a-z]+ by \d+ leve(l|ls) in \d+ mi(n|ns).$/, 4);
+export const enchant: RPGRegExp = new RPGRegExp(/^The [a-z]+ enchan(t|ts) the [a-z]+.$/, 2);
+export const enchantAlongside: RPGRegExp = new RPGRegExp(/^The [a-z]+ enchan(t|ts) alongside the [a-z]+ the [a-z]+.$/, 3);
+export const enchantMin: RPGRegExp = new RPGRegExp(/^The [a-z]+ enchan(t|ts) the [a-z]+ in \d+ mi(n|ns).$/, 3);
 
 export const instructionSet = [
     enter,
@@ -158,4 +161,5 @@ export const instructionSet = [
     inspect,
     useLast, useElement, useStaticElement,
     currentLevel, upgradeLevel, upgradeStaticLevel,
+    enchant, enchantAlongside, enchantMin,
 ];
