@@ -760,6 +760,12 @@ describe('List', () => {
         expect(sword.values).toEqual([1, 23, 3, 4, 5]);
     });
 
+    test('interprete_should_concat_two_lists_when_the_instruction_"The a combine(s) the i1 and the i2."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/combine.rpg");
+        const potion: ArrayVariable = entries["fight combine"]["potion"] as ArrayVariable;
+        expect(potion.values).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+    });
 });
 
 describe('Common algorithms', () => {

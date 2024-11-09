@@ -1,0 +1,13 @@
+Fight combine
+Entities
+knight: 23hp
+
+Items
+potion: 1g 2kg 3dm 4g 5kg
+ingredient: 6g 7kg 8dm 9g 10kg 11l
+
+Events
+The knight enter combat!
+The knight equips the potion and the ingredient.
+The knight combines the potion and the ingredient.
+End of the fight combine.

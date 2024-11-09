@@ -61,7 +61,7 @@
 | The a enchant(s) the i.                                                                         | i[last element index] = a                          | lists      |   ✓+T |
 | The a enchant(s) alongside the b the i.                                                         | i[b] = a                                           | lists      |   ✓+T |
 | The a enchant(s) the i in (number)min(s).                                                       | i[mins] = a                                        | lists      |   ✓+T |
-| The a combine(s) the i1 and the i2.                                                             | i1 = concat(i1, i2)                                | lists      |       |
+| The a combine(s) the i1 and the i2.                                                             | i1 = concat(i1, i2)                                | lists      |   ✓+T |
 | The i's (effectiveness OR attack OR durability) is increased.                                   | push i[lengh + 1]                                  | lists      |       |
 | The i is strengthed after the a use(s) it.                                                      | push i[a]                                          | lists      |       |
 | The i's (effectiveness OR attack OR durability) is increased by (number)points.                 | push i[points]                                     | lists      |       |
