@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
+import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
 
 export interface InterpreterOutput {
     logs: (string | number)[];
@@ -651,6 +651,20 @@ export class Interpreter {
                         const i = this.getItem(variables[1]);
                         const turns = Number(variables[2]);
                         a.value = i.values[turns];
+                    } else if (currentLevel.regExp.test(instr)) {
+                        const i = this.getItem(variables[0]);
+                        const level = Number(variables[1]);
+                        i.values[i.values.length - 1] = level;
+                    } else if (upgradeLevel.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        const level = Number(variables[2]);
+                        i.values[a.value] = level;
+                    } else if (upgradeStaticLevel.regExp.test(instr)) {
+                        const i = this.getItem(variables[1]);
+                        const level = Number(variables[2]);
+                        const min = Number(variables[3]);
+                        i.values[min] = level;
                     } else {
                         throw Error(FormatEnum(InstructionsError.Syntax, this.pc.toString(), instr));
                     }

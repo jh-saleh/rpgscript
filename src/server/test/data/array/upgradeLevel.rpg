@@ -1,0 +1,12 @@
+Fight upgrade level
+Entities
+knight: 1hp
+
+Items
+sword: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight enters combat!
+The knight equips the sword.
+The knight upgrades the sword by 26 levels.
+End of the fight upgrade level.

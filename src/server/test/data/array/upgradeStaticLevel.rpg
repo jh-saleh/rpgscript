@@ -1,0 +1,12 @@
+Fight upgrade static level
+Entities
+knight: 15hp
+
+Items
+sword: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight enters combat!
+The knight equips the sword.
+The knight upgrades the sword by 115 levels in 3 mins.
+End of the fight upgrade static level.

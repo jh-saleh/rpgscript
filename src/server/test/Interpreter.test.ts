@@ -705,6 +705,31 @@ describe('List', () => {
         expect(dragon.value).toBe(0);
         expect(sword.values).toEqual([1, -1, -8, 4, 5]);
     });
+
+    test('interprete_should_edit_the_last_element_of_a_list_when_the_instruction_"The i is currently level (number).', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/currentLevel.rpg");
+        const sword: ArrayVariable = entries["fight current level"]["sword"] as ArrayVariable;
+        expect(sword.values).toEqual([1, 2, 3, 4, 8]);
+    });
+
+    test('interprete_should_edit_a_specific_element_of_a_list_when_the_instruction_"The a upgrade(s) the i by (number)level(s)."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/upgradeLevel.rpg");
+        const knight: SimpleVariable = entries["fight upgrade level"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight upgrade level"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(1);
+        expect(sword.values).toEqual([1, 26, 3, 4, 5]);
+    });
+
+    test('interprete_should_edit_a_specific_element_of_a_list_when_the_instruction_"The a upgrade(s) the i by (number)level(s) in (number)min(s)."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/upgradeStaticLevel.rpg");
+        const knight: SimpleVariable = entries["fight upgrade static level"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight upgrade static level"]["sword"] as ArrayVariable;
+        expect(knight.value).toBe(15);
+        expect(sword.values).toEqual([1, 2, 3, 115, 5]);
+    });
 });
 
 describe('Common algorithms', () => {

@@ -55,9 +55,12 @@
 | The a use(s) the i.                                                                             | a = i[last element index]                          | lists      |   ✓+T |
 | The a use(s) the i on the b.                                                                    | a = i[b]                                           | lists      |   ✓+T |
 | The a use(s) the i for (number)turns(s) on the b.                                               | a = i[turns]                                       | lists      |   ✓+T |
-| The i is currently level (number).                                                              | i[last element index] = level                      | lists      |       |
-| The a upgrade(s) the i by (number)level(s).                                                     | i[a] = levels                                      | lists      |       |
-| The a upgrade(s) the i by (number)level(s) in (number)min(s).                                   | i[mins] = levels                                   | lists      |       |
+| The i is currently level (number).                                                              | i[last element index] = level                      | lists      |   ✓+T |
+| The a upgrade(s) the i by (number)level(s).                                                     | i[a] = levels                                      | lists      |   ✓+T |
+| The a upgrade(s) the i by (number)level(s) in (number)min(s).                                   | i[mins] = levels                                   | lists      |   ✓+T |
+| The a enchant(s) the i.                                                                         | i[last element index] = a                          | lists      |       |
+| The a enchant(s) alongside the b the i.                                                         | i[b] = a                                           | lists      |       |
+| The a enchant(s) the i in (number)min(s).                                                       | i[mins] = a                                        | lists      |       |
 | The a combine(s) the i1 and the i2.                                                             | i1 = concat(i1, i2)                                | lists      |       |
 | The i's (effectiveness OR attack OR durability) is increased.                                   | push i[lengh + 1]                                  | lists      |       |
 | The i is strengthed after the a use(s) it.                                                      | push i[a]                                          | lists      |       |

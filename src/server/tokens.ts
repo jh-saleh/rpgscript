@@ -130,6 +130,9 @@ export const inspect: RPGRegExp = new RPGRegExp(/^The [a-z]+ inspec(t|ts) the [a
 export const useLast: RPGRegExp = new RPGRegExp(/^The [a-z]+ us(e|es) the [a-z]+.$/, 2);
 export const useElement: RPGRegExp = new RPGRegExp(/^The [a-z]+ us(e|es) the [a-z]+ on the [a-z]+.$/, 3);
 export const useStaticElement: RPGRegExp = new RPGRegExp(/^The [a-z]+ us(e|es) the [a-z]+ for \d+ tur(n|ns) on the [a-z]+.$/, 4);
+export const currentLevel: RPGRegExp = new RPGRegExp(/^The [a-z]+ is currently level \d+.$/, 2);
+export const upgradeLevel: RPGRegExp = new RPGRegExp(/^The [a-z]+ upgrad(e|es) the [a-z]+ by \d+ leve(l|ls).$/, 3);
+export const upgradeStaticLevel: RPGRegExp = new RPGRegExp(/^The [a-z]+ upgrad(e|es) the [a-z]+ by \d+ leve(l|ls) in \d+ mi(n|ns).$/, 4);
 
 export const instructionSet = [
     enter,
@@ -153,7 +156,6 @@ export const instructionSet = [
     endOfFlashbackSection,
     equip,
     inspect,
-    useLast,
-    useElement,
-    useStaticElement,
+    useLast, useElement, useStaticElement,
+    currentLevel, upgradeLevel, upgradeStaticLevel,
 ];
