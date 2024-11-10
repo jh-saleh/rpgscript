@@ -766,6 +766,35 @@ describe('List', () => {
         const potion: ArrayVariable = entries["fight combine"]["potion"] as ArrayVariable;
         expect(potion.values).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
     });
+
+    test('interprete_should_add_an_element_to_the_end_of_a_list_when_the_instruction_"The a increases the i s durability."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/increaseDurability.rpg");
+        const knight: SimpleVariable = entries["fight increases durability"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight increases durability"]["sword"] as ArrayVariable;
+        expect(knight.value).toEqual(45);
+        expect(sword.values).toEqual([1, 2, 3, 4, 5, 45]);
+    });
+
+    test('interprete_should_add_an_element_to_a_specific_spot_in_a_list_when_the_instruction_"The a increase(s) the i s durability by(number) points."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/increaseDurabilityByPoints.rpg");
+        const knight: SimpleVariable = entries["fight increases durability by points"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight increases durability by points"]["sword"] as ArrayVariable;
+        expect(knight.value).toEqual(45);
+        expect(sword.values).toEqual([1, 2, 3, 45, 4, 5]);
+    });
+
+    test('interprete_should_add_an_element_to_a_specific_spot_in_a_list_when_the_instruction_"The a increase(s) the i s durability alongside the b."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/increaseDurabilityAlongside.rpg");
+        const knight: SimpleVariable = entries["fight increases durability alongside"]["knight"] as SimpleVariable;
+        const wizard: SimpleVariable = entries["fight increases durability alongside"]["wizard"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight increases durability alongside"]["sword"] as ArrayVariable;
+        expect(knight.value).toEqual(45);
+        expect(wizard.value).toEqual(2);
+        expect(sword.values).toEqual([1, 2, 45, 3, 4, 5]);
+    });
 });
 
 describe('Common algorithms', () => {

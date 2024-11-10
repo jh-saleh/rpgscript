@@ -62,12 +62,12 @@
 | The a enchant(s) alongside the b the i.                                                         | i[b] = a                                           | lists      |   ✓+T |
 | The a enchant(s) the i in (number)min(s).                                                       | i[mins] = a                                        | lists      |   ✓+T |
 | The a combine(s) the i1 and the i2.                                                             | i1 = concat(i1, i2)                                | lists      |   ✓+T |
-| The i's (effectiveness OR attack OR durability) is increased.                                   | push i[lengh + 1]                                  | lists      |       |
-| The i is strengthed after the a use(s) it.                                                      | push i[a]                                          | lists      |       |
-| The i's (effectiveness OR attack OR durability) is increased by (number)points.                 | push i[points]                                     | lists      |       |
-| The i's (effectiveness OR attack OR durability) is decreased.                                   | delete i[last element index]                       | lists      |       |
-| The i (break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it.                             | delete i[a]                                        | lists      |       |
-| The i's (effectiveness OR attack OR durability) is decreased by (number)points.                 | delete i[points]                                   | lists      |       |
+| The a increase(s) the i's durability.                                                           | push a at i[lengh + 1]                             | lists      |   ✓+T |
+| The a increase(s) the i's durability by (number) points.                                        | push a at i[points]                                | lists      |   ✓+T |
+| The a increase(s) the i's durability alongside the b.                                           | push a at i[b]                                     | lists      |   ✓+T |
+| The i's durability is decreased.                                                                | delete i[last element index]                       | lists      |       |
+| The i's (break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it.                           | delete i[a]                                        | lists      |       |
+| The i's durability is decreased by (number)points.                                              | delete i[points]                                   | lists      |       |
 | The i ((in OR de)creased) the a's (attack OR defense OR health OR stamina) for (number)turns.   | swap i[a] with i[turns]                            | lists      |       |
 | The i ((in OR de)creased) the a and the b's (attack OR defense OR health OR stamina).           | swap i[a] with i[b]                                | lists      |       |
 | The a (consume(s) OR drop(s) OR repair(s)) the i.                                               | clear i                                            | lists      |       |

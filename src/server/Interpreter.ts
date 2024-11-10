@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combine, combining, comment, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, dissapears, dodge, enchant, enchantAlongside, enchantMin, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
+import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combine, combining, comment, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, dissapears, dodge, enchant, enchantAlongside, enchantMin, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, increaseDurability, increaseDurabilityAlongside, increaseDurabilityByPoints, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
 
 export interface InterpreterOutput {
     logs: (string | number)[];
@@ -523,6 +523,20 @@ export class Interpreter {
                         const i1 = this.getItem(variables[1]);
                         const i2 = this.getItem(variables[2]);
                         i1.values = i1.values.concat(i2.values);
+                    } else if (increaseDurability.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        i.values.push(a.value);
+                    } else if (increaseDurabilityByPoints.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        const points = Number(variables[2]);
+                        i.values.splice(points, 0, a.value);
+                    } else if (increaseDurabilityAlongside.regExp.test(instr)) {
+                        const a = this.getEntity(variables[0]);
+                        const i = this.getItem(variables[1]);
+                        const b = this.getEntity(variables[2]);
+                        i.values.splice(b.value, 0, a.value);
                     } else {
                         throw Error(FormatEnum(InstructionsError.Syntax, this.pc.toString(), instr));
                     }

@@ -137,6 +137,9 @@ export const enchant: RPGRegExp = new RPGRegExp(/^The [a-z]+ enchan(t|ts) the [a
 export const enchantAlongside: RPGRegExp = new RPGRegExp(/^The [a-z]+ enchan(t|ts) alongside the [a-z]+ the [a-z]+.$/, 3);
 export const enchantMin: RPGRegExp = new RPGRegExp(/^The [a-z]+ enchan(t|ts) the [a-z]+ in \d+ mi(n|ns).$/, 3);
 export const combine: RPGRegExp = new RPGRegExp(/^The [a-z]+ combin(e|es) the [a-z]+ and the [a-z]+.$/, 3);
+export const increaseDurability: RPGRegExp = new RPGRegExp(/^The [a-z]+ increas(e|es) the [a-z]+'s durability.$/, 2);
+export const increaseDurabilityByPoints: RPGRegExp = new RPGRegExp(/^The [a-z]+ increas(e|es) the [a-z]+'s durability by \d+ points.$/, 3);
+export const increaseDurabilityAlongside: RPGRegExp = new RPGRegExp(/^The [a-z]+ increas(e|es) the [a-z]+'s durability alongside the [a-z]+.$/, 3);
 
 export const instructionSet = [
     enter,
@@ -164,4 +167,5 @@ export const instructionSet = [
     currentLevel, upgradeLevel, upgradeStaticLevel,
     enchant, enchantAlongside, enchantMin,
     combine,
+    increaseDurability, increaseDurabilityByPoints, increaseDurabilityAlongside,
 ];
