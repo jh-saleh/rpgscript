@@ -772,7 +772,7 @@ describe('List', () => {
         const { entries } = interpreter.execute("src/server/test/data/array/increaseDurability.rpg");
         const knight: SimpleVariable = entries["fight increases durability"]["knight"] as SimpleVariable;
         const sword: ArrayVariable = entries["fight increases durability"]["sword"] as ArrayVariable;
-        expect(knight.value).toEqual(45);
+        expect(knight.value).toBe(45);
         expect(sword.values).toEqual([1, 2, 3, 4, 5, 45]);
     });
 
@@ -781,7 +781,7 @@ describe('List', () => {
         const { entries } = interpreter.execute("src/server/test/data/array/increaseDurabilityByPoints.rpg");
         const knight: SimpleVariable = entries["fight increases durability by points"]["knight"] as SimpleVariable;
         const sword: ArrayVariable = entries["fight increases durability by points"]["sword"] as ArrayVariable;
-        expect(knight.value).toEqual(45);
+        expect(knight.value).toBe(45);
         expect(sword.values).toEqual([1, 2, 3, 45, 4, 5]);
     });
 
@@ -791,8 +791,8 @@ describe('List', () => {
         const knight: SimpleVariable = entries["fight increases durability alongside"]["knight"] as SimpleVariable;
         const wizard: SimpleVariable = entries["fight increases durability alongside"]["wizard"] as SimpleVariable;
         const sword: ArrayVariable = entries["fight increases durability alongside"]["sword"] as ArrayVariable;
-        expect(knight.value).toEqual(45);
-        expect(wizard.value).toEqual(2);
+        expect(knight.value).toBe(45);
+        expect(wizard.value).toBe(2);
         expect(sword.values).toEqual([1, 2, 45, 3, 4, 5]);
     });
 
@@ -808,7 +808,7 @@ describe('List', () => {
         const { entries } = interpreter.execute("src/server/test/data/array/breaks.rpg");
         const knight: SimpleVariable = entries["fight breaks"]["knight"] as SimpleVariable;
         const sword: ArrayVariable = entries["fight breaks"]["sword"] as ArrayVariable;
-        expect(knight.value).toEqual(1);
+        expect(knight.value).toBe(1);
         expect(sword.values).toEqual([1, 3, 4, 5]);
     });
 
@@ -824,7 +824,7 @@ describe('List', () => {
         const { entries } = interpreter.execute("src/server/test/data/array/editStatsByTurn.rpg");
         const knight: SimpleVariable = entries["fight edit stats by turn"]["knight"] as SimpleVariable;
         const potion: ArrayVariable = entries["fight edit stats by turn"]["potion"] as ArrayVariable;
-        expect(knight.value).toEqual(3);
+        expect(knight.value).toBe(3);
         expect(potion.values).toEqual([1, 4, 3, 2, 5]);
     });
 
@@ -834,9 +834,24 @@ describe('List', () => {
         const knight: SimpleVariable = entries["fight edit stats"]["knight"] as SimpleVariable;
         const wizard: SimpleVariable = entries["fight edit stats"]["wizard"] as SimpleVariable;
         const potion: ArrayVariable = entries["fight edit stats"]["potion"] as ArrayVariable;
-        expect(knight.value).toEqual(3);
-        expect(wizard.value).toEqual(1);
+        expect(knight.value).toBe(3);
+        expect(wizard.value).toBe(1);
         expect(potion.values).toEqual([1, 4, 3, 2, 5]);
+    });
+
+    test('interprete_should_clear_a_list_when_the_instruction_"The a (consume(s) OR drop(s) OR repair(s)) the i."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/consume.rpg");
+        const potion: ArrayVariable = entries["fight consume"]["potion"] as ArrayVariable;
+        expect(potion.values).toEqual([]);
+    });
+
+    test('interprete_should_print_a_list_of_strings_when_the_instruction_"The a bless(es) the i!"_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries, logs } = interpreter.execute("src/server/test/data/array/bless.rpg");
+        const potion: ArrayVariable = entries["fight bless"]["potion"] as ArrayVariable;
+        expect(potion.values).toEqual([104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33]);
+        expect(logs).toEqual(["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!"]);
     });
 });
 

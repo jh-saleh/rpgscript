@@ -1,0 +1,12 @@
+Fight bless
+Entities
+knight: 0hp
+
+Items
+potion: 104g 101g 108g 108g 111g 32g 119g 111g 114g 108g 100g 33g
+
+Events
+The knight enters combat!
+The knight equips the potion.
+The knight blesses the potion!
+End of the fight bless.

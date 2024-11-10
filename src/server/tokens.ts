@@ -145,6 +145,8 @@ export const breaks: RPGRegExp = new RPGRegExp(/^The [a-z]+'s (brea(k|ks)|shatte
 export const decreaseDurabilityByPoints: RPGRegExp = new RPGRegExp(/^The [a-z]+'s durability is decreased by \d+ poin(t|ts).$/, 2);
 export const editStatsByTurn: RPGRegExp = new RPGRegExp(/^The [a-z]+ (in|de)creased the [a-z]+'s (attack|defense|health|stamina) for \d+ tur(n|ns).$/, 3);
 export const editStats: RPGRegExp = new RPGRegExp(/^The [a-z]+ (in|de)creased the [a-z]+ and the [a-z]+'s (attack|defense|health|stamina).$/, 3);
+export const consume: RPGRegExp = new RPGRegExp(/^The [a-z]+ (consum(e|es)|dro(p|ps)|repai(r|rs)) the [a-z]+.$/, 2);
+export const bless: RPGRegExp = new RPGRegExp(/^The [a-z]+ bless(e|es) the [a-z]+!$/, 2);
 
 export const instructionSet = [
     enter,
@@ -175,4 +177,6 @@ export const instructionSet = [
     increaseDurability, increaseDurabilityByPoints, increaseDurabilityAlongside,
     decreaseDurability, breaks, decreaseDurabilityByPoints,
     editStatsByTurn, editStats,
+    consume,
+    bless,
 ];
