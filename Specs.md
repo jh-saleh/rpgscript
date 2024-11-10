@@ -69,7 +69,7 @@
 | The i's (break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it.                           | delete i[a]                                        | lists      |   ✓+T |
 | The i's durability is decreased by (number)points.                                              | delete i[points]                                   | lists      |   ✓+T |
 | The i ((in OR de)creased) the a's (attack OR defense OR health OR stamina) for (number)turns.   | swap i[a] with i[turns]                            | lists      |   ✓+T |
-| The i ((in OR de)creased) the a and the b's (attack OR defense OR health OR stamina).           | swap i[a] with i[b]                                | lists      |       |
+| The i ((in OR de)creased) the a and the b's (attack OR defense OR health OR stamina).           | swap i[a] with i[b]                                | lists      |   ✓+T |
 | The a (consume(s) OR drop(s) OR repair(s)) the i.                                               | clear i                                            | lists      |       |
 | The a bless(s) the i!                                                                           | prints i as an array of strings                    | lists      |       |
 | The a curse(s) the i!                                                                           | prints i as an array of integers                   | lists      |       |
