@@ -1,0 +1,12 @@
+Fight decreases durability
+Entities
+knight: 45hp
+
+Items
+sword: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight enters combat!
+The knight equips the sword.
+The sword's durability is decreased.
+End of the fight decreases durability.

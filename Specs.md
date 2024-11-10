@@ -65,9 +65,9 @@
 | The a increase(s) the i's durability.                                                           | push a at i[lengh + 1]                             | lists      |   ✓+T |
 | The a increase(s) the i's durability by (number) points.                                        | push a at i[points]                                | lists      |   ✓+T |
 | The a increase(s) the i's durability alongside the b.                                           | push a at i[b]                                     | lists      |   ✓+T |
-| The i's durability is decreased.                                                                | delete i[last element index]                       | lists      |       |
-| The i's (break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it.                           | delete i[a]                                        | lists      |       |
-| The i's durability is decreased by (number)points.                                              | delete i[points]                                   | lists      |       |
+| The i's durability is decreased.                                                                | delete i[last element index]                       | lists      |   ✓+T |
+| The i's (break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it.                           | delete i[a]                                        | lists      |   ✓+T |
+| The i's durability is decreased by (number)points.                                              | delete i[points]                                   | lists      |   ✓+T |
 | The i ((in OR de)creased) the a's (attack OR defense OR health OR stamina) for (number)turns.   | swap i[a] with i[turns]                            | lists      |       |
 | The i ((in OR de)creased) the a and the b's (attack OR defense OR health OR stamina).           | swap i[a] with i[b]                                | lists      |       |
 | The a (consume(s) OR drop(s) OR repair(s)) the i.                                               | clear i                                            | lists      |       |

@@ -795,6 +795,29 @@ describe('List', () => {
         expect(wizard.value).toEqual(2);
         expect(sword.values).toEqual([1, 2, 45, 3, 4, 5]);
     });
+
+    test('interprete_should_delete_an_element_at_the_end_of_a_list_when_the_instruction_"The i s durability is decreased."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/decreaseDurability.rpg");
+        const sword: ArrayVariable = entries["fight decreases durability"]["sword"] as ArrayVariable;
+        expect(sword.values).toEqual([1, 2, 3, 4,]);
+    });
+
+    test('interprete_should_delete_an_element_at_a_specific_spot_of_a_list_when_the_instruction_"The i s(break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/breaks.rpg");
+        const knight: SimpleVariable = entries["fight breaks"]["knight"] as SimpleVariable;
+        const sword: ArrayVariable = entries["fight breaks"]["sword"] as ArrayVariable;
+        expect(knight.value).toEqual(1);
+        expect(sword.values).toEqual([1, 3, 4, 5]);
+    });
+
+    test('interprete_should_delete_an_element_at_a_specific_spot_of_a_list_when_the_instruction_"The i s durability is decreased by(number)points."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/decreaseDurabilityByPoints.rpg");
+        const sword: ArrayVariable = entries["fight decreases durability by points"]["sword"] as ArrayVariable;
+        expect(sword.values).toEqual([1, 2, 4, 5]);
+    });
 });
 
 describe('Common algorithms', () => {
