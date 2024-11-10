@@ -1,0 +1,28 @@
+Fight of the bubble sort
+
+Entities
+i: 1hp
+constant: 0hp
+Environments
+swapped: weak
+innerloop: weak
+Items
+sword: 9g 1000xp 2kg 6lvl 0.8tr -2pwr
+
+Events
+The i enters combat!
+The swapped is making up the scene!
+The i equips the sword.
+The swapped is starting to change
+The i inspects the sword.
+The i loses 1 point.
+
+The innerloop is starting to change
+The i loses 1 points.
+The i is challenging the constant under the innerloop.
+
+
+until the innerloop is done changing.
+
+until the swapped is done changing.
+End of the fight of the bubble sort.
