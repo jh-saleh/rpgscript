@@ -1,0 +1,12 @@
+Fight edit stats by turn
+Entities
+knight: 3hp
+
+Items
+potion: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight enters combat!
+The knight equips the potion.
+The potion increased the knight's attack for 1 turn.
+End of the fight edit stats by turn.

@@ -1,0 +1,13 @@
+Fight edit stats
+Entities
+knight: 3hp
+wizard: 1hp
+
+Items
+potion: 1g 2kg 3dm 4g 5kg
+
+Events
+The knight and the wizard enter combat!
+The knight equips the potion.
+The potion increased the knight and the wizard's defense.
+End of the fight edit stats.

@@ -818,6 +818,26 @@ describe('List', () => {
         const sword: ArrayVariable = entries["fight decreases durability by points"]["sword"] as ArrayVariable;
         expect(sword.values).toEqual([1, 2, 4, 5]);
     });
+
+    test('interprete_should_swap_elements_in_a_list_when_the_instruction_"The i ((in OR de)creased) the a s(attack OR defense OR health OR stamina) for (number)turns."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/editStatsByTurn.rpg");
+        const knight: SimpleVariable = entries["fight edit stats by turn"]["knight"] as SimpleVariable;
+        const potion: ArrayVariable = entries["fight edit stats by turn"]["potion"] as ArrayVariable;
+        expect(knight.value).toEqual(3);
+        expect(potion.values).toEqual([1, 4, 3, 2, 5]);
+    });
+
+    test('interprete_should_swap_elements_in_a_list_when_the_instruction_"The i ((in OR de)creased) the a and the b s(attack OR defense OR health OR stamina)."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/array/editStats.rpg");
+        const knight: SimpleVariable = entries["fight edit stats"]["knight"] as SimpleVariable;
+        const wizard: SimpleVariable = entries["fight edit stats"]["wizard"] as SimpleVariable;
+        const potion: ArrayVariable = entries["fight edit stats"]["potion"] as ArrayVariable;
+        expect(knight.value).toEqual(3);
+        expect(wizard.value).toEqual(1);
+        expect(potion.values).toEqual([1, 4, 3, 2, 5]);
+    });
 });
 
 describe('Common algorithms', () => {
