@@ -1,7 +1,7 @@
 import { useWindows } from '@/components/hooks/Windows.hook';
 import { Interpreter, InterpreterOutput } from '@/server/Interpreter';
 import axiosInstance from '@/server/axios/axiosClient';
-import { absorbing, attack, boostingAttack, boostingDefense, castEntityToEnv, castEnvToEntity, challenging, combining, comment, counter, criticalHit, debuffingAttack, debuffingDefense, dissapears, dodge, endOfFightSection, endOfFlashbackSection, enter, environmentChanging, fightSection, flashbackSection, flees, happened, heal, healFor, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, vibrating, wondering } from '@/server/tokens';
+import { absorbing, attack, bless, boostingAttack, boostingDefense, breaks, castEntityToEnv, castEnvToEntity, challenging, combine, combining, comment, consume, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, decreaseDurability, decreaseDurabilityByPoints, dissapears, dodge, editStats, editStatsByTurn, enchant, enchantAlongside, enchantMin, endOfFightSection, endOfFlashbackSection, enter, environmentChanging, equip, fightSection, flashbackSection, flees, happened, heal, healFor, increaseDurability, increaseDurabilityAlongside, increaseDurabilityByPoints, inspect, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, reach, remember, slowedDown, slowedDownFor, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from '@/server/tokens';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import { useEffect, useState } from 'react';
 import { Window } from "../../window/Window";
@@ -52,7 +52,8 @@ export const CodeEditor = () => {
                         [/\d+hp/, 'rpg-number'],
                         [/\d+mp/, 'rpg-string'],
                         [/(strong|weak)/, 'rpg-boolean'],
-                        [/(Entities|Environments|Events)/, 'rpg-section'],
+                        [/((-?\d+(\.\d+)?)[a-z]{1,3}\s?)+ ((-?\d+(\.\d+)?)[a-z]{1,3})/, 'rpg-array'],
+                        [/(Entities|Environments|Items|Events)/, 'rpg-section'],
                         // comments
                         [comment, 'rpg-comment'],
                         // functions
@@ -62,6 +63,7 @@ export const CodeEditor = () => {
                         [endOfFlashbackSection.regExp, 'rpg-end-flashback-section'],
                         // instructions
                         [enter.regExp, 'rpg-instruction-enter'],
+                        [reach.regExp, 'rpg-instruction-reach'],
                         [protect.regExp, 'rpg-instruction-protect'],
                         [meditate.regExp, 'rpg-instruction-meditate'],
                         [attack.regExp, 'rpg-instruction-attack'],
@@ -96,6 +98,28 @@ export const CodeEditor = () => {
                         [happened.regExp, 'rpg-instruction-happened'],
                         [flees.regExp, 'rpg-instruction-flees'],
                         [dissapears.regExp, 'rpg-instruction-dissapears'],
+                        [equip.regExp, 'rpg-instruction-equip'],
+                        [inspect.regExp, 'rpg-instruction-inspect'],
+                        [useLast.regExp, 'rpg-instruction-useLast'],
+                        [useElement.regExp, 'rpg-instruction-useElement'],
+                        [useStaticElement.regExp, 'rpg-instruction-useStaticElement'],
+                        [currentLevel.regExp, 'rpg-instruction-currentLevel'],
+                        [upgradeLevel.regExp, 'rpg-instruction-upgradeLevel'],
+                        [upgradeStaticLevel.regExp, 'rpg-instruction-upgradeStaticLevel'],
+                        [enchant.regExp, 'rpg-instruction-enchant'],
+                        [enchantAlongside.regExp, 'rpg-instruction-enchantAlongside'],
+                        [enchantMin.regExp, 'rpg-instruction-enchantMin'],
+                        [combine.regExp, 'rpg-instruction-combine'],
+                        [increaseDurability.regExp, 'rpg-instruction-increaseDurability'],
+                        [increaseDurabilityByPoints.regExp, 'rpg-instruction-increaseDurabilityByPoints'],
+                        [increaseDurabilityAlongside.regExp, 'rpg-instruction-increaseDurabilityAlongside'],
+                        [decreaseDurability.regExp, 'rpg-instruction-decreaseDurability'],
+                        [breaks.regExp, 'rpg-instruction-breaks'],
+                        [decreaseDurabilityByPoints.regExp, 'rpg-instruction-decreaseDurabilityByPoints'],
+                        [editStatsByTurn.regExp, 'rpg-instruction-editStatsByTurn'],
+                        [editStats.regExp, 'rpg-instruction-editStats'],
+                        [consume.regExp, 'rpg-instruction-consume'],
+                        [bless.regExp, 'rpg-instruction-bless'],
                     ],
                 },
             });
@@ -107,6 +131,7 @@ export const CodeEditor = () => {
                     { token: "rpg-number", foreground: "#4997f0" },
                     { token: "rpg-string", foreground: "#4997f0" },
                     { token: "rpg-boolean", foreground: "#4997f0" },
+                    { token: "rpg-array", foreground: "#4997f0" },
                     { token: "rpg-section", foreground: "#2b4ee9" },
                     { token: "rpg-comment", foreground: "#39a153" },
                     { token: "rpg-fight-section", foreground: "#a18539" },
@@ -114,6 +139,7 @@ export const CodeEditor = () => {
                     { token: "rpg-flashback-section", foreground: "#a18539" },
                     { token: "rpg-end-flashback-section", foreground: "#a18539" },
                     { token: 'rpg-instruction-enter', foreground: instructionColor },
+                    { token: 'rpg-instruction-reach', foreground: instructionColor },
                     { token: 'rpg-instruction-protect', foreground: instructionColor },
                     { token: 'rpg-instruction-meditate', foreground: instructionColor },
                     { token: 'rpg-instruction-attack', foreground: instructionColor },
@@ -148,6 +174,28 @@ export const CodeEditor = () => {
                     { token: 'rpg-instruction-happened', foreground: instructionColor },
                     { token: 'rpg-instruction-flees', foreground: instructionColor },
                     { token: 'rpg-instruction-dissapears', foreground: instructionColor },
+                    { token: 'rpg-instruction-equip', foreground: instructionColor },
+                    { token: 'rpg-instruction-inspect', foreground: instructionColor },
+                    { token: 'rpg-instruction-useLast', foreground: instructionColor },
+                    { token: 'rpg-instruction-useElement', foreground: instructionColor },
+                    { token: 'rpg-instruction-useStaticElement', foreground: instructionColor },
+                    { token: 'rpg-instruction-currentLevel', foreground: instructionColor },
+                    { token: 'rpg-instruction-upgradeLevel', foreground: instructionColor },
+                    { token: 'rpg-instruction-upgradeStaticLevel', foreground: instructionColor },
+                    { token: 'rpg-instruction-enchant', foreground: instructionColor },
+                    { token: 'rpg-instruction-enchantAlongside', foreground: instructionColor },
+                    { token: 'rpg-instruction-enchantMin', foreground: instructionColor },
+                    { token: 'rpg-instruction-combine', foreground: instructionColor },
+                    { token: 'rpg-instruction-increaseDurability', foreground: instructionColor },
+                    { token: 'rpg-instruction-increaseDurabilityByPoints', foreground: instructionColor },
+                    { token: 'rpg-instruction-increaseDurabilityAlongside', foreground: instructionColor },
+                    { token: 'rpg-instruction-decreaseDurability', foreground: instructionColor },
+                    { token: 'rpg-instruction-breaks', foreground: instructionColor },
+                    { token: 'rpg-instruction-decreaseDurabilityByPoints', foreground: instructionColor },
+                    { token: 'rpg-instruction-editStatsByTurn', foreground: instructionColor },
+                    { token: 'rpg-instruction-editStats', foreground: instructionColor },
+                    { token: 'rpg-instruction-consume', foreground: instructionColor },
+                    { token: 'rpg-instruction-bless', foreground: instructionColor },
                 ],
                 colors: {
                     "editor.foreground": "#000000",
@@ -254,6 +302,15 @@ export const CodeEditor = () => {
                             label: "enters",
                             kind: monaco.languages.CompletionItemKind.Snippet,
                             insertText: "The ${1:var1} enters combat!",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "reach",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var1} reaches level ${2:var2}.",
                             insertTextRules:
                                 monaco.languages.CompletionItemInsertTextRule
                                     .InsertAsSnippet,
@@ -548,6 +605,204 @@ export const CodeEditor = () => {
                             label: "dissapears",
                             kind: monaco.languages.CompletionItemKind.Snippet,
                             insertText: "The ${1:var} dissapears!",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "equip",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} equips the ${2:var2}!",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "inspect",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} inspects the ${2:var2}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "useLast",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} uses the ${2:var2}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "useElement",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} uses the ${2:var2} on the ${3:var3}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "useStaticElement",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} uses the ${2:var2} for ${3:turns} turns on the ${4:var4}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "currentLevel",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} is currently level ${2:var2}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "upgradeLevel",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} upgrades the ${2:var2} by ${3:levels} levels.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "upgradeStaticLevel",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} upgrades the ${2:var2} by ${3:levels} levels in ${4:mins} mins.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "enchant",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} enchants the ${2:var2}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "enchantAlongside",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} enchants alongside the ${2:var2} the ${3:var3}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "enchantMin",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} enchants the ${2:var2} in ${3:mins} mins.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "combine",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} combines the ${2:var2} and the ${3:var3}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "increaseDurability",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} increases the ${2:var2}'s durability.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "increaseDurabilityByPoints",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} increases the ${2:var2}'s durability by ${3:points} points.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "increaseDurabilityAlongside",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} increases the ${2:var2}'s durability alongside the ${3:var3}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "decreaseDurability",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var}'s durability is decreased.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "breaks",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} breaks after the ${2:var2} uses it.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "decreaseDurabilityByPoints",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var}'s durability is decreased by ${2:var2} points.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "editStatsByTurn",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} decreased the ${2:var2}'s attack for ${3:turns} turns.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "editStats",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} decreased the ${2:var2} and the ${3:var3}'s attack.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "consume",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} consumes the ${2:var2}.",
+                            insertTextRules:
+                                monaco.languages.CompletionItemInsertTextRule
+                                    .InsertAsSnippet,
+                            range: range,
+                        },
+                        {
+                            label: "bless",
+                            kind: monaco.languages.CompletionItemKind.Snippet,
+                            insertText: "The ${1:var} blesses the ${2:var2}!",
                             insertTextRules:
                                 monaco.languages.CompletionItemInsertTextRule
                                     .InsertAsSnippet,

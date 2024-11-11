@@ -15,21 +15,21 @@ describe('Variable', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/variable/wrongEntityVariableSyntax.rpg");
-        }).toThrow(FormatEnum(VariablesError.WrongEntityVariableSyntax, "2"));
+        }).toThrow(FormatEnum(VariablesError.WrongEntityVariableSyntax, "3"));
     });
 
     test('interprete_should_not_allow_wrong_syntax_for_environment_variables', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/variable/wrongEnvironmentVariableSyntax.rpg");
-        }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "2"));
+        }).toThrow(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, "3"));
     });
 
     test('interprete_should_not_allow_wrong_syntax_for_items_variables', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/variable/wrongItemVariableSyntax.rpg");
-        }).toThrow(FormatEnum(VariablesError.WrongItemVariableSyntax, "2"));
+        }).toThrow(FormatEnum(VariablesError.WrongItemVariableSyntax, "3"));
     });
 
     test('interprete_should_allow_both_environment_and_entity_variables', () => {
@@ -110,14 +110,14 @@ describe('Variable', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/variable/duplicatedVariables.rpg");
-        }).toThrow(FormatEnum(VariablesError.DuplicatedVariable, "3", "dragon: 100hp"));
+        }).toThrow(FormatEnum(VariablesError.DuplicatedVariable, "4", "dragon: 100hp"));
     });
 
     test('interprete_should_not_be_able_to_use_an_entity_variable_that_was_not_declared', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/variable/unknownVariable.rpg");
-        }).toThrow(FormatEnum(InstructionsError.UnknownVariable, "5", "ghost"));
+        }).toThrow(FormatEnum(InstructionsError.UnknownVariable, "6", "ghost"));
     });
 });
 
@@ -141,7 +141,7 @@ test('interprete_should_not_allow_unknown_syntax', () => {
     const interpreter = new Interpreter();
     expect(() => {
         interpreter.execute("src/server/test/data/unknownSyntax.rpg");
-    }).toThrow(FormatEnum(InstructionsError.Syntax, "7", "The dragon bleepbloop."));
+    }).toThrow(FormatEnum(InstructionsError.Syntax, "8", "The dragon bleepbloop."));
 });
 
 describe('Arithmetic', () => {
@@ -422,7 +422,7 @@ describe('Boolean', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/boolean/incorrectTypeCombining.rpg");
-        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "12", "The dragon is combining with the sun."));
+        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "13", "The dragon is combining with the sun."));
     });
 
     test('interprete_should_evaluate_environment_values_when_the_instruction_"The e1 is merging with the e2.', () => {
@@ -450,7 +450,7 @@ describe('Boolean', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/boolean/incorrectTypeMerging.rpg");
-        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "12", "The dragon is merging with the sun."));
+        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "dragon", "13", "The dragon is merging with the sun."));
     });
 });
 
@@ -459,14 +459,14 @@ describe('Condition', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/if/incorrectTypeForWondering.rpg");
-        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "sun", "10", "The sun is wondering the effects of the sun."));
+        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "sun", "11", "The sun is wondering the effects of the sun."));
     });
 
     test('interprete_should_throw_an_error_if_an_incorrect_variable_type_is_used_with_the_instruction_"a is wondering the effects of the e.', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/if/incorrectTypeForPondering.rpg");
-        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "sun", "10", "The sun is pondering the effects of the sun."));
+        }).toThrow(FormatEnum(InstructionsError.IncorrectVariableType, "sun", "11", "The sun is pondering the effects of the sun."));
     });
 
     test('interprete_should_compare_entity_values_when_the_instruction_"a is wondering the effects of the e.', () => {
@@ -574,42 +574,42 @@ describe('Function', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/function/incorrectFightFunctionSyntax.rpg");
-        }).toThrow(FormatEnum(FunctionsError.FightSectionSyntax, "0", "Fight incorrect syntAx"));
+        }).toThrow(FormatEnum(FunctionsError.FightSectionSyntax, "1", "Fight incorrect syntAx"));
     });
 
     test('interprete_should_throw_an_error_when_the_flashback_function_name_syntax_is_incorrect', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/function/incorrectFlashbackFunctionSyntax.rpg");
-        }).toThrow(FormatEnum(FunctionsError.FlashbackSectionSyntax, "0", "Flashback incorrect syntAx"));
+        }).toThrow(FormatEnum(FunctionsError.FlashbackSectionSyntax, "1", "Flashback incorrect syntAx"));
     });
 
     test('interprete_should_throw_an_error_when_the_fight_function_is_not_closed', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/function/fightFunctionNotClosed.rpg");
-        }).toThrow(FormatEnum(FunctionsError.FunctionNotClosed, "fight not closed", "0"));
+        }).toThrow(FormatEnum(FunctionsError.FunctionNotClosed, "fight not closed", "1"));
     });
 
     test('interprete_should_throw_an_error_when_the_flashback_function_is_not_closed', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/function/flashbackFunctionNotClosed.rpg");
-        }).toThrow(FormatEnum(FunctionsError.FunctionNotClosed, "flashback not closed", "9"));
+        }).toThrow(FormatEnum(FunctionsError.FunctionNotClosed, "flashback not closed", "10"));
     });
 
     test('interprete_should_throw_an_error_when_the_fight_function_tags_are_inversed', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/function/fightFunctionTagsInversed.rpg");
-        }).toThrow(FormatEnum(FunctionsError.InversedFunctionsTags, "0", "fight of the entity"));
+        }).toThrow(FormatEnum(FunctionsError.InversedFunctionsTags, "1", "fight of the entity"));
     });
 
     test('interprete_should_throw_an_error_when_the_flashback_function_tags_are_inversed', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/function/flashbackFunctionTagsInversed.rpg");
-        }).toThrow(FormatEnum(FunctionsError.InversedFunctionsTags, "0", "flashback of the past"));
+        }).toThrow(FormatEnum(FunctionsError.InversedFunctionsTags, "1", "flashback of the past"));
     });
 
     test('interprete_should_throw_an_error_when_there_is_no_fight_function', () => {
@@ -893,6 +893,6 @@ describe('Common algorithms', () => {
         const { entries, logs } = interpreter.execute("src/server/test/examples/bubblesort.rpg");
         const sword = entries["fight of the bubble sort"]["sword"] as ArrayVariable;
         expect(sword.values).toEqual([-2, 0.8, 2, 6, 9, 1000]);
-        expect(logs).toEqual([-2, 0.8, 2, 6, 9, 1000]);
+        expect(logs).toEqual([-2, " ", 0.8, " ", 2, " ", 6, " ", 9, " ", 1000, " "]);
     });
 });

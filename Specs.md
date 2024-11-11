@@ -8,7 +8,7 @@
 | a: (integer)hp                                                                                  | integer variable definition                        | variable   |   ✓   |
 | a: (integer)mp                                                                                  | char variable definition                           | variable   |   ✓   |
 | The token1, ... and tokenN enter(s) combat!                                                     | token1, ..., tokenN can be modified                | starter    |   ✓   |
-| The a reache(s) level (number).                                                                 | a = lvl                                            | arithmetic |       |
+| The a reache(s) level (number).                                                                 | a = lvl                                            | arithmetic |   ✓+T |
 | The a protect(s) the b.                                                                         | a = b                                              | arithmetic |   ✓+T |
 | The a meditate(s).                                                                              | a = random(0, 1)                                   | arithmetic |   ✓+T |
 | The a attack(s) the b.                                                                          | b = b - a                                          | arithmetic |   ✓+T |
@@ -51,7 +51,7 @@
 | The e (dissapear(s) OR stop(s) OR vanish(es))!                                                  | return e                                           | function   |   ✓+T |
 | Items                                                                                           | lists section definition                           | section    |   ✓   |
 | i: ((number)(g OR dmg OR kg OR ql OR tr))+                                                      | lists variable definition                          | variable   |   ✓   |
-| The a equip(s) the token1, ... and the tokenN.                                                  | token1, ..., tokenN can be modified                | starter    |   ✓   |
+| The a equip(s) the token1, ... and the tokenN!                                                  | token1, ..., tokenN can be modified                | starter    |   ✓   |
 | The a inspect(s) the i.                                                                         | a = i.length                                       | lists      |   ✓+T |
 | The a use(s) the i.                                                                             | a = i[last element index]                          | lists      |   ✓+T |
 | The a use(s) the i on the b.                                                                    | a = i[b]                                           | lists      |   ✓+T |
@@ -67,7 +67,7 @@
 | The a increase(s) the i's durability by (number) points.                                        | push a at i[points]                                | lists      |   ✓+T |
 | The a increase(s) the i's durability alongside the b.                                           | push a at i[b]                                     | lists      |   ✓+T |
 | The i's durability is decreased.                                                                | delete i[last element index]                       | lists      |   ✓+T |
-| The i's (break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it.                           | delete i[a]                                        | lists      |   ✓+T |
+| The i (break(s) OR shatter(s) OR vanishe(s)) after the a use(s) it.                           | delete i[a]                                        | lists      |   ✓+T |
 | The i's durability is decreased by (number)points.                                              | delete i[points]                                   | lists      |   ✓+T |
 | The i ((in OR de)creased) the a's (attack OR defense OR health OR stamina) for (number)turns.   | swap i[a] with i[turns]                            | lists      |   ✓+T |
 | The i ((in OR de)creased) the a and the b's (attack OR defense OR health OR stamina).           | swap i[a] with i[b]                                | lists      |   ✓+T |

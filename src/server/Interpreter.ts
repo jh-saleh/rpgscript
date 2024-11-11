@@ -90,7 +90,7 @@ export class Interpreter {
                     };
                     nbFightFunctions++;
                 } else {
-                    throw Error(FormatEnum(FunctionsError.FightSectionSyntax, this.pc.toString(), instr));
+                    throw Error(FormatEnum(FunctionsError.FightSectionSyntax, (this.pc + 1).toString(), instr));
                 }
             } else if (almostFlashbackSection.test(instr)) {
                 if (flashbackSection.test(instr)) {
@@ -103,21 +103,21 @@ export class Interpreter {
                         }
                     }
                 } else {
-                    throw Error(FormatEnum(FunctionsError.FlashbackSectionSyntax, this.pc.toString(), instr));
+                    throw Error(FormatEnum(FunctionsError.FlashbackSectionSyntax, (this.pc + 1).toString(), instr));
                 }
             } else if (endOfFightSection.test(instr)) {
                 const name = instr.match(extractFightSection)?.at(0) ?? "";
                 if (functions[name] !== undefined) {
                     functions[name].position.end = pc;
                 } else {
-                    throw Error(FormatEnum(FunctionsError.InversedFunctionsTags, this.pc.toString(), name));
+                    throw Error(FormatEnum(FunctionsError.InversedFunctionsTags, (this.pc + 1).toString(), name));
                 }
             } else if (endOfFlashbackSection.regExp.test(instr)) {
                 const name = instr.match(extractFlashbackSection)?.at(0) ?? "";
                 if (functions[name] !== undefined) {
                     functions[name].position.end = pc;
                 } else {
-                    throw Error(FormatEnum(FunctionsError.InversedFunctionsTags, this.pc.toString(), name));
+                    throw Error(FormatEnum(FunctionsError.InversedFunctionsTags, (this.pc + 1).toString(), name));
                 }
             }
         }
@@ -125,7 +125,7 @@ export class Interpreter {
         for (let func of Object.keys(functions)) {
             const { position: { start, end } } = functions[func];
             if (end === -1) {
-                throw Error(FormatEnum(FunctionsError.FunctionNotClosed, func, start.toString()));
+                throw Error(FormatEnum(FunctionsError.FunctionNotClosed, func, (start + 1).toString()));
             }
             if (nbFightFunctions === 0) {
                 throw Error(FunctionsError.AtLeastOneFightFunction);
@@ -190,12 +190,12 @@ export class Interpreter {
                 }
                 if (currentVariablesSection !== undefined && currentVariablesSection === Section.Entities) {
                     if (!entity.test(this.instructions[this.pc])) {
-                        throw Error(FormatEnum(VariablesError.WrongEntityVariableSyntax, this.pc.toString()));
+                        throw Error(FormatEnum(VariablesError.WrongEntityVariableSyntax, (this.pc + 1).toString()));
                     }
                     const entitySection: string[] = this.instructions[this.pc].split(":");
                     const entityData: string = entitySection[1].split(" ")[1];
                     if (localVariables.hasOwnProperty(entitySection[0])) {
-                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, (this.pc + 1).toString(), this.instructions[this.pc]));
                     }
                     localVariables[entitySection[0]] = {
                         type: entityData.slice(entityData.length - 2, entityData.length) === Entities.hp ? "number" : "string",
@@ -205,11 +205,11 @@ export class Interpreter {
                 }
                 if (currentVariablesSection !== undefined && currentVariablesSection === Section.Environments) {
                     if (!environment.test(this.instructions[this.pc])) {
-                        throw Error(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, this.pc.toString()));
+                        throw Error(FormatEnum(VariablesError.WrongEnvironmentVariableSyntax, (this.pc + 1).toString()));
                     }
                     const environmentSection: string[] = this.instructions[this.pc].split(": ");
                     if (localVariables.hasOwnProperty(environmentSection[0])) {
-                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, (this.pc + 1).toString(), this.instructions[this.pc]));
                     }
                     localVariables[environmentSection[0]] = {
                         type: "boolean",
@@ -219,11 +219,11 @@ export class Interpreter {
                 }
                 if (currentVariablesSection !== undefined && currentVariablesSection === Section.Items) {
                     if (!item.test(this.instructions[this.pc])) {
-                        throw Error(FormatEnum(VariablesError.WrongItemVariableSyntax, this.pc.toString()));
+                        throw Error(FormatEnum(VariablesError.WrongItemVariableSyntax, (this.pc + 1).toString()));
                     }
                     const itemSection: string[] = this.instructions[this.pc].split(": ");
                     if (localVariables.hasOwnProperty(itemSection[0])) {
-                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, this.pc.toString(), this.instructions[this.pc]));
+                        throw Error(FormatEnum(VariablesError.DuplicatedVariable, (this.pc + 1).toString(), this.instructions[this.pc]));
                     }
                     localVariables[itemSection[0]] = {
                         type: "array",
@@ -240,7 +240,7 @@ export class Interpreter {
     getEntity(variable: string): SimpleVariable {
         const a = this.entries[this.function][variable];
         if (a.type !== "number" && a.type !== "string") {
-            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, this.pc.toString(), this.instructions[this.pc]));
+            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, (this.pc + 1).toString(), this.instructions[this.pc]));
         }
         return a;
     }
@@ -248,7 +248,7 @@ export class Interpreter {
     getEnvironment(variable: string): SimpleVariable {
         const b = this.entries[this.function][variable];
         if (b.type !== "boolean") {
-            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, this.pc.toString(), this.instructions[this.pc]));
+            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, (this.pc + 1).toString(), this.instructions[this.pc]));
         }
         return b;
     }
@@ -256,7 +256,7 @@ export class Interpreter {
     getItem(variable: string): ArrayVariable {
         const i = this.entries[this.function][variable];
         if (i.type !== "array") {
-            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, this.pc.toString(), this.instructions[this.pc]));
+            throw Error(FormatEnum(InstructionsError.IncorrectVariableType, variable, (this.pc + 1).toString(), this.instructions[this.pc]));
         }
         return i;
     }
@@ -575,7 +575,7 @@ export class Interpreter {
                         const i = this.getItem(variables[1]);
                         i.values.forEach((value) => this.logs.push(String.fromCharCode(value)));
                     } else {
-                        throw Error(FormatEnum(InstructionsError.Syntax, this.pc.toString(), instr));
+                        throw Error(FormatEnum(InstructionsError.Syntax, (this.pc + 1).toString(), instr));
                     }
                 }
             }
@@ -588,7 +588,7 @@ export class Interpreter {
                 return instrRegExp.nbArguments;
             }
         }
-        throw Error(FormatEnum(InstructionsError.Syntax, this.pc.toString(), instr));
+        throw Error(FormatEnum(InstructionsError.Syntax, (this.pc + 1).toString(), instr));
     }
 
     extractTokensFromInstruction(instr: string): string[] {
@@ -608,7 +608,7 @@ export class Interpreter {
 
         const nbArguments = this.findNbArgumentsForInstruction(instr);
         if ((nbArguments !== -1 && tokensExtracted.length !== nbArguments) || (nbArguments === -1 && tokensExtracted.length < 1)) {
-            throw Error(FormatEnum(InstructionsError.UnknownVariable, this.pc.toString()));
+            throw Error(FormatEnum(InstructionsError.UnknownVariable, (this.pc + 1).toString()));
         }
         return tokensExtracted;
     }
