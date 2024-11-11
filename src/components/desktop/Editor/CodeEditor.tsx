@@ -6,7 +6,7 @@ import Editor, { useMonaco } from '@monaco-editor/react';
 import { useEffect, useState } from 'react';
 import { Window } from "../../window/Window";
 import { Console } from './Console';
-import { fibonacci, fizzBuzz, gcd } from './Files';
+import { bubblesort, fibonacci, fizzBuzz, gcd } from './Files';
 import { EditorLayout } from './style';
 
 export const CodeEditor = () => {
@@ -626,10 +626,15 @@ export const CodeEditor = () => {
             {
                 label: "Fibonacci",
                 onClick: () => setCode(() => fibonacci)
-            }, {
+            },
+            {
                 label: "Greatest Common Divider",
                 onClick: () => setCode(() => gcd)
             },
+            {
+                label: "Bubble sort",
+                onClick: () => setCode(() => bubblesort)
+            }
         ]
     }}>
         <EditorLayout $state={windows["rpgscript"].state}>

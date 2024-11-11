@@ -10,5 +10,5 @@
     "javascript.preferences.useAliasesForRenames": false,
     "typescript.preferences.useAliasesForRenames": false,
     "jest.rootPath": "",
-    "jest.runMode": "on-demand",
+    "jest.runMode": "on-save",
 }
