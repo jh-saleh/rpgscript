@@ -139,7 +139,7 @@ sword: 9g 1000xp 2kg 6lvl 0.8tr -2pwr
 Events
 The elf, the wolf, the giant, the rogue, the dragon, the knight, the bard and the vampire enter combat!
 The forest, the mist and the rain are making up the scene!
-The elf equips the sword.
+The elf equips the sword!
 The elf inspects the sword.
 The elf loses 1 point.
 #loop 1
