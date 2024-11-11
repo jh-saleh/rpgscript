@@ -145,6 +145,13 @@ test('interprete_should_not_allow_unknown_syntax', () => {
 });
 
 describe('Arithmetic', () => {
+    test('interprete_should_allow_an_entity_variable_to_store_a_value_when_the_instruction_"The a reache(s) level (number)."_exists', () => {
+        const interpreter = new Interpreter();
+        const { entries } = interpreter.execute("src/server/test/data/arithmetic/reach.rpg");
+        const dragon: SimpleVariable = entries["fight reach"]["dragon"] as SimpleVariable;
+        expect(dragon.value).toBe(1);
+    });
+
     test('interprete_should_allow_an_entity_variable_to_store_the_value_of_another_variable_when_the_instruction_"The a protec(t|ts) the b."_exists', () => {
         const interpreter = new Interpreter();
         const { entries } = interpreter.execute("src/server/test/data/arithmetic/protect.rpg");
@@ -653,10 +660,14 @@ describe('List', () => {
     test('interprete_should_allow_item_variables_to_change_their_value_when_the_instruction_"The a equip(s) the token1, ... and the tokenN."_exists', () => {
         const interpreter = new Interpreter();
         const { entries } = interpreter.execute("src/server/test/data/array/equip.rpg");
-        expect(entries["fight with weapons"]["knight"].protected).toBe(false);
-        expect(entries["fight with weapons"]["sword"].protected).toBe(false);
-        expect(entries["fight with weapons"]["potion"].protected).toBe(false);
-        expect(entries["fight with weapons"]["helmet"].protected).toBe(false);
+        const knight = entries["fight with weapons"]["knight"] as SimpleVariable;
+        const sword = entries["fight with weapons"]["sword"] as ArrayVariable;
+        const potion = entries["fight with weapons"]["potion"] as ArrayVariable;
+        const helmet = entries["fight with weapons"]["helmet"] as ArrayVariable;
+        expect(knight.protected).toBe(false);
+        expect(sword.protected).toBe(false);
+        expect(potion.protected).toBe(false);
+        expect(helmet.protected).toBe(false);
     });
 
     test('interprete_should_not_allow_item_variables_to_change_their_value_when_the_instruction_"The a equip(s) the token1, ... and the tokenN."_is_missing', () => {
@@ -875,5 +886,13 @@ describe('Common algorithms', () => {
         const interpreter = new Interpreter();
         const { logs } = interpreter.execute("src/server/test/examples/gcd.rpg");
         expect(logs).toEqual([3]);
+    });
+
+    test('interprete_should_be_able_to_sort_the_list', () => {
+        const interpreter = new Interpreter();
+        const { entries, logs } = interpreter.execute("src/server/test/examples/bubblesort.rpg");
+        const sword = entries["fight of the bubble sort"]["sword"] as ArrayVariable;
+        expect(sword.values).toEqual([-2, 0.8, 2, 6, 9, 1000]);
+        expect(logs).toEqual([-2, 0.8, 2, 6, 9, 1000]);
     });
 });

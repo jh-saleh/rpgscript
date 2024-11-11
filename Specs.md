@@ -1,13 +1,14 @@
 # Language specifications
 ## Instruction Set
 
-| instruction                                                                                     | meaning                                            | domain     | done  |
+| instruction                                                                                     | meaning                                            | domain     | status|
 |-------------------------------------------------------------------------------------------------|----------------------------------------------------|------------|-------|
 | #This is a comment                                                                              | comment                                            | comment    |   ✓   |
 | Entities                                                                                        | integer variables section definition               | section    |   ✓   |
 | a: (integer)hp                                                                                  | integer variable definition                        | variable   |   ✓   |
 | a: (integer)mp                                                                                  | char variable definition                           | variable   |   ✓   |
 | The token1, ... and tokenN enter(s) combat!                                                     | token1, ..., tokenN can be modified                | starter    |   ✓   |
+| The a reache(s) level (number).                                                                 | a = lvl                                            | arithmetic |       |
 | The a protect(s) the b.                                                                         | a = b                                              | arithmetic |   ✓+T |
 | The a meditate(s).                                                                              | a = random(0, 1)                                   | arithmetic |   ✓+T |
 | The a attack(s) the b.                                                                          | b = b - a                                          | arithmetic |   ✓+T |

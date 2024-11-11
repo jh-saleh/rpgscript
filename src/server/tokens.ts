@@ -90,6 +90,7 @@ export const comment: RegExp = /^#\w+( \w+)*$/;
 
 // instruction set
 export const enter: RPGRegExp = new RPGRegExp(/^The ([a-z]+|[a-z]+ and the [a-z]+|[a-z]+, (the [a-z]+, ){0,}the [a-z]+ and the [a-z]+) ente(r|rs) combat!$/, -1);
+export const reach: RPGRegExp = new RPGRegExp(/^The [a-z]+ reach(e|es) level \d+.$/, 2);
 export const protect: RPGRegExp = new RPGRegExp(/^The [a-z]+ protec(t|ts) the [a-z]+.$/, 2);
 export const meditate: RPGRegExp = new RPGRegExp(/^The [a-z]+ meditat(e|es).$/, 1);
 export const attack: RPGRegExp = new RPGRegExp(/^The [a-z]+ attac(k|ks) the [a-z]+.$/, 2);
@@ -150,7 +151,7 @@ export const bless: RPGRegExp = new RPGRegExp(/^The [a-z]+ bless(e|es) the [a-z]
 
 export const instructionSet = [
     enter,
-    protect, meditate,
+    reach, protect, meditate,
     attack, lose,
     heal, healFor,
     criticalHit, dodge,

@@ -1,28 +1,51 @@
 Fight of the bubble sort
 
 Entities
+listlen: 1hp
+ai: 1hp
+aimoins: 1hp
+vai: 1hp
+vaimoins: 1hp
 i: 1hp
-constant: 0hp
+print: 1hp
 Environments
 swapped: weak
-innerloop: weak
+innerloop: strong
+aicomp: weak
 Items
 sword: 9g 1000xp 2kg 6lvl 0.8tr -2pwr
 
 Events
-The i enters combat!
-The swapped is making up the scene!
-The i equips the sword.
+The listlen, the ai, the vai, the aimoins, the vaimoins, the i and the print enter combat!
+The swapped, the innerloop and the aicomp are making up the scene!
+The listlen equips the sword.
+The listlen inspects the sword.
+The listlen loses 1 point.
+#loop 1
 The swapped is starting to change
-The i inspects the sword.
-The i loses 1 point.
-
+The swapped is getting weak.
+The i reaches level 0.
+#loop 2
 The innerloop is starting to change
-The i loses 1 points.
-The i is challenging the constant under the innerloop.
-
-
+The aimoins protects the i.
+The i heals for 1 points.
+The ai protects the i.
+The vai uses the sword on the ai.
+The vaimoins uses the sword on the aimoins.
+The vaimoins is boosting the vai's attack under the aicomp.
+The listlen is wondering the effects of the aicomp.
+The sword increased the ai and the aimoins's attack.
+The listlen is wondering the effects of the aicomp.
+The swapped is getting strong.
+The i is debuffing the listlen's attack under the innerloop.
 until the innerloop is done changing.
-
 until the swapped is done changing.
+#print list
+The i reaches level 0.
+The innerloop is starting to change
+The print uses the sword on the i.
+The print activates a counter attack!
+The i heals for 1 points.
+The i is debuffing the listlen's defense under the innerloop.
+until the innerloop is done changing.
 End of the fight of the bubble sort.

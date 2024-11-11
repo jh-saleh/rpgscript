@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { FormatEnum, FunctionsError, InstructionsError, VariablesError } from './Errors';
-import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, bless, boostingAttack, boostingDefense, breaks, castEntityToEnv, castEnvToEntity, challenging, combine, combining, comment, consume, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, decreaseDurability, decreaseDurabilityByPoints, dissapears, dodge, editStats, editStatsByTurn, enchant, enchantAlongside, enchantMin, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, increaseDurability, increaseDurabilityAlongside, increaseDurabilityByPoints, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, remember, slowedDown, slowedDownFor, special, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
+import { ArrayVariable, Entities, Function, Position, Section, SimpleVariable, Variable, absorbing, almostFightSection, almostFlashbackSection, attack, bless, boostingAttack, boostingDefense, breaks, castEntityToEnv, castEnvToEntity, challenging, combine, combining, comment, consume, counter, criticalHit, currentLevel, debuffingAttack, debuffingDefense, decreaseDurability, decreaseDurabilityByPoints, dissapears, dodge, editStats, editStatsByTurn, enchant, enchantAlongside, enchantMin, endOfFightSection, endOfFlashbackSection, enter, entity, environment, environmentChanging, equip, eventSection, extractFightSection, extractFlashbackSection, fightSection, flashbackSection, flees, fromBooleanToBooleanNumber, fromNumberToBooleanNumber, fromStringToArray, fromStringToBooleanNumber, happened, heal, healFor, increaseDurability, increaseDurabilityAlongside, increaseDurabilityByPoints, inspect, instructionSet, isBoolean, isNumber, item, loopEntityCondition, loopEntityLabel, loopEnvironmentCondition, loopEnvironmentLabel, lose, makingUpTheScene, meditate, merging, pondering, protect, reach, remember, slowedDown, slowedDownFor, special, upgradeLevel, upgradeStaticLevel, useElement, useLast, useStaticElement, vibrating, wondering } from './tokens';
 
 export interface InterpreterOutput {
     logs: (string | number)[];
@@ -313,7 +313,11 @@ export class Interpreter {
                                 }
                             }
                         });
-                    if (protect.regExp.test(instr)) {
+                    if (reach.regExp.test(instr)) {
+                        const a: Variable = this.getEntity(variables[0]);
+                        const level = Number(variables[1]);
+                        a.value = level;
+                    } else if (protect.regExp.test(instr)) {
                         const a: Variable = this.getEntity(variables[0]);
                         const b: Variable = this.getEntity(variables[1]);
                         a.value = b.value;
@@ -591,7 +595,7 @@ export class Interpreter {
         const theVariablesToCheck: string = "(The|the) " + Object.keys(this.entries[this.function]).reduce((previousValue, currentValue) => previousValue + "|(The|the) " + currentValue);
         const functionsRegPrefix = Object.keys(this.entries[this.function]).length > 0 ? "|" : "";
         const functionsToCheck: string = functionsRegPrefix + Object.keys(this.functions).reduce((previousValue, currentValue) => previousValue + "|" + currentValue);
-        const completeReg = new RegExp("\\b(" + theVariablesToCheck + functionsToCheck + "|[1-9][0-9]*|strong|weak)\\b", "g");
+        const completeReg = new RegExp("\\b(" + theVariablesToCheck + functionsToCheck + "|[1-9][0-9]*|0|strong|weak)\\b", "g");
         const theVariablesToCheckReg = new RegExp("\\b(" + theVariablesToCheck + ")\\b", "g");
 
         const tokensExtracted = instr.match(completeReg)?.map((value) => {
