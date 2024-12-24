@@ -38,9 +38,9 @@
 | The a's hidden skill is triggered (under OR inside OR within OR on) the e.                      | a = (integer)e                                     | cast       |   ✓+T |
 | The e triggers the a's hidden skill.                                                            | e = (bool)a                                        | cast       |   ✓+T |
 | The a prepare(s) an attack                                                                      | rc = loop start                                    | loop       |   ✓+T |
-| until the a is charged up.                                                                      | if (a === 0) pc = rc else pc+=1                    | loop       |   ✓+T |
+| until the a is charged up.                                                                      | if (a > 0) pc = rc else pc+=1                      | loop       |   ✓+T |
 | The e is starting to change                                                                     | rc = loop start                                    | loop       |   ✓+T |
-| until the e is done changing.                                                                   | if (e === false) pc = rc else pc+=1                | loop       |   ✓+T |
+| until the e is done changing.                                                                   | if (e === true) pc = rc else pc+=1                 | loop       |   ✓+T |
 | Fight X                                                                                         | create fightX function / entry point               | function   |   ✓   |
 | End of the fight X.                                                                             | end label for fightX                               | function   |   ✓   |
 | Flashback X                                                                                     | create flashbackX function                         | function   |   ✓   |
