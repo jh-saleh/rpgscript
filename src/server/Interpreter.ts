@@ -141,6 +141,9 @@ export class Interpreter {
                 }
             });
         }
+        if (Object.keys(functions).length === 0) {
+            throw Error(FunctionsError.AtLeastOneFightFunction);
+        }
         functionsPositions.sort((a, b) => a.position.start - b.position.start);
         for (let i = 0; i < functionsPositions.length - 1; i++) {
             if (functionsPositions[i].position.end > functionsPositions[i + 1].position.start) {
