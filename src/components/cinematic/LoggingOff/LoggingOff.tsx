@@ -4,7 +4,7 @@ import { BlueScreen } from "../BlueLoading/BlueLoading";
 import { CompanyWrapperLayout, LoggingOffLayout, LogoLayout, ScreensWrapperLayout, TextLayout } from "./style";
 
 export const LoggingOff = () => {
-    const [texts, setTexts] = useState<string[]>(["Logging off...", "Saving your settings...", "Screens is shutting down."]);
+    const [texts, _setTexts] = useState<string[]>(["Logging off...", "Saving your settings...", "Screens is shutting down."]);
     const [intervalValue, setIntervalValue] = useState<NodeJS.Timeout>();
     const PORTFOLIO_URL = process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "";
     const [page, setPage] = useState<number>(0);

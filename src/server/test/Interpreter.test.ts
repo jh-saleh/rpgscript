@@ -619,7 +619,7 @@ describe('Function', () => {
         }).toThrow(FunctionsError.AtLeastOneFightFunction);
     });
 
-    test.only('interprete_should_throw_an_error_when_the_file_is_empty', () => {
+    test('interprete_should_throw_an_error_when_the_file_is_empty', () => {
         const interpreter = new Interpreter();
         expect(() => {
             interpreter.execute("src/server/test/data/function/emptyFile.rpg");
