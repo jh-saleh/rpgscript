@@ -3,7 +3,7 @@ Créé et conçu par Jean-Hanna SALEH
 
 ## Qu'est-ce que RPGScript ?
 RPGScript est un [langage ésotérique](https://en.wikipedia.org/wiki/Esoteric_programming_language) qui vous permet d'écrire du code à la manière d'un jeu d'aventure textuel, dans le style de [Caves of QUD](https://en.wikipedia.org/wiki/Caves_of_Qud), [Dwarf Fortress](https://en.wikipedia.org/wiki/Dwarf_Fortress) ou [SanctuaryRPG](https://en.wikipedia.org/wiki/SanctuaryRPG).
-Inspiré d'autres esolangs tels que [Chef](https://www.dangermouse.net/esoteric/chef.html).
+Il est inspiré d'autres esolangs tels que [Chef](https://www.dangermouse.net/esoteric/chef.html).
 
 Vous pouvez exécuter du code RPGScript via l'interface inspirée de **Windows XP**, en cliquant sur l'icône "**RPG Script**", puis sur l'option "**Run**".
 Vous pouvez sélectionner des exemples de code depuis "**Examples**", écrire votre propre code dans l'éditeur, effacer la sortie du terminal en cliquant sur "**Clear Output**", et sauvegarder le fichier de code sur lequel vous travaillez.
